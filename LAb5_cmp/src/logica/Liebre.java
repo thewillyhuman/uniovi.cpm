@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 public class Liebre extends Corredor {
 	public Liebre (Calle calleAsignada,String foto) {

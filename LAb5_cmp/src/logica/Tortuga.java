@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 public class Tortuga extends Corredor {
 	public Tortuga( Calle calleAsignada,String foto) {

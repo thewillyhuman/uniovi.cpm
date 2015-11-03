@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 //La clase Corredor no ser� intanciable directamente, as� que la declaramos abstracta.
 public abstract class Corredor {

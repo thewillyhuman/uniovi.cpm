@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 import javax.swing.ImageIcon;
 

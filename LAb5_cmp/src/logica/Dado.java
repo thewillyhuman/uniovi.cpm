@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 public class Dado {
 	public static int lanzar (Corredor corredor)

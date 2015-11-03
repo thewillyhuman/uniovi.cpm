@@ -1,4 +1,4 @@
-package logica;
+package src.logica;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
