@@ -1,6 +1,5 @@
 
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -31,15 +30,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import src.logica.Calle;
 import src.logica.Carrera;
-import src.logica.Casilla;
 import src.logica.Corredor;
 import src.logica.Liebre;
 import src.logica.Tortuga;
 
 public class Main_W extends JFrame {  
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JButton btDado;
 	private JLabel lblScore;

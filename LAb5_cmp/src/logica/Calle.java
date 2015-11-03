@@ -1,6 +1,5 @@
 package src.logica;
 
-import javax.swing.ImageIcon;
 
 public class Calle {
 

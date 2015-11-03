@@ -1,6 +1,5 @@
 package src.logica;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -33,6 +32,11 @@ import java.awt.event.ActionEvent;
 
 public class Main_W extends JFrame {  
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JButton btDado;
 	private JLabel lblScore;
