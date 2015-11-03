@@ -1,4 +1,4 @@
-package igu;
+package src.igu;
 
 import java.awt.EventQueue;
 
