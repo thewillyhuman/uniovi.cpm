@@ -1,4 +1,4 @@
-package igu;
+package src.igu;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -86,7 +86,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/img/logoTitulo.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/src/img/logoTitulo.png")));
 		setTitle("EII Music Player");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 825, 479);
@@ -140,7 +140,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/logo.png")));
+		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/src/img/logo.png")));
 		pnNorte.add(lblLogo);
 		
 		JSlider slVolumen = new JSlider();
