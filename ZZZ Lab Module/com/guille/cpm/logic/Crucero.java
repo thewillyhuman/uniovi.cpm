@@ -30,7 +30,7 @@ public class Crucero {
 		this.salidas = salidas;
 		this.barco = barco;
 		
-		this.picturePath = ("/com/guille/cpm/img/"+crCode+".jpg");
+		this.picturePath = ("com/guille/cpm/img/"+crCode+".jpg");
 	}
 	
 	public String getCodigoCrucero() {
@@ -71,6 +71,10 @@ public class Crucero {
 	
 	public Barco getBarco() {
 		return this.barco;
+	}
+	
+	public String getPicturePath() {
+		return this.picturePath;
 	}
 
 }

@@ -17,7 +17,7 @@ public class Barco {
 		this.shipID = ShipID;
 		this.name = Name;
 		this.description = Desc;
-		this.picturePath = ("/com/guille/cpm/img/"+ShipID+".jpg");
+		this.picturePath = ("com/guille/cpm/img/"+ShipID+".jpg");
 		
 		this.camarotes = new ArrayList<Camarote>();
 		this.prices = new double[4];

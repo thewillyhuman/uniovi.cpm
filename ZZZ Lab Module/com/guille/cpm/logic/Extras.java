@@ -5,17 +5,13 @@ import java.util.List;
 
 public class Extras {
 
-	private List<Extra> extras;
+	private static List<Extra> extras = new ArrayList<Extra>();
 	
-	public Extras() {
-		extras = new ArrayList<Extra>();
+	public static List<Extra> getExtras() {
+		return extras;
 	}
 	
-	public List<Extra> getExtras() {
-		return this.extras;
-	}
-	
-	public void addExtra(Extra extra) {
+	public static void addExtra(Extra extra) {
 		if(extra == null)
 			throw new IllegalArgumentException("The extra to be added cannot be null");
 		extras.add(extra);

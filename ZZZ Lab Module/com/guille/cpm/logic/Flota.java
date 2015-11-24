@@ -5,27 +5,30 @@ import java.util.List;
 
 public class Flota {
 	
-	private List<Barco> barcos;
-	
-	public Flota() {
-		barcos = new ArrayList<Barco>();
-	}
+	private static List<Barco> barcos = new ArrayList<Barco>();
 
-	public List<Barco> getBarcos() {
-		return this.barcos;
+	public static  List<Barco> getBarcos() {
+		return barcos;
 	}
 	
-	public void addBarco(Barco barco) {
+	public static void addBarco(Barco barco) {
 		if(barco == null)
 			throw new IllegalArgumentException("You cannot add null ships.");
 		barcos.add(barco);
 	}
 	
-	public boolean contains(Barco barco) {
-		return this.barcos.contains(barco);
+	public static boolean contains(Barco barco) {
+		return barcos.contains(barco);
 	}
 	
-	public void removeBarco(Barco barco) {
+	public static Barco getBarco(String shipID) {
+		for(Barco b : barcos) {
+			if(b.getShipID() == shipID)
+				return b;
+		} return null;
+	}
+	
+	public static void removeBarco(Barco barco) {
 		if(barco == null)
 			throw new IllegalArgumentException("You cannot remove null ships.");
 		barcos.remove(barco);
