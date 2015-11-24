@@ -1,3 +1,4 @@
+package igu;
 
 
 import java.awt.EventQueue;
@@ -91,15 +92,20 @@ public class Main_W extends JFrame {
 	
 	private void pintarCalle(Corredor corredor, Component[] botones)
 	{
-		String imagen = "/src/img/"+corredor.getFoto();
+		String imagen = "/img/"+corredor.getFoto();
 		
 		for ( int i = 0; i < botones.length ; i++)
 		{
 			JButton boton = (JButton) botones[i];
 			if ( i == corredor.getPosicion() )
 			{
+				if(corredor.isDurmiendo() && corredor.getCalleAsignada().getCasilla(i).tieneArbol()) {
+					boton.setIcon(new ImageIcon(getClass().getResource("/img/liebre_durmiendo.jpg")));
+					boton.setDisabledIcon(new ImageIcon(getClass().getResource("/img/liebre_durmiendo.jpg")));
+				} else {
 				boton.setIcon(new ImageIcon(getClass().getResource(imagen)));
 				boton.setDisabledIcon(new ImageIcon(getClass().getResource(imagen)));
+				}
 			} else {
 				boton.setIcon(null);
 				boton.setDisabledIcon(null);
@@ -117,7 +123,7 @@ public class Main_W extends JFrame {
 		if ( !(carrera.getLiebre().getPosicion() == Corredor.POSICION_SALIDA) ){
 			label_2.setIcon(null);
 		} else {
-			label_2.setIcon(new ImageIcon (getClass().getResource("/src/img/"+carrera.getLiebre().getFoto())));
+			label_2.setIcon(new ImageIcon (getClass().getResource("/img/"+carrera.getLiebre().getFoto())));
 		}
 		
 		Component[] btsLiebre = this.jPanel_Liebre.getComponents();
@@ -129,19 +135,26 @@ public class Main_W extends JFrame {
 		if ( !(carrera.getTortuga().getPosicion() == Corredor.POSICION_SALIDA) ){
 			label_3.setIcon(null);
 		} else {
-			label_3.setIcon(new ImageIcon (getClass().getResource("/src/img/"+carrera.getTortuga().getFoto())));
+			label_3.setIcon(new ImageIcon (getClass().getResource("/img/"+carrera.getTortuga().getFoto())));
 		}
 		
 		Component[] btsTortuga = this.jPanelTortuga.getComponents();
 		this.pintarCalle(carrera.getTortuga(), btsTortuga);
 	}
 	
-	public void pintarArbol(int n)
+	private void pintarArbol()
 	{
+		Component[] btsLiebre = this.jPanel_Liebre.getComponents();
+		
 		for( int i = 0 ; i < 11 ; i++)
 		{
-			if(i == n)
-				btL3.setIcon(new ImageIcon (getClass().getResource("/src/img/arbol.jpg")));
+			JButton boton = (JButton) btsLiebre[i];
+			if(carrera.getLiebre().getCalleAsignada().getCasilla(i).tieneArbol()) {
+				boton.setIcon(new ImageIcon (getClass().getResource("/img/arbol.jpg")));
+				if(carrera.getCorredorActivo().isDurmiendo() && carrera.getLiebre().getPosicion()==i) {
+					boton.setIcon(new ImageIcon (getClass().getResource("/img/liebre_durmiendo.jpg")));
+				}
+			}
 		}
 	}
 	
@@ -153,8 +166,10 @@ public class Main_W extends JFrame {
 		lbCounterLiebre.setText(String.valueOf(carrera.getLiebre().getPuntuacion()));
 		lbCounterTortuga.setText(String.valueOf(carrera.getTortuga().getPuntuacion()));
 		
+
 		this.pintarLiebre();
 		this.pintarTortuga();
+		pintarArbol();
 		
 		if ( carrera.isPartidaFinalizada() ){
 			JOptionPane.showMessageDialog(this, "Partida Finalizada");
@@ -236,7 +251,7 @@ public class Main_W extends JFrame {
 		this.asociarEventosBotones(jPanel_Liebre);
 		this.asociarEventosBotones(jPanelTortuga);
 		
-		//pintarArbol();
+		pintarArbol();
 		currentUser();
 	}
 
@@ -268,7 +283,7 @@ public class Main_W extends JFrame {
 					
 				}
 			});
-			btDado.setIcon(new ImageIcon(Main_W.class.getResource("/src/img/dado.JPG")));
+			btDado.setIcon(new ImageIcon(Main_W.class.getResource("/img/dado.JPG")));
 			btDado.setBounds(48, 11, 68, 88);
 		}
 		return btDado;
@@ -365,7 +380,7 @@ public class Main_W extends JFrame {
 	private JLabel getLabel_1() {
 		if (label_1 == null) {
 			label_1 = new JLabel("");
-			label_1.setIcon(new ImageIcon(Main_W.class.getResource("/src/img/liebre_peq.JPG")));
+			label_1.setIcon(new ImageIcon(Main_W.class.getResource("/img/liebre_peq.JPG")));
 			label_1.setBounds(674, 11, 35, 41);
 		}
 		return label_1;
@@ -373,7 +388,7 @@ public class Main_W extends JFrame {
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("");
-			lblNewLabel_1.setIcon(new ImageIcon(Main_W.class.getResource("/src/img/tortuga_peq.JPG")));
+			lblNewLabel_1.setIcon(new ImageIcon(Main_W.class.getResource("/img/tortuga_peq.JPG")));
 			lblNewLabel_1.setBounds(674, 60, 35, 39);
 		}
 		return lblNewLabel_1;
@@ -461,7 +476,7 @@ public class Main_W extends JFrame {
 	private JLabel getLabel_2() {
 		if (label_2 == null) {
 			label_2 = new JLabel("");
-			label_2.setIcon(new ImageIcon(Main_W.class.getResource("/src/img/liebre.JPG")));
+			label_2.setIcon(new ImageIcon(Main_W.class.getResource("/img/liebre.JPG")));
 			label_2.setBounds(10, 137, 68, 77);
 		}
 		return label_2;
@@ -469,7 +484,7 @@ public class Main_W extends JFrame {
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
 			label_3 = new JLabel("");
-			label_3.setIcon(new ImageIcon(Main_W.class.getResource("/src/img/tortuga.JPG")));
+			label_3.setIcon(new ImageIcon(Main_W.class.getResource("/img/tortuga.JPG")));
 			label_3.setBounds(10, 248, 68, 66);
 		}
 		return label_3;
