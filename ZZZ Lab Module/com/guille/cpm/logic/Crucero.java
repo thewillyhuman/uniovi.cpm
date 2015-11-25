@@ -1,9 +1,10 @@
 package com.guille.cpm.logic;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Crucero {
+public class Crucero implements CanBeFull{
 	
 	private String crCode;
 	private String area;
@@ -16,6 +17,7 @@ public class Crucero {
 	private List<Date> salidas;
 	private Barco barco;
 	private boolean discount = false;
+	private List<Camarote> camarotes;
 	
 	private String picturePath;
 	
@@ -30,8 +32,37 @@ public class Crucero {
 		this.duration = dur;
 		this.salidas = salidas;
 		this.barco = barco;
+		this.camarotes = new ArrayList<Camarote>();
+		
+		createRooms(barco.getNCamarotesDoblesInteriores(), barco.getNCamarotesDoblesExteriores(), barco.getNCamarotesFamiliaresInteriores(), barco.getNCamarotesFamiliaresExteriores());
 		
 		this.picturePath = ("com/guille/cpm/img/"+crCode+".jpg");
+	}
+	
+	private void createRooms(int NCamDI, int NCamDE, int NCamFI, int NCamFE) {
+		// Creating the double interior rooms.
+		for(int i = 0; i < NCamDI; i++) {
+			CamaroteDobleInterior aux = new CamaroteDobleInterior();
+			camarotes.add(aux);
+		}
+		
+		// Creating the double exterior rooms
+		for(int i = 0; i < NCamDE; i++) {
+			CamaroteDobleExterior aux = new CamaroteDobleExterior();
+			camarotes.add(aux);
+		}
+		
+		// Creating the family interior rooms.
+		for(int i = 0; i < NCamFI; i++) {
+			CamaroteFamiliarInterior aux = new CamaroteFamiliarInterior();
+			camarotes.add(aux);
+		}
+		
+		// Creating the family exterior rooms.
+		for(int i = 0; i < NCamFE; i++) {
+			CamaroteFamiliarExterior aux = new CamaroteFamiliarExterior();
+			camarotes.add(aux);
+		}
 	}
 	
 	public boolean isDiscounted() {
@@ -84,6 +115,88 @@ public class Crucero {
 	
 	public String getPicturePath() {
 		return this.picturePath;
+	}
+	
+	public int getCamarotesLibres() {
+		int i = 0;
+		for(Camarote c : camarotes) {
+			if(c.isFree()) {
+				i++;
+			}
+		} return i;
+	}
+	
+	public int getCamarotesDoblesInterioresLibres() {
+		int i = 0;
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleInterior && c.isFree()) {
+				i++;
+			}
+		} return i;
+	}
+	
+	public int getCamarotesDoblesExterioresLibres() {
+		int i = 0;
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleExterior && c.isFree()) {
+				i++;
+			}
+		} return i;
+	}
+	
+	public int getCamarotesFamiliaresInterioresLibres() {
+		int i = 0;
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarInterior && c.isFree()) {
+				i++;
+			}
+		} return i;
+	}
+	
+	public int getCamarotesFamiliaresEterioresLibres() {
+		int i = 0;
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarExterior && c.isFree()) {
+				i++;
+			}
+		} return i;
+	}
+	
+	//---
+	
+	public CamaroteDobleInterior getCamaroteDobleInteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleInterior && c.isFree())
+				return (CamaroteDobleInterior) c;
+		} return null;
+	}
+	
+	public CamaroteDobleExterior getCamaroteDobleExteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleExterior && c.isFree()) 
+				return (CamaroteDobleExterior) c;
+		} return null;
+	}
+	
+	public CamaroteFamiliarInterior getCamaroteFamiliarInteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarInterior && c.isFree()) 
+				return (CamaroteFamiliarInterior) c;
+		} return null;
+	}
+	
+	public CamaroteFamiliarExterior getCamaroteFamiliarExteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarExterior && c.isFree())
+				return (CamaroteFamiliarExterior) c;
+		} return null;
+	}
+
+	@Override
+	public boolean isFull() {
+		if(getCamarotesLibres() == 0)
+			return true;
+		return false;
 	}
 
 }

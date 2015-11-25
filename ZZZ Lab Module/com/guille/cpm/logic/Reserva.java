@@ -84,41 +84,41 @@ public class Reserva {
 	
 	public void reservarCamarote(TypesOfRooms e) {
 		if (e == TypesOfRooms.CDI) {
-			CamaroteDobleInterior aux = crucero.getBarco().getCamaroteDobleInteriorLibre();
+			CamaroteDobleInterior aux = crucero.getCamaroteDobleInteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CDE) {
-			CamaroteDobleExterior aux = crucero.getBarco().getCamaroteDobleExteriorLibre();
+			CamaroteDobleExterior aux = crucero.getCamaroteDobleExteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CFI) {
-			CamaroteFamiliarInterior aux = crucero.getBarco().getCamaroteFamiliarInteriorLibre();
+			CamaroteFamiliarInterior aux = crucero.getCamaroteFamiliarInteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CFE) {
-			CamaroteFamiliarExterior aux = crucero.getBarco().getCamaroteFamiliarExteriorLibre();
+			CamaroteFamiliarExterior aux = crucero.getCamaroteFamiliarExteriorLibre();
 			addCamarote(aux);
 		} 
 	}
 	
 	public void reservarCamarote(TypesOfRooms e, int persons) {
 		if (e == TypesOfRooms.CDI) {
-			CamaroteDobleInterior aux = crucero.getBarco().getCamaroteDobleInteriorLibre();
+			CamaroteDobleInterior aux = crucero.getCamaroteDobleInteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CDE) {
-			CamaroteDobleExterior aux = crucero.getBarco().getCamaroteDobleExteriorLibre();
+			CamaroteDobleExterior aux = crucero.getCamaroteDobleExteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CFI) {
-			CamaroteFamiliarInterior aux = crucero.getBarco().getCamaroteFamiliarInteriorLibre();
+			CamaroteFamiliarInterior aux = crucero.getCamaroteFamiliarInteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p); 
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CFE) {
-			CamaroteFamiliarExterior aux = crucero.getBarco().getCamaroteFamiliarExteriorLibre();
+			CamaroteFamiliarExterior aux = crucero.getCamaroteFamiliarExteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
@@ -135,16 +135,18 @@ public class Reserva {
 	}
 	
 	public void addCamarote(Camarote c) {
-		c.book();
-		camarotes.add(c);
+		if(!c.isFree())
+			camarotes.add(c);
 	}
 	
 	public void removeCamarote(Camarote c) {
-		c.unBook();
-		camarotes.remove(c);
+		if(c.isFree())
+			camarotes.remove(c);
 	}
 	
 	public void addPasajeroToCamarote(Pasajero p, Camarote c) {
+		if(c.isFull())
+			throw new IllegalStateException("The cabin is already full. You cannot add more passangers.");
 		c.addPasajero(p);
 	}
 	
@@ -153,9 +155,9 @@ public class Reserva {
 	}
 	
 	public void addExtraToCamarote(Extra e, Camarote c) {
-		if(e.getExtra() == "Cama supletoria" && !c.hasChilds())
+		if(e.getExtra().equals("Cama supletoria") && !c.hasChilds())
 			throw new IllegalStateException("You cannot add an extra bed if there are no childs in the room.");
-		else if(e.getExtra() == "Cama supletoria" && c.hasCamaSupletoria())
+		else if(e.getExtra().equals("Cama supletoria") && c.hasCamaSupletoria())
 			throw new IllegalStateException("You already have one extra bed for this room.");
 		
 		c.addExtra(e);
@@ -191,7 +193,7 @@ public class Reserva {
 		double price = 0.0;
 		for(Camarote c : camarotes) {
 			for(Extra e : c.getExtras()) {
-				if(e.getExtra() == "Cama supletoria") {
+				if(e.getExtra().equals("Cama supletoria")) {
 					price += e.getPriceExtra()*crucero.getDuracion();
 				} else {
 					price += e.getPriceExtra()*crucero.getDuracion()*c.getNPasajeros();

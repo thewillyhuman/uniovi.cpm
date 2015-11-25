@@ -3,11 +3,10 @@ package com.guille.cpm.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Camarote {
+public abstract class Camarote implements CanBeFull{
 	
 	private List<Extra> extras;
 	private List<Pasajero> pasajeros;
-	private boolean isFree = true;
 	
 	public Camarote() {
 		extras = new ArrayList<Extra>();
@@ -46,21 +45,13 @@ public class Camarote {
 		extras.remove(extra);
 	}
 	
-	public void book() {
-		isFree = false;
-	}
-	
-	public void unBook() {
-		isFree = true;
-	}
-	
 	public boolean isFree() {
-		return this.isFree;
+		return !this.pasajeros.isEmpty();
 	}
 	
 	public boolean hasCamaSupletoria() {
 		for(Extra e : this.getExtras()) {
-			if(e.getExtra() == "Cama supletoria")
+			if(e.getExtra().equals("Cama supletoria"))
 				return true;
 		} return false;
 	}
@@ -74,5 +65,20 @@ public class Camarote {
 	
 	public int getNPasajeros() {
 		return pasajeros.size();
+	}
+	
+	public boolean validate() {
+		int nExtraBeds = 0;
+		for(Extra e : extras) {
+			if(e.getExtra().equals("Cama supletoria"))
+				nExtraBeds++;
+		}
+		if(this.hasCamaSupletoria() && !this.hasChilds()) {
+			return false;
+		} else if(this.getNPasajeros() == 0) {
+			return false;
+		} else if(nExtraBeds > 1) {
+			return false;
+		} else { return true; }
 	}
 }

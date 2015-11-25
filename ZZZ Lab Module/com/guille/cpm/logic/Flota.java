@@ -23,7 +23,7 @@ public class Flota {
 	
 	public static Barco getBarco(String shipID) {
 		for(Barco b : barcos) {
-			if(b.getShipID() == shipID)
+			if(b.getShipID().equals(shipID))
 				return b;
 		} return null;
 	}

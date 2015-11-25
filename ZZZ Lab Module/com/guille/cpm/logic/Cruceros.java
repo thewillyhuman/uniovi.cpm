@@ -18,5 +18,13 @@ public class Cruceros {
 	public static void removeCrucero(Crucero crucero) {
 		cruceros.remove(cruceros);
 	}
+	
+	public static List<Crucero> filterCrucero(Filter f, String s) {
+		List<Crucero> aux = new ArrayList<Crucero>();
+		for(Crucero c : cruceros) {
+			if(f.filter(c, s))
+				aux.add(c);
+		} return aux;
+	}
 
 }

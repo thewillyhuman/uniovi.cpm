@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.awt.Frame;
 import java.awt.Color;
 import java.awt.Toolkit;
+import javax.swing.JTable;
 
 public class VentanaPrincipal extends JFrame {
 

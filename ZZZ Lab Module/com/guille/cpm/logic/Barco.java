@@ -1,8 +1,5 @@
 package com.guille.cpm.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Barco {
 
 	private String shipID;
@@ -11,7 +8,11 @@ public class Barco {
 	private String picturePath;
 
 	private double[] prices;
-	private List<Camarote> camarotes;
+	
+	private int NCamDI;
+	private int NCamDE;
+	private int NCamFI;
+	private int NCamFE;
 	
 	public Barco(String ShipID, String Name, String Desc, int NCamDI, int NCamDE, int NCamFI, int NCamFE, double PCamDI, double PCamDE, double PCamFI, double PCamFE) {
 		this.shipID = ShipID;
@@ -19,10 +20,13 @@ public class Barco {
 		this.description = Desc;
 		this.picturePath = ("com/guille/cpm/img/"+ShipID+".jpg");
 		
-		this.camarotes = new ArrayList<Camarote>();
 		this.prices = new double[4];
 		
-		createRooms(NCamDI, NCamDE, NCamFI, NCamFE);
+		this.NCamDI = NCamDI;
+		this.NCamDE = NCamDE;
+		this.NCamFI = NCamFI;
+		this.NCamFE = NCamFE;
+		
 		loadPrices(PCamDI, PCamDE, PCamFI, PCamFE);
 	}
 	
@@ -63,35 +67,19 @@ public class Barco {
 	 * @return
 	 */
 	public int getNCamarotesDoblesInteriores() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior)
-				i++;
-		} return i;
+		return this.NCamDI;
 	}
 	
 	public int getNCamarotesDoblesExteriores() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleExterior)
-				i++;
-		} return i;
+		return this.NCamDE;
 	}
 	
 	public int getNCamarotesFamiliaresInteriores() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarInterior)
-				i++;
-		} return i;
+		return this.NCamFI;
 	}
 	
 	public int getNCamarotesFamiliaresExteriores() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarExterior)
-				i++;
-		} return i;
+		return this.NCamFE;
 	}
 	
 	public double getPrecioCamaroteDobleInterior() {
@@ -110,42 +98,12 @@ public class Barco {
 		return this.prices[3];
 	}
 	
-	public List<Camarote> getCamarotes() {
-		return this.camarotes;
-	}
-	
 	public int getNCamarotesDoblesTotal() {
 		return (this.getNCamarotesDoblesInteriores()+this.getNCamarotesDoblesExteriores());
 	}
 	
 	public int getNCamarotesFamiliaresTotal() {
 		return (this.getNCamarotesFamiliaresInteriores()+this.getNCamarotesFamiliaresExteriores());
-	}
-	
-	private void createRooms(int NCamDI, int NCamDE, int NCamFI, int NCamFE) {
-		// Creating the double interior rooms.
-		for(int i = 0; i < NCamDI; i++) {
-			CamaroteDobleInterior aux = new CamaroteDobleInterior();
-			camarotes.add(aux);
-		}
-		
-		// Creating the double exterior rooms
-		for(int i = 0; i < NCamDE; i++) {
-			CamaroteDobleExterior aux = new CamaroteDobleExterior();
-			camarotes.add(aux);
-		}
-		
-		// Creating the family interior rooms.
-		for(int i = 0; i < NCamFI; i++) {
-			CamaroteFamiliarInterior aux = new CamaroteFamiliarInterior();
-			camarotes.add(aux);
-		}
-		
-		// Creating the family exterior rooms.
-		for(int i = 0; i < NCamFE; i++) {
-			CamaroteFamiliarExterior aux = new CamaroteFamiliarExterior();
-			camarotes.add(aux);
-		}
 	}
 	
 	private void loadPrices(double PCamDI, double PCamDE, double PCamFI, double PCamFE) {
@@ -157,80 +115,5 @@ public class Barco {
 	
 	public double[] getPrices() {
 		return this.prices;
-	}
-	
-	public int getCamarotesLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	public int getCamarotesDoblesInterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	public int getCamarotesDoblesExterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleExterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	public int getCamarotesFamiliaresInterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarInterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	public int getCamarotesFamiliaresEterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarExterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	//---
-	
-	public CamaroteDobleInterior getCamaroteDobleInteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior && c.isFree())
-				return (CamaroteDobleInterior) c;
-		} return null;
-	}
-	
-	public CamaroteDobleExterior getCamaroteDobleExteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleExterior && c.isFree()) 
-				return (CamaroteDobleExterior) c;
-		} return null;
-	}
-	
-	public CamaroteFamiliarInterior getCamaroteFamiliarInteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarInterior && c.isFree()) 
-				return (CamaroteFamiliarInterior) c;
-		} return null;
-	}
-	
-	public CamaroteFamiliarExterior getCamaroteFamiliarExteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarExterior && c.isFree())
-				return (CamaroteFamiliarExterior) c;
-		} return null;
 	}
 }
