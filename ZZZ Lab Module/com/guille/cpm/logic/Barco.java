@@ -203,4 +203,34 @@ public class Barco {
 			}
 		} return i;
 	}
+	
+	//---
+	
+	public CamaroteDobleInterior getCamaroteDobleInteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleInterior && c.isFree())
+				return (CamaroteDobleInterior) c;
+		} return null;
+	}
+	
+	public CamaroteDobleExterior getCamaroteDobleExteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteDobleExterior && c.isFree()) 
+				return (CamaroteDobleExterior) c;
+		} return null;
+	}
+	
+	public CamaroteFamiliarInterior getCamaroteFamiliarInteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarInterior && c.isFree()) 
+				return (CamaroteFamiliarInterior) c;
+		} return null;
+	}
+	
+	public CamaroteFamiliarExterior getCamaroteFamiliarExteriorLibre() {
+		for(Camarote c : camarotes) {
+			if(c instanceof CamaroteFamiliarExterior && c.isFree())
+				return (CamaroteFamiliarExterior) c;
+		} return null;
+	}
 }

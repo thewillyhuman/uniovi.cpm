@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CargarDatos {
 
-	public final static String PATH = "com/guille/cpm/files/in/";
+	public final static String PATH_IN = "com/guille/cpm/files/in/";
 
 	public final static String BARCOS = "barcos.dat";
 	public final static String CRUCEROS = "cruceros.dat";
@@ -19,7 +19,7 @@ public class CargarDatos {
 
 	public static void cargarArchivo(String filePath) throws IOException {
 		String cadena;
-		FileReader f = new FileReader(PATH+filePath);
+		FileReader f = new FileReader(PATH_IN+filePath);
 		BufferedReader b = new BufferedReader(f);
 		while ((cadena = b.readLine()) != null) {
 			String[] parts = cadena.split(";");
@@ -50,8 +50,9 @@ public class CargarDatos {
 	}
 
 	public static void main(String[] args) throws IOException {
+		// DO NOT MODIFY THE ORDER, THE SHIP MUST BE ALLWAYS CREATED BEFORE THE CRUCERO.
 		cargarArchivo(BARCOS);
-		cargarArchivo(CRUCEROS);
 		cargarArchivo(EXTRAS);
+		cargarArchivo(CRUCEROS);
 	}
 }

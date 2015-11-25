@@ -15,6 +15,7 @@ public class Crucero {
 	private int duration;
 	private List<Date> salidas;
 	private Barco barco;
+	private boolean discount = false;
 	
 	private String picturePath;
 	
@@ -31,6 +32,14 @@ public class Crucero {
 		this.barco = barco;
 		
 		this.picturePath = ("com/guille/cpm/img/"+crCode+".jpg");
+	}
+	
+	public boolean isDiscounted() {
+		return this.discount;
+	}
+	
+	public void discount() {
+		this.discount = true;
 	}
 	
 	public String getCodigoCrucero() {

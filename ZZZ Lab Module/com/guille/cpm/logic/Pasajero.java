@@ -8,8 +8,17 @@ public class Pasajero {
 		this.age = age;
 	}
 	
+	public Pasajero(){};
+	
 	public int getAge() {
 		return this.age;
 	}
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
 
+	public boolean isChild() {
+		return (age < 16);
+	}
 }
