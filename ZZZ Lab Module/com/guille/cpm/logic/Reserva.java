@@ -1,6 +1,7 @@
 package com.guille.cpm.logic;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +39,24 @@ public class Reserva {
 	
 	public Crucero getCrucero() {
 		return this.crucero;
+	}
+	
+	public Date getFechaSalida() {
+		return this.fechaSalida;
+	}
+	
+	/**
+	 * format dd/mm/yyyy.
+	 * @param str
+	 * @throws ParseException
+	 */
+	public void setFechaSalida(String str) throws ParseException {
+		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		this.fechaSalida = dateFormat.parse(str);
+	}
+	
+	public void setFechaSalida(Date date) {
+		this.fechaSalida = date;
 	}
 	
 	public String getName() {

@@ -6,14 +6,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Point;
-import java.awt.Frame;
+
+import com.guille.cpm.logic.CargarDatos;
+
 import java.awt.Color;
 import java.awt.Toolkit;
-import javax.swing.JTable;
+import java.io.IOException;
+
 
 public class VentanaPrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8029479718163458536L;
 	private JPanel mainPane;
 
 	/**
@@ -34,8 +40,9 @@ public class VentanaPrincipal extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public VentanaPrincipal() {
+	public VentanaPrincipal() throws IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/com/guille/cpm/img/appIcon.png")));
 		setLocationByPlatform(true);
 		setTitle("EII CRUCEROS");
@@ -46,5 +53,6 @@ public class VentanaPrincipal extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPane);
 		mainPane.setLayout(new BorderLayout(0, 0));
+		CargarDatos.cargarDatos();
 	}
 }
