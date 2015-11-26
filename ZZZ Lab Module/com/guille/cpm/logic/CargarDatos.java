@@ -18,6 +18,12 @@ public class CargarDatos {
 	public final static String CRUCEROS = "cruceros.dat";
 	public final static String EXTRAS = "extras.dat";
 
+	/**
+	 * Loads the files in the system by splitting them and parsing them.
+	 * 
+	 * @param filePath where the file is stored.
+	 * @throws IOException if there's an error while reading the file.
+	 */
 	public static void cargarArchivo(String filePath) throws IOException {
 		String cadena;
 		FileReader f = new FileReader(PATH_IN+filePath);
@@ -57,6 +63,11 @@ public class CargarDatos {
 		cargarDatos();
 	}
 	
+	/**
+	 * Loads all the data in the system. Also generates all the discounts.
+	 * 
+	 * @throws IOException if there is any error while loading data.
+	 */
 	public static void cargarDatos() throws IOException {
 		cargarArchivo(BARCOS);
 		cargarArchivo(EXTRAS);
@@ -64,6 +75,10 @@ public class CargarDatos {
 		generarDescuentos();
 	}
 	
+	/**
+	 * Performs a very smart algorithm. Two different random ships that will
+	 * have a discount.
+	 */
 	public static void generarDescuentos() {
 		Random rand = new Random();
 		int randInt = rand.nextInt(Cruceros.getCruceros().size());

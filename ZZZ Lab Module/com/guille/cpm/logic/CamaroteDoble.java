@@ -2,8 +2,12 @@ package com.guille.cpm.logic;
 
 public class CamaroteDoble extends Camarote {
 	
+	/**
+	 * The maximum number of persons that this kind of cabin can be stored.
+	 */
 	public final static int N_PERSONS = 2;
 
+	
 	public CamaroteDoble() {
 		super();
 	}

@@ -21,6 +21,20 @@ public class Crucero implements CanBeFull{
 	
 	private String picturePath;
 	
+	/**
+	 * Main constructor.
+	 * 
+	 * @param crCode Code for the crucero.
+	 * @param area where the crucero will take place.
+	 * @param den, denomination of the crucero.
+	 * @param stPort starting port for the crucero.
+	 * @param it itinerario of the crucero.
+	 * @param desc, decription for the crucero.
+	 * @param u16, if thew crucero accepts child under 16.
+	 * @param dur duration of the crucero.
+	 * @param salidas dates where the crucero will take place.
+	 * @param barco that will perform the trip.
+	 */
 	public Crucero(String crCode, String area, String den, String stPort, String it, String desc, boolean u16, int dur, List<Date> salidas, Barco barco) {
 		this.crCode = crCode;
 		this.area = area;
@@ -39,6 +53,14 @@ public class Crucero implements CanBeFull{
 		this.picturePath = ("com/guille/cpm/img/"+crCode+".jpg");
 	}
 	
+	/**
+	 * Given some ship properties will fill the ship with the necessary rooms.
+	 * 
+	 * @param NCamDI Number of double interior cabins.
+	 * @param NCamDE Number of double exterior cabins.
+	 * @param NCamFI Number of familiar interior cabins.
+	 * @param NCamFE Number of familiar exterior cabins.
+	 */
 	private void createRooms(int NCamDI, int NCamDE, int NCamFI, int NCamFE) {
 		// Creating the double interior rooms.
 		for(int i = 0; i < NCamDI; i++) {
@@ -65,58 +87,126 @@ public class Crucero implements CanBeFull{
 		}
 	}
 	
+	/**
+	 * Return whether the trip has a discount or not.
+	 * 
+	 * @return true if the trip has a discount, false otherwise.
+	 */
 	public boolean isDiscounted() {
 		return this.discount;
 	}
 	
+	/**
+	 * Will change the actual state of the trip to discounted.
+	 */
 	public void discount() {
 		this.discount = true;
 	}
 	
+	/**
+	 * Return the code of the trip.
+	 * 
+	 * @return the code of the trip.
+	 */
 	public String getCodigoCrucero() {
 		return this.crCode;
 	}
 	
+	/**
+	 * Returns the area where the trip will take place.
+	 * 
+	 * @return the area where the trip will take place.
+	 */
 	public String getArea() {
 		return this.area;
 	}
 	
+	/**
+	 * Return the denomination of the trip.
+	 * 
+	 * @return the denomination of the trip.
+	 */
 	public String getDenominacion() {
 		return this.denominacion;
 	}
 	
+	/**
+	 * Returns the starting port of the tree.
+	 * 
+	 * @return the starting port of the tree.
+	 */
 	public String getStartPort() {
 		return this.startPort;
 	}
 	
+	/**
+	 * Return the itinerary of the trip.
+	 * 
+	 * @return the itinerary of the trip.
+	 */
 	public String getItinerario() {
 		return this.itinerario;
 	}
 	
+	/**
+	 * Return the description of the tree.
+	 * 
+	 * @return the description of the tree.
+	 */
 	public String getDescripcion() {
 		return this.descripcion;
 	}
 	
+	/**
+	 * Return true if the trip accepts travelers under 16.
+	 * 
+	 * @return true if the trip accepts child under 16. False otherwise.
+	 */
 	public boolean getAcceptUnder16() {
 		return this.acceptUnder16;
 	}
 	
+	/**
+	 * Return the duration of the hole trip.
+	 * 
+	 * @return the duration of the trip.
+	 */
 	public int getDuracion() {
 		return this.duration;
 	}
 	
+	/**
+	 * Returns a list containing all the dates of the trip.
+	 * 
+	 * @return a list containing all the dates of the trip.
+	 */
 	public List<Date> getSalidas() {
 		return this.salidas;
 	}
 	
+	/**
+	 * Returns the ship that will perform the trip.
+	 * 
+	 * @return the ship that will perform the trip.
+	 */
 	public Barco getBarco() {
 		return this.barco;
 	}
 	
+	/**
+	 * Return the path of the picture file for the trip.
+	 * 
+	 * @return the path of the picture file for the trip.
+	 */
 	public String getPicturePath() {
 		return this.picturePath;
 	}
 	
+	/**
+	 * Returns the number of free cabins in the trip.
+	 * 
+	 * @return the number of free cabins in the trip.
+	 */
 	public int getCamarotesLibres() {
 		int i = 0;
 		for(Camarote c : camarotes) {
@@ -126,6 +216,11 @@ public class Crucero implements CanBeFull{
 		} return i;
 	}
 	
+	/**
+	 * Returns the number of free double interior cabins.
+	 * 
+	 * @return the number of free double interior cabins.
+	 */
 	public int getCamarotesDoblesInterioresLibres() {
 		int i = 0;
 		for(Camarote c : camarotes) {
@@ -135,6 +230,11 @@ public class Crucero implements CanBeFull{
 		} return i;
 	}
 	
+	/**
+	 * Returns the number of free double exterior cabins.
+	 * 
+	 * @return the number of free double exterior cabins.
+	 */
 	public int getCamarotesDoblesExterioresLibres() {
 		int i = 0;
 		for(Camarote c : camarotes) {
@@ -144,6 +244,11 @@ public class Crucero implements CanBeFull{
 		} return i;
 	}
 	
+	/**
+	 * Returns the number of free familiar interior cabins.
+	 * 
+	 * @return the number of free familiar interior cabins.
+	 */
 	public int getCamarotesFamiliaresInterioresLibres() {
 		int i = 0;
 		for(Camarote c : camarotes) {
@@ -153,6 +258,11 @@ public class Crucero implements CanBeFull{
 		} return i;
 	}
 	
+	/**
+	 * Returns the number of free familiar exterior cabins.
+	 * 
+	 * @return the number of free familiar exterior cabins.
+	 */
 	public int getCamarotesFamiliaresEterioresLibres() {
 		int i = 0;
 		for(Camarote c : camarotes) {
@@ -164,6 +274,11 @@ public class Crucero implements CanBeFull{
 	
 	//---
 	
+	/**
+	 * Returns the first free double interior cabin.
+	 * 
+	 * @return the first free double interior cabin.
+	 */
 	public CamaroteDobleInterior getCamaroteDobleInteriorLibre() {
 		for(Camarote c : camarotes) {
 			if(c instanceof CamaroteDobleInterior && c.isFree())
@@ -171,6 +286,11 @@ public class Crucero implements CanBeFull{
 		} return null;
 	}
 	
+	/**
+	 * Returns the first free double exterior cabin.
+	 * 
+	 * @return the first free double exterior cabin.
+	 */
 	public CamaroteDobleExterior getCamaroteDobleExteriorLibre() {
 		for(Camarote c : camarotes) {
 			if(c instanceof CamaroteDobleExterior && c.isFree()) 
@@ -178,6 +298,11 @@ public class Crucero implements CanBeFull{
 		} return null;
 	}
 	
+	/**
+	 * Returns the first free familiar interior cabin.
+	 * 
+	 * @return the first free familiar interior cabin.
+	 */
 	public CamaroteFamiliarInterior getCamaroteFamiliarInteriorLibre() {
 		for(Camarote c : camarotes) {
 			if(c instanceof CamaroteFamiliarInterior && c.isFree()) 
@@ -185,6 +310,11 @@ public class Crucero implements CanBeFull{
 		} return null;
 	}
 	
+	/**
+	 * Returns the first free familiar exterior cabin.
+	 * 
+	 * @return the first free familiar exterior cabin.
+	 */
 	public CamaroteFamiliarExterior getCamaroteFamiliarExteriorLibre() {
 		for(Camarote c : camarotes) {
 			if(c instanceof CamaroteFamiliarExterior && c.isFree())
