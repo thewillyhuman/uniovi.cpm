@@ -22,7 +22,7 @@ public class Cruceros {
 	public static List<Crucero> filterCrucero(Filter f, String s) {
 		List<Crucero> aux = new ArrayList<Crucero>();
 		for(Crucero c : cruceros) {
-			if(f.filter(c, s))
+			if(f.filter(c,s))
 				aux.add(c);
 		} return aux;
 	}

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class CargarDatos {
 
@@ -44,6 +45,8 @@ public class CargarDatos {
 				Cruceros.addCrucero(new Crucero(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], aux, Integer.parseInt(parts[7]), dates, Flota.getBarco(parts[9])));
 			} else if (parts.length == 11) {
 				Flota.addBarco(new Barco(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), Double.parseDouble(parts[7]), Double.parseDouble(parts[8]), Double.parseDouble(parts[9]), Double.parseDouble(parts[10])));
+			} else {
+				System.out.println("The where a problem loading " + parts[0] + ", line lenght:"+parts.length);
 			}
 		}
 		b.close();
@@ -51,8 +54,23 @@ public class CargarDatos {
 
 	public static void main(String[] args) throws IOException {
 		// DO NOT MODIFY THE ORDER, THE SHIP MUST BE ALLWAYS CREATED BEFORE THE CRUCERO.
+		cargarDatos();
+	}
+	
+	public static void cargarDatos() throws IOException {
 		cargarArchivo(BARCOS);
 		cargarArchivo(EXTRAS);
 		cargarArchivo(CRUCEROS);
+		generarDescuentos();
+	}
+	
+	public static void generarDescuentos() {
+		Random rand = new Random();
+		int randInt = rand.nextInt(Cruceros.getCruceros().size());
+		Cruceros.getCruceros().get(randInt).discount();
+		int randInt2 = rand.nextInt(Cruceros.getCruceros().size());
+		while(randInt == randInt2) {
+			randInt2 = rand.nextInt(Cruceros.getCruceros().size());
+		} Cruceros.getCruceros().get(randInt2).discount();
 	}
 }

@@ -1,6 +1,9 @@
 package com.guille.cpm.logic;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.aeat.valida.Validador;
@@ -12,6 +15,7 @@ public class Reserva {
 	private String surname;
 	private String dni;
 	private int telf;
+	private Date fechaSalida;
 	private List<Camarote> camarotes;
 	
 	public final static double DISCOUNT = 0.15;
@@ -80,6 +84,10 @@ public class Reserva {
 	
 	public void setTelf(int telf) {
 		this.telf = telf;
+	}
+	
+	public List<Camarote> getCamarotes() {
+		return this.camarotes;
 	}
 	
 	public void reservarCamarote(TypesOfRooms e) {
@@ -215,5 +223,63 @@ public class Reserva {
 
 	public double getTotalMinusDiscount() {
 		return (this.getTotalPrice() - this.getDiscount());
+	}
+	
+	public String toString() {
+		StringBuilder aux = new StringBuilder();
+		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		Date date = new Date();
+		aux.append("JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - " + dateFormat.format(date) + "\n");
+		aux.append("---------------------------------------------------------------------\n");
+		aux.append("NOMBRE: " + this.getName() + "  NIF: " + this.getDNI() + "  TEL: " + this.getTelf() + "\n");
+		aux.append("\n");
+		aux.append("\n");
+		aux.append("**DATOS DEL CRUCERO**\n");
+		aux.append("Crucero: " + this.getCrucero().getArea() + " / "+this.getCrucero().getCodigoCrucero() + "\n");
+		aux.append("Barco: " + this.getCrucero().getBarco().getName() + "\n");
+		aux.append("Fecha de salida: " + this.fechaSalida + "\n");
+		aux.append("Días: " + this.getCrucero().getDuracion() + "\n");
+		aux.append("Salida: " + this.getCrucero().getStartPort() + "\n");
+		aux.append("N. Pasajeros: " + this.getTotalPasajeros() + "\n");
+		aux.append("Camarotes: ");
+		for(Camarote c : this.getCamarotes()) {
+			if(c instanceof CamaroteDobleInterior) {
+				aux.append("1 doble interior / ");
+				for(Extra e : c.getExtras())
+					aux.append(e.getExtra() + ",");
+				aux.append(";\n");
+			} else if (c instanceof CamaroteDobleExterior) {
+				aux.append("1 doble exterior / ");
+				for(Extra e : c.getExtras())
+					aux.append(e.getExtra() + ",");
+				aux.append(";\n");
+			} else if(c instanceof CamaroteFamiliarInterior) {
+				aux.append("1 familiar interior / ");
+				for(Extra e : c.getExtras())
+					aux.append(e.getExtra() + ",");
+				aux.append(";\n");
+			} else if(c instanceof CamaroteFamiliarExterior) {
+				aux.append("1 familiar exterior / ");
+				for(Extra e : c.getExtras())
+					aux.append(e.getExtra() + ",");
+				aux.append(";\n");
+			}
+		}
+		aux.append("**PAGADO RESERVA**\n");
+		aux.append("Camarotes:\n");
+		aux.append("\t\t" + this.getCamarotesPrice()+"\n");
+		aux.append("Extras:\n");
+		aux.append("\t\t" + this.getExtrasPrice()+"\n");
+		if(this.getCrucero().isDiscounted()) {
+			aux.append("Descuento oferta:\n");
+			aux.append("\t\t" + this.getDiscount()+"\n");
+			aux.append("Importe Total:\t\t\t"+this.getCamarotesPrice()+"+"+this.getExtrasPrice()+"-"+this.getDiscount()+"Euros.");
+		}
+		aux.append("TOTAL...................."+this.getTotalPrice()+"Euros.");
+		return aux.toString();
+	}
+	
+	public void print() {
+		System.out.println(this.toString());
 	}
 }
