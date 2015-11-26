@@ -12,6 +12,7 @@ import com.guille.cpm.logic.CargarDatos;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.awt.CardLayout;
 
 
 public class VentanaPrincipal extends JFrame {
