@@ -39,6 +39,10 @@ import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.help.*;
+import java.net.*;
+import java.io.*;
+
 public class VentanaPrincipal extends JFrame {
 
 	/**
@@ -51,7 +55,10 @@ public class VentanaPrincipal extends JFrame {
 
 	private DefaultListModel modeloLista1 = new DefaultListModel();
 	private DefaultListModel modeloLista2 = new DefaultListModel();
-
+	private JList lista1;
+	private JMenuItem mntmContents;
+	private JSlider slVolumen;
+	
 	private JFileChooser selector = null;
 
 	/**
@@ -131,6 +138,10 @@ public class VentanaPrincipal extends JFrame {
 		mnHelp.setMnemonic('H');
 		mnHelp.setMnemonic(KeyEvent.VK_H);
 		menuBar.add(mnHelp);
+		
+		mntmContents = new JMenuItem("Contents");
+		mntmContents.setMnemonic('C');
+		mnHelp.add(mntmContents);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -145,7 +156,7 @@ public class VentanaPrincipal extends JFrame {
 		lblLogo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/src/img/logo.png")));
 		pnNorte.add(lblLogo);
 
-		JSlider slVolumen = new JSlider();
+		slVolumen = new JSlider();
 		slVolumen.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				txtVol.setText(Integer.toString(slVolumen.getValue()));
@@ -198,8 +209,8 @@ public class VentanaPrincipal extends JFrame {
 		JScrollPane scLista1 = new JScrollPane();
 		pnLibrary.add(scLista1, BorderLayout.CENTER);
 
-		@SuppressWarnings("rawtypes")
-		JList lista1 = new JList();
+		
+		lista1 = new JList();
 		lista1.setModel(modeloLista1);
 		scLista1.setViewportView(lista1);
 
@@ -236,6 +247,34 @@ public class VentanaPrincipal extends JFrame {
 		JList<?> Lista2 = new JList<Object>();
 		Lista2.setModel(modeloLista2);
 		scLista2.setViewportView(Lista2);
+		
+		cargaAyuda();
 	}
 
+	//Incorporar este metodo en la Ventana principal e invocarlo desde el constructor
+	private void cargaAyuda(){
+
+	   URL hsURL;
+	   HelpSet hs;
+
+	   try {
+		    File fichero = new File("help/help/Ayuda.hs");
+		    hsURL = fichero.toURI().toURL();
+		    hs = new HelpSet(null, hsURL);
+	}
+
+	    catch (Exception e){
+	      System.out.println("Ayuda no encontrada");
+	     return;
+	   }
+
+	   HelpBroker hb = hs.createHelpBroker();
+	   hb.initPresentation();
+
+	   hb.enableHelpKey(getRootPane(),"intro", hs);
+	   hb.enableHelpOnButton(mntmContents, "intro", hs);
+	   hb.enableHelp(lista1, "añadir", hs);
+	   hb.enableHelp(slVolumen, "volumen", hs);
+	   
+	 }
 }

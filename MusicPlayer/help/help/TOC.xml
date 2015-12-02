@@ -4,7 +4,11 @@
          "http://java.sun.com/products/javahelp/toc_1_0.dtd">
 
 <toc version="1.0">
-  
-  <tocitem text="" target="" />
-
+  <tocitem text="EII MusicPlayer" target="intro" />
+  <tocitem text="Organizar Libreria">
+  	<tocitem text="Añadir música" target="añadir" />
+  	<tocitem text="Eliminr música" target="eliminar" />
+  </tocitem>
+  <tocitem text="Reproducir música" target="reproducir" />
+  <tocitem text="Modificar volumen" target="volumen" />
 </toc>

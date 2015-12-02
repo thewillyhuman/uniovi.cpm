@@ -6,11 +6,11 @@
 
 <helpset version="1.0">
   <!-- title -->
-  <title></title>
+  <title>Ayuda del EII Music Player</title>
 
   <!-- maps -->
   <maps>
-     <homeID></homeID>
+     <homeID>intro</homeID>
      <mapref location="Map.jhm"/>
   </maps>
 

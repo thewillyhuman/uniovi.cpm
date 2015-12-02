@@ -4,7 +4,9 @@
          "http://java.sun.com/products/javahelp/map_1_0.dtd">
 
 <map version="1.0">
-
-<mapID target="" url="" />
-
+	<mapID target="intro" url="Fuentes/introduccion.html" />
+	<mapID target="añadir" url="Fuentes/aniadir.html" />
+	<mapID target="eliminar" url="Fuentes/eliminar.html" />
+	<mapID target="reproducir" url="Fuentes/reproducir.html" />
+	<mapID target="volumen" url="Fuentes/modificarVolumen.html" />
 </map>
