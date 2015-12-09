@@ -2,6 +2,7 @@ package igu;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -364,5 +365,6 @@ public class VentanaPrincipal extends JFrame {
 		spinnerPercentage.setValue(15);
 		lblResultado.setText("");
 		lblDescription.setText("");
+		scVentas.getViewport().setViewPosition(new Point(0,0));
 	}
 }
