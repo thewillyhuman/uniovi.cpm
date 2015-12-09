@@ -16,6 +16,7 @@ import java.awt.Color;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -282,6 +283,11 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnAceptar() {
 		if (btnAceptar == null) {
 			btnAceptar = new JButton("Aceptar");
+			btnAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					grabarFichero();
+				}
+			});
 		}
 		return btnAceptar;
 	}
@@ -366,5 +372,17 @@ public class VentanaPrincipal extends JFrame {
 		lblResultado.setText("");
 		lblDescription.setText("");
 		scVentas.getViewport().setViewPosition(new Point(0,0));
+	}
+	
+	private void grabarFichero() {
+		StringBuilder sb = new StringBuilder();
+		for(Object o : modeloLista.toArray()) {
+			sb.append(o.toString());
+			sb.append(" ");
+		}
+		if(inmobiliaria.grabarFichero(sb.toString()) == 0) {
+			JOptionPane.showMessageDialog(this, "Su petición me la suda capullo de mierda!");
+			inicializar();
+		}
 	}
 }
