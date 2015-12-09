@@ -287,6 +287,11 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnCancelar() {
 		if (btnCancelar == null) {
 			btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					inicializar();
+				}
+			});
 		}
 		return btnCancelar;
 	}
@@ -350,5 +355,14 @@ public class VentanaPrincipal extends JFrame {
 			
 			modeloTable.addRow(nuevaFila);
 		}
+	}
+	
+	private void inicializar() {
+		tpMansiones.setSelectedIndex(0);
+		tVentas.clearSelection();
+		modeloLista.clear();
+		spinnerPercentage.setValue(15);
+		lblResultado.setText("");
+		lblDescription.setText("");
 	}
 }
