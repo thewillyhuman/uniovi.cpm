@@ -16,6 +16,7 @@ import java.awt.Color;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.BoxLayout;
@@ -25,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -42,6 +44,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -76,9 +84,13 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scVentas;
 	private JTable tVentas;
 
-	private DefaultTableModel modeloTable;
+	private ModeloNoEditable modeloTable;
 
 	private DefaultListModel modeloLista; 
+	private JPanel pnFiltro;
+	private JCheckBox checkNorte;
+	private JCheckBox checkCentro;
+	private JCheckBox checkSur;
 
 	/**
 	 * Launch the application.
@@ -87,6 +99,9 @@ public class VentanaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					JFrame.setDefaultLookAndFeelDecorated(true);
+					JDialog.setDefaultLookAndFeelDecorated(true);
+					SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.MistSilverSkin");
 					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -116,8 +131,15 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(getPanel_5());
 		contentPane.add(getTpMansiones());
 		
-		addRows();
+		addRows(checkNorte.isSelected(), checkCentro.isSelected(), checkSur.isSelected());
 	}
+	
+	private void mostrarMansionesZona() {
+		modeloTable.getDataVector().clear();
+		modeloTable.fireTableDataChanged();
+		addRows(checkNorte.isSelected(), checkCentro.isSelected(), checkSur.isSelected());
+	}
+	
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("AGENCIA INMOVILIARIA EII");
@@ -175,6 +197,12 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnEliminarVisita() {
 		if (btnEliminarVisita == null) {
 			btnEliminarVisita = new JButton("Eliminar");
+			btnEliminarVisita.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(list.getSelectedIndex() != -1)
+						modeloLista.remove(list.getSelectedIndex());
+				}
+			});
 		}
 		return btnEliminarVisita;
 	}
@@ -316,6 +344,7 @@ public class VentanaPrincipal extends JFrame {
 			pnVentas = new JPanel();
 			pnVentas.setLayout(new BorderLayout(0, 0));
 			pnVentas.add(getScVentas(), BorderLayout.CENTER);
+			pnVentas.add(getPnFiltro(), BorderLayout.NORTH);
 		}
 		return pnVentas;
 	}
@@ -335,32 +364,42 @@ public class VentanaPrincipal extends JFrame {
 	private JTable getTVentas() {
 		if (tVentas == null) {
 			String[] nombreColumnas = {"Código", "Zona", "Localidad", "Precio"};
-			modeloTable = new DefaultTableModel(nombreColumnas, 0);
+			modeloTable = new ModeloNoEditable(nombreColumnas, 0);
 			
 			tVentas = new JTable(modeloTable);
 			tVentas.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
+					if(arg0.getClickCount() == 2) {
+						int fila = tVentas.getSelectedRow();
+						if(fila != -1) {
+							modeloLista.addElement(tVentas.getValueAt(fila, 0));
+						}
+					}
 					lblDescription.setText(inmobiliaria.getDescripcionMansion(tVentas.getSelectedRow()));
 				}
 			});
 			
+			tVentas.setDefaultRenderer(Object.class, ((TableCellRenderer) new RendererSubstance()));
 			tVentas.getTableHeader().setReorderingAllowed(false);
 			tVentas.getTableHeader().setResizingAllowed(false);
 		}
 		return tVentas;
 	}
 	
-	private void addRows() {
+	private void addRows(boolean norte, boolean centro, boolean sur) {
 		Object[] nuevaFila = new Object[4];
 		
 		for(Mansion m : inmobiliaria.getRelacionMansiones()) {
-			nuevaFila[0] = m.getCodigo();
-			nuevaFila[1] = m.getZona();
-			nuevaFila[2] = m.getLocalidad();
-			nuevaFila[3] = m.getPrecio();
 			
-			modeloTable.addRow(nuevaFila);
+			if((norte && m.getZona().equals("Norte")) || ( sur && m.getZona().equals("Sur")) || (centro && m.getZona().equals("Centro")) || (!norte&&!sur&&!centro)) {
+				nuevaFila[0] = m.getCodigo();
+				nuevaFila[1] = m.getZona();
+				nuevaFila[2] = m.getLocalidad();
+				nuevaFila[3] = m.getPrecio();
+				
+				modeloTable.addRow(nuevaFila);
+			}
 		}
 	}
 	
@@ -384,5 +423,50 @@ public class VentanaPrincipal extends JFrame {
 			JOptionPane.showMessageDialog(this, "Su petición me la suda capullo de mierda!");
 			inicializar();
 		}
+	}
+	private JPanel getPnFiltro() {
+		if (pnFiltro == null) {
+			pnFiltro = new JPanel();
+			pnFiltro.add(getCheckNorte());
+			pnFiltro.add(getCheckCentro());
+			pnFiltro.add(getCheckSur());
+		}
+		return pnFiltro;
+	}
+	private JCheckBox getCheckNorte() {
+		if (checkNorte == null) {
+			checkNorte = new JCheckBox("Norte");
+			checkNorte.setSelected(false);
+			checkNorte.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					mostrarMansionesZona();
+				}
+			});
+		}
+		return checkNorte;
+	}
+	private JCheckBox getCheckCentro() {
+		if (checkCentro == null) {
+			checkCentro = new JCheckBox("Centro");
+			checkCentro.setSelected(false);
+			checkCentro.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					mostrarMansionesZona();
+				}
+			});
+		}
+		return checkCentro;
+	}
+	private JCheckBox getCheckSur() {
+		if (checkSur == null) {
+			checkSur = new JCheckBox("Sur");
+			checkSur.setSelected(false);
+			checkSur.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent arg0) {
+					mostrarMansionesZona();
+				}
+			});
+		}
+		return checkSur;
 	}
 }
