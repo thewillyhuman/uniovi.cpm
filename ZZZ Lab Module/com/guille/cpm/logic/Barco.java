@@ -16,28 +16,17 @@ public class Barco {
 	/**
 	 * Main constructor.
 	 * 
-	 * @param ShipID
-	 *            the unique identifier for each ship.
-	 * @param Name
-	 *            the name of the ship.
-	 * @param Desc
-	 *            the description for the ship.
-	 * @param NCamDI
-	 *            the number of double interior cabins.
-	 * @param NCamDE
-	 *            the number of double exterior cabins.
-	 * @param NCamFI
-	 *            the number of familiar interior cabins.
-	 * @param NCamFE
-	 *            the number of familiar exterior cabins.
-	 * @param PCamDI
-	 *            the price for the double interior cabins.
-	 * @param PCamDE
-	 *            the price for the double exterior cabins.
-	 * @param PCamFI
-	 *            the price for the double interior cabins.
-	 * @param PCamFE
-	 *            the price for the familiar exterior cabins.
+	 * @param ShipID the unique identifier for each ship.
+	 * @param Name the name of the ship.
+	 * @param Desc the description for the ship.
+	 * @param NCamDI the number of double interior cabins.
+	 * @param NCamDE the number of double exterior cabins.
+	 * @param NCamFI the number of familiar interior cabins.
+	 * @param NCamFE the number of familiar exterior cabins.
+	 * @param PCamDI the price for the double interior cabins.
+	 * @param PCamDE the price for the double exterior cabins.
+	 * @param PCamFI the price for the double interior cabins.
+	 * @param PCamFE the price for the familiar exterior cabins.
 	 */
 	public Barco(String ShipID, String Name, String Desc, int NCamDI, int NCamDE, int NCamFI, int NCamFE, double PCamDI,
 			double PCamDE, double PCamFI, double PCamFE) {

@@ -21,7 +21,7 @@ public class BarcoTest {
 		assertEquals("B01", barco.getShipID());
 		assertEquals("Queen Mary - 2", barco.getName());
 		assertEquals("El mejor barco de la historia.", barco.getDescription());
-		assertEquals("/com/guille/cpm/img/B01.jpg", barco.getPicturePath());
+		assertEquals("com/guille/cpm/img/B01.jpg", barco.getPicturePath());
 		//assertEquals((50+60+70+80), barco.getCamarotesLibres());
 		assertEquals(4, barco.getPrices().length);
 	}
