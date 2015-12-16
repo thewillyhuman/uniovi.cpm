@@ -26,6 +26,15 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lbImagen;
 	private JPanel pnBotones2;
 	private JPanel pnBotones1;
+	private JPanel pn3;
+	private JLabel lblTercerPanel;
+	private JPanel panel;
+	private JButton btAnterior3;
+	private JButton btSiguiente3;
+	private JPanel pn4;
+	private JLabel lblCuartoPanel;
+	private JPanel panel_1;
+	private JButton button;
 
 	/**
 	 * Launch the application.
@@ -114,6 +123,8 @@ public class VentanaPrincipal extends JFrame {
 			pnBase.setLayout(new CardLayout(0, 0));
 			pnBase.add(getPn1(), "panel1");
 			pnBase.add(getPn2(), "panel2");
+			pnBase.add(getPn3(), "panel3");
+			pnBase.add(getPn4(), "panel4");
 		}
 		return pnBase;
 	}
@@ -163,6 +174,12 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtSiguiente2() {
 		if (btSiguiente2 == null) {
 			btSiguiente2 = new JButton("Siguiente");
+			btSiguiente2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPaso(false, false, true, false);
+					((CardLayout)pnBase.getLayout()).show(pnBase,"panel3");
+				}
+			});
 			btSiguiente2.setForeground(new Color(102, 0, 0));
 			btSiguiente2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -227,5 +244,100 @@ public class VentanaPrincipal extends JFrame {
 			pnBotones1.add(getBtSiguiente1());
 		}
 		return pnBotones1;
+	}
+	private JPanel getPn3() {
+		if (pn3 == null) {
+			pn3 = new JPanel();
+			pn3.setLayout(new BorderLayout(0, 0));
+			pn3.add(getLblTercerPanel(), BorderLayout.NORTH);
+			pn3.add(getPanel(), BorderLayout.SOUTH);
+		}
+		return pn3;
+	}
+	private JLabel getLblTercerPanel() {
+		if (lblTercerPanel == null) {
+			lblTercerPanel = new JLabel("Tercer panel");
+			lblTercerPanel.setForeground(new Color(102, 0, 0));
+			lblTercerPanel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		}
+		return lblTercerPanel;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			panel.add(getBtAnterior3());
+			panel.add(getBtSiguiente3());
+		}
+		return panel;
+	}
+	private JButton getBtAnterior3() {
+		if (btAnterior3 == null) {
+			btAnterior3 = new JButton("Anterior");
+			btAnterior3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPaso(false, true, false, false);
+					((CardLayout)pnBase.getLayout()).show(pnBase,"panel2");
+				}
+			});
+			btAnterior3.setForeground(new Color(102, 0, 0));
+			btAnterior3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btAnterior3;
+	}
+	private JButton getBtSiguiente3() {
+		if (btSiguiente3 == null) {
+			btSiguiente3 = new JButton("Siguiente");
+			btSiguiente3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPaso(false, false, false, true);
+					((CardLayout)pnBase.getLayout()).show(pnBase,"panel4");
+				}
+			});
+			btSiguiente3.setForeground(new Color(102, 0, 0));
+			btSiguiente3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btSiguiente3;
+	}
+	private JPanel getPn4() {
+		if (pn4 == null) {
+			pn4 = new JPanel();
+			pn4.setLayout(new BorderLayout(0, 0));
+			pn4.add(getLblCuartoPanel(), BorderLayout.NORTH);
+			pn4.add(getPanel_1(), BorderLayout.SOUTH);
+		}
+		return pn4;
+	}
+	private JLabel getLblCuartoPanel() {
+		if (lblCuartoPanel == null) {
+			lblCuartoPanel = new JLabel("Cuarto panel");
+			lblCuartoPanel.setForeground(new Color(102, 0, 0));
+			lblCuartoPanel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		}
+		return lblCuartoPanel;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+			flowLayout.setAlignment(FlowLayout.RIGHT);
+			panel_1.add(getButton());
+		}
+		return panel_1;
+	}
+	private JButton getButton() {
+		if (button == null) {
+			button = new JButton("Anterior");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarPaso(false, false, true, false);
+					((CardLayout)pnBase.getLayout()).show(pnBase,"panel3");
+				}
+			});
+			button.setForeground(new Color(102, 0, 0));
+			button.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return button;
 	}
 }
