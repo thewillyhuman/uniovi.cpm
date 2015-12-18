@@ -1,4 +1,4 @@
-package com.guille.cpm.logic;
+package com.guille.cpm.logic.barco;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,9 @@
-package com.guille.cpm.logic;
+package com.guille.cpm.logic.crucero;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.guille.cpm.logic.interfaces.Filter;
 
 public class Cruceros {
 	

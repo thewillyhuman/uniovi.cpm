@@ -10,6 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.guille.cpm.logic.barco.Barco;
+import com.guille.cpm.logic.barco.Flota;
+import com.guille.cpm.logic.crucero.Crucero;
+import com.guille.cpm.logic.crucero.Cruceros;
+import com.guille.cpm.logic.extra.Extra;
+import com.guille.cpm.logic.extra.Extras;
+
 public class CargarDatos {
 
 	public final static String PATH_IN = "com/guille/cpm/files/in/";

@@ -1,4 +1,4 @@
-package com.guille.cpm.logic;
+package com.guille.cpm.logic.barco;
 
 public class Barco {
 

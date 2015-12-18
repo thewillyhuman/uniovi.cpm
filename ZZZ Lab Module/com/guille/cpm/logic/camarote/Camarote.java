@@ -1,7 +1,11 @@
-package com.guille.cpm.logic;
+package com.guille.cpm.logic.camarote;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.guille.cpm.logic.Pasajero;
+import com.guille.cpm.logic.extra.Extra;
+import com.guille.cpm.logic.interfaces.CanBeFull;
 
 public abstract class Camarote implements CanBeFull{
 	

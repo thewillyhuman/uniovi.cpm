@@ -1,8 +1,16 @@
-package com.guille.cpm.logic;
+package com.guille.cpm.logic.crucero;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.guille.cpm.logic.barco.Barco;
+import com.guille.cpm.logic.camarote.Camarote;
+import com.guille.cpm.logic.camarote.CamaroteDobleExterior;
+import com.guille.cpm.logic.camarote.CamaroteDobleInterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarExterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarInterior;
+import com.guille.cpm.logic.interfaces.CanBeFull;
 
 public class Crucero implements CanBeFull{
 	
