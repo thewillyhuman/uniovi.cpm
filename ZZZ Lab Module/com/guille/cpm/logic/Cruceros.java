@@ -1,9 +1,7 @@
-package com.guille.cpm.logic.crucero;
+package com.guille.cpm.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.guille.cpm.logic.interfaces.Filter;
 
 public class Cruceros {
 	
@@ -43,7 +41,7 @@ public class Cruceros {
 	 * @param s, string to match.
 	 * @return a list with the trips after applying the filter.
 	 */
-	public static List<Crucero> filterCrucero(Filter f, String s) {
+	public static List<Crucero> filterCrucero(Filter f, Object s) {
 		List<Crucero> aux = new ArrayList<Crucero>();
 		for(Crucero c : cruceros) {
 			if(f.filter(c,s))

@@ -10,13 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.guille.cpm.logic.barco.Barco;
-import com.guille.cpm.logic.barco.Flota;
-import com.guille.cpm.logic.crucero.Crucero;
-import com.guille.cpm.logic.crucero.Cruceros;
-import com.guille.cpm.logic.extra.Extra;
-import com.guille.cpm.logic.extra.Extras;
-
 public class CargarDatos {
 
 	public final static String PATH_IN = "com/guille/cpm/files/in/";
@@ -62,12 +55,13 @@ public class CargarDatos {
 				System.out.println("The where a problem loading " + parts[0] + ", line lenght:"+parts.length);
 			}
 		}
-		b.close();
+		b.close();	
 	}
 
 	public static void main(String[] args) throws IOException {
 		// DO NOT MODIFY THE ORDER, THE SHIP MUST BE ALLWAYS CREATED BEFORE THE CRUCERO.
 		cargarDatos();
+		
 	}
 	
 	/**
@@ -76,6 +70,7 @@ public class CargarDatos {
 	 * @throws IOException if there is any error while loading data.
 	 */
 	public static void cargarDatos() throws IOException {
+		// DO NOT MODIFY THE ORDER, THE SHIP MUST BE ALLWAYS CREATED BEFORE THE CRUCERO.
 		cargarArchivo(BARCOS);
 		cargarArchivo(EXTRAS);
 		cargarArchivo(CRUCEROS);

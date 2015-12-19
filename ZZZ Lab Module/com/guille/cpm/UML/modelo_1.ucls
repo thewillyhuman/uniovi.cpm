@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="com.guille.cpm.logic.Cruceros" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Cruceros.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="722" y="371"/>    
+  <class id="1" language="java" name="com.guille.cpm.logic.Pasajero" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Pasajero.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="558" y="280"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.guille.cpm.logic.Crucero" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Crucero.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="295" width="226" x="615" y="508"/>    
+  <class id="2" language="java" name="com.guille.cpm.logic.Reserva" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Reserva.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="240" width="343" x="937" y="646"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.guille.cpm.logic.barco.Barco" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/barco/Barco.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="221" width="232" x="1018" y="537"/>    
+  <enumeration id="3" language="java" name="com.guille.cpm.logic.Reserva.TypesOfRooms" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Reserva.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="130" width="142" x="1419" y="797"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
+  </enumeration>  
   <class id="4" language="java" name="com.guille.cpm.logic.Camarote" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/Camarote.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="97" width="199" x="333" y="617"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="-1" width="-1" x="650" y="588"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="com.guille.cpm.logic.CamaroteDoble" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteDoble.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="321" y="837"/>    
+    <position height="-1" width="-1" x="954" y="996"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="com.guille.cpm.logic.CamaroteDobleExterior" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteDobleExterior.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="251" y="976"/>    
+    <position height="-1" width="-1" x="1066" y="1140"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="com.guille.cpm.logic.CamaroteDobleInterior" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteDobleInterior.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="456" y="979"/>    
+    <position height="-1" width="-1" x="852" y="1140"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="com.guille.cpm.logic.CamaroteFamiliar" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteFamiliar.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="652" y="891"/>    
+    <position height="-1" width="-1" x="502" y="992"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="com.guille.cpm.logic.CamaroteFamiliarExterior" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteFamiliarExterior.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="476" y="1111"/>    
+    <position height="-1" width="-1" x="636" y="1144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="com.guille.cpm.logic.CamaroteFamiliarInterior" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CamaroteFamiliarInterior.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="696" y="1112"/>    
+    <position height="-1" width="-1" x="378" y="1144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,193 +93,206 @@
   </class>  
   <interface id="11" language="java" name="com.guille.cpm.logic.CanBeFull" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/CanBeFull.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="286" y="145"/>    
+    <position height="-1" width="-1" x="1082" y="66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="12" language="java" name="com.guille.cpm.logic.Extra" project="ZZZ Lab Module" 
+  <class id="12" language="java" name="com.guille.cpm.logic.CargarDatos" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/CargarDatos.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="237" width="227" x="2548" y="445"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.guille.cpm.logic.Crucero" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Crucero.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="277" width="236" x="1457" y="431"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.guille.cpm.logic.Cruceros" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Cruceros.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1582" y="240"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.guille.cpm.logic.Extra" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/Extra.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="115" width="170" x="53" y="617"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="com.guille.cpm.logic.Extras" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Extras.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="134" y="460"/>    
+    <position height="-1" width="-1" x="358" y="592"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="14" language="java" name="com.guille.cpm.logic.Filter" project="ZZZ Lab Module" 
+  <class id="16" language="java" name="com.guille.cpm.logic.Extras" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Extras.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="362" y="380"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" name="com.guille.cpm.logic.Filter" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/Filter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1188" y="155"/>    
+    <position height="-1" width="-1" x="1286" y="64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="15" language="java" name="com.guille.cpm.logic.FilterByArea" project="ZZZ Lab Module" 
+  <class id="18" language="java" name="com.guille.cpm.logic.FilterByArea" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/FilterByArea.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1561" y="150"/>    
+    <position height="-1" width="-1" x="1572" y="66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="com.guille.cpm.logic.Flota" project="ZZZ Lab Module" 
+  <class id="19" language="java" name="com.guille.cpm.logic.Flota" project="ZZZ Lab Module" 
     file="/ZZZ Lab Module/com/guille/cpm/logic/Flota.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1124" y="369"/>    
+    <position height="-1" width="-1" x="2210" y="270"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="com.guille.cpm.logic.Pasajero" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Pasajero.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="518" y="148"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="18" language="java" name="com.guille.cpm.logic.Reserva" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Reserva.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="240" width="343" x="999" y="928"/>    
+  <class id="20" language="java" name="com.guille.cpm.logic.Barco" project="ZZZ Lab Module" 
+    file="/ZZZ Lab Module/com/guille/cpm/logic/Barco.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="396" x="2012" y="464"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <enumeration id="19" language="java" name="com.guille.cpm.logic.Reserva.TypesOfRooms" project="ZZZ Lab Module" 
-    file="/ZZZ Lab Module/com/guille/cpm/logic/Reserva.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="130" width="142" x="1581" y="693"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </enumeration>  
-  <association id="20">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="21" name="camarotes"/>      
-      <multiplicity id="22" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="23">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="24" name="crucero"/>      
-      <multiplicity id="25" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="26">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="27" name="pasajeros"/>      
-      <multiplicity id="28" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="29">    
+  <association id="21">    
     <end type="SOURCE" refId="16" navigable="false">      
-      <attribute id="30" name="barcos"/>      
-      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+      <attribute id="22" name="extras"/>      
+      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="15" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="32">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="33" name="camarotes"/>      
-      <multiplicity id="34" minimum="0" maximum="2147483647"/>    
+  <association id="24">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="25" name="camarotes"/>      
+      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="35">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="36">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="37" name="extras"/>      
-      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
+  <realization id="27">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="28">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="29" name="crucero"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="39">    
+  <association id="31">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="32" name="cruceros"/>      
+      <multiplicity id="33" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="34">    
     <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="11"/>  
-  </realization>  
-  <generalization id="40">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="41">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="42">    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
+  <generalization id="35">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="5"/>  
   </generalization>  
-  <generalization id="43">    
+  <generalization id="36">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="38">    
     <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="5"/>  
   </generalization>  
-  <association id="44">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="45" name="cruceros"/>      
-      <multiplicity id="46" minimum="0" maximum="2147483647"/>    
+  <realization id="39">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="11"/>  
+  </realization>  
+  <association id="40">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="41" name="barco"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="20" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="47">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="19"/>  
-  </nesting>  
-  <generalization id="48">    
+  <generalization id="43">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="8"/>  
   </generalization>  
-  <realization id="49">    
+  <association id="44">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="45" name="barcos"/>      
+      <multiplicity id="46" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="47">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="48" name="extras"/>      
+      <multiplicity id="49" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="50">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="51" name="pasajeros"/>      
+      <multiplicity id="52" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="53">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="11"/>  
   </realization>  
-  <association id="50">    
+  <association id="54">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="51" name="barco"/>      
-      <multiplicity id="52" minimum="0" maximum="1"/>    
+      <attribute id="55" name="camarotes"/>      
+      <multiplicity id="56" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="53">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="54" name="extras"/>      
-      <multiplicity id="55" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

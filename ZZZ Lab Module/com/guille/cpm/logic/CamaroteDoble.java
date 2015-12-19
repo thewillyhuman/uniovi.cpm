@@ -1,13 +1,14 @@
-package com.guille.cpm.logic.camarote;
+package com.guille.cpm.logic;
 
-public class CamaroteFamiliar extends Camarote {
+public class CamaroteDoble extends Camarote {
 	
 	/**
 	 * The maximum number of persons that this kind of cabin can be stored.
 	 */
-	public final static int N_PERSONS = 4;
+	public final static int N_PERSONS = 2;
 
-	public CamaroteFamiliar() {
+	
+	public CamaroteDoble() {
 		super();
 	}
 
@@ -17,4 +18,5 @@ public class CamaroteFamiliar extends Camarote {
 		if(this.hasCamaSupletoria()) aux = 1;
 		return ((this.getPasajeros().size() <= N_PERSONS+aux));
 	}
+
 }

@@ -1,4 +1,4 @@
-package com.guille.cpm.logic.camarote;
+package com.guille.cpm.logic;
 
 public class CamaroteFamiliarExterior extends CamaroteFamiliar {
 

@@ -1,4 +1,4 @@
-package com.guille.cpm.logic.extra;
+package com.guille.cpm.logic;
 
 public class Extra {
 

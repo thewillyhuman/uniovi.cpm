@@ -1,4 +1,4 @@
-package com.guille.cpm.logic.interfaces;
+package com.guille.cpm.logic;
 
 public interface CanBeFull {
 	
