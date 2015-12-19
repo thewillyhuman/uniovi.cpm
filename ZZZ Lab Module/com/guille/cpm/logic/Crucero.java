@@ -15,9 +15,9 @@ public class Crucero implements CanBeFull{
 	private boolean acceptUnder16;
 	private int duration;
 	private List<Date> salidas;
+	private List<Viaje> viajes;
 	private Barco barco;
 	private boolean discount = false;
-	private List<Camarote> camarotes;
 	
 	private String picturePath;
 	
@@ -46,44 +46,19 @@ public class Crucero implements CanBeFull{
 		this.duration = dur;
 		this.salidas = salidas;
 		this.barco = barco;
-		this.camarotes = new ArrayList<Camarote>();
-		
-		createRooms(barco.getNCamarotesDoblesInteriores(), barco.getNCamarotesDoblesExteriores(), barco.getNCamarotesFamiliaresInteriores(), barco.getNCamarotesFamiliaresExteriores());
-		
 		this.picturePath = ("com/guille/cpm/img/"+crCode+".jpg");
+		createTrips();
 	}
 	
 	/**
-	 * Given some ship properties will fill the ship with the necessary rooms.
-	 * 
-	 * @param NCamDI Number of double interior cabins.
-	 * @param NCamDE Number of double exterior cabins.
-	 * @param NCamFI Number of familiar interior cabins.
-	 * @param NCamFE Number of familiar exterior cabins.
+	 * For each date in the dates array will create one trip corresponding to one ship and this "crucero".
 	 */
-	private void createRooms(int NCamDI, int NCamDE, int NCamFI, int NCamFE) {
-		// Creating the double interior rooms.
-		for(int i = 0; i < NCamDI; i++) {
-			CamaroteDobleInterior aux = new CamaroteDobleInterior();
-			camarotes.add(aux);
-		}
+	private void createTrips() {
+		if(viajes == null)
+			viajes = new ArrayList<Viaje>();
 		
-		// Creating the double exterior rooms
-		for(int i = 0; i < NCamDE; i++) {
-			CamaroteDobleExterior aux = new CamaroteDobleExterior();
-			camarotes.add(aux);
-		}
-		
-		// Creating the family interior rooms.
-		for(int i = 0; i < NCamFI; i++) {
-			CamaroteFamiliarInterior aux = new CamaroteFamiliarInterior();
-			camarotes.add(aux);
-		}
-		
-		// Creating the family exterior rooms.
-		for(int i = 0; i < NCamFE; i++) {
-			CamaroteFamiliarExterior aux = new CamaroteFamiliarExterior();
-			camarotes.add(aux);
+		for(Date d : salidas) {
+			viajes.add(new Viaje(this, d));
 		}
 	}
 	
@@ -201,132 +176,13 @@ public class Crucero implements CanBeFull{
 	public String getPicturePath() {
 		return this.picturePath;
 	}
-	
-	/**
-	 * Returns the number of free cabins in the trip.
-	 * 
-	 * @return the number of free cabins in the trip.
-	 */
-	public int getCamarotesLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	/**
-	 * Returns the number of free double interior cabins.
-	 * 
-	 * @return the number of free double interior cabins.
-	 */
-	public int getCamarotesDoblesInterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	/**
-	 * Returns the number of free double exterior cabins.
-	 * 
-	 * @return the number of free double exterior cabins.
-	 */
-	public int getCamarotesDoblesExterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleExterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	/**
-	 * Returns the number of free familiar interior cabins.
-	 * 
-	 * @return the number of free familiar interior cabins.
-	 */
-	public int getCamarotesFamiliaresInterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarInterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	/**
-	 * Returns the number of free familiar exterior cabins.
-	 * 
-	 * @return the number of free familiar exterior cabins.
-	 */
-	public int getCamarotesFamiliaresEterioresLibres() {
-		int i = 0;
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarExterior && c.isFree()) {
-				i++;
-			}
-		} return i;
-	}
-	
-	//---
-	
-	/**
-	 * Returns the first free double interior cabin.
-	 * 
-	 * @return the first free double interior cabin.
-	 */
-	public CamaroteDobleInterior getCamaroteDobleInteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior && c.isFree())
-				return (CamaroteDobleInterior) c;
-		} return null;
-	}
-	
-	/**
-	 * Returns the first free double exterior cabin.
-	 * 
-	 * @return the first free double exterior cabin.
-	 */
-	public CamaroteDobleExterior getCamaroteDobleExteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleExterior && c.isFree()) 
-				return (CamaroteDobleExterior) c;
-		} return null;
-	}
-	
-	/**
-	 * Returns the first free familiar interior cabin.
-	 * 
-	 * @return the first free familiar interior cabin.
-	 */
-	public CamaroteFamiliarInterior getCamaroteFamiliarInteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarInterior && c.isFree()) 
-				return (CamaroteFamiliarInterior) c;
-		} return null;
-	}
-	
-	/**
-	 * Returns the first free familiar exterior cabin.
-	 * 
-	 * @return the first free familiar exterior cabin.
-	 */
-	public CamaroteFamiliarExterior getCamaroteFamiliarExteriorLibre() {
-		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteFamiliarExterior && c.isFree())
-				return (CamaroteFamiliarExterior) c;
-		} return null;
-	}
 
 	@Override
 	public boolean isFull() {
-		if(getCamarotesLibres() == 0)
-			return true;
-		return false;
+		for(Viaje v : viajes)
+			if(!v.isFull())
+				return false;
+		return true;
 	}
 
 }

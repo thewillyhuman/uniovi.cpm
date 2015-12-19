@@ -11,7 +11,7 @@ import com.aeat.valida.Validador;
 
 public class Reserva {
 	
-	private Crucero crucero;
+	private Viaje viaje;
 	private String name;
 	private String surname;
 	private String dni;
@@ -23,8 +23,8 @@ public class Reserva {
 	
 	public enum TypesOfRooms { CDI, CDE, CFI, CFE }
 	
-	public Reserva(Crucero crucero, String name, String surname, String dni, int telf) {
-		this.crucero = crucero;
+	public Reserva(Viaje viaje, String name, String surname, String dni, int telf) {
+		this.viaje = viaje;
 		this.name = name;
 		this.surname = surname;
 		setNIF(dni);
@@ -32,13 +32,17 @@ public class Reserva {
 		camarotes = new ArrayList<Camarote>();
 	}
 	
-	public Reserva(Crucero crucero) {
-		this.crucero = crucero;
+	public Reserva(Viaje viaje) {
+		this.viaje = viaje;
 		camarotes = new ArrayList<Camarote>();
 	}
 	
+	public Viaje getViaje() {
+		return this.viaje;
+	}
+	
 	public Crucero getCrucero() {
-		return this.crucero;
+		return this.getViaje().getCrucero();
 	}
 	
 	public Date getFechaSalida() {
@@ -111,41 +115,41 @@ public class Reserva {
 	
 	public void reservarCamarote(TypesOfRooms e) {
 		if (e == TypesOfRooms.CDI) {
-			CamaroteDobleInterior aux = crucero.getCamaroteDobleInteriorLibre();
+			CamaroteDobleInterior aux = viaje.getCamaroteDobleInteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CDE) {
-			CamaroteDobleExterior aux = crucero.getCamaroteDobleExteriorLibre();
+			CamaroteDobleExterior aux = viaje.getCamaroteDobleExteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CFI) {
-			CamaroteFamiliarInterior aux = crucero.getCamaroteFamiliarInteriorLibre();
+			CamaroteFamiliarInterior aux = viaje.getCamaroteFamiliarInteriorLibre();
 			addCamarote(aux);
 		} else if(e == TypesOfRooms.CFE) {
-			CamaroteFamiliarExterior aux = crucero.getCamaroteFamiliarExteriorLibre();
+			CamaroteFamiliarExterior aux = viaje.getCamaroteFamiliarExteriorLibre();
 			addCamarote(aux);
 		} 
 	}
 	
 	public void reservarCamarote(TypesOfRooms e, int persons) {
 		if (e == TypesOfRooms.CDI) {
-			CamaroteDobleInterior aux = crucero.getCamaroteDobleInteriorLibre();
+			CamaroteDobleInterior aux = viaje.getCamaroteDobleInteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CDE) {
-			CamaroteDobleExterior aux = crucero.getCamaroteDobleExteriorLibre();
+			CamaroteDobleExterior aux = viaje.getCamaroteDobleExteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CFI) {
-			CamaroteFamiliarInterior aux = crucero.getCamaroteFamiliarInteriorLibre();
+			CamaroteFamiliarInterior aux = viaje.getCamaroteFamiliarInteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p); 
 			} addCamarote(aux);
 		} else if(e == TypesOfRooms.CFE) {
-			CamaroteFamiliarExterior aux = crucero.getCamaroteFamiliarExteriorLibre();
+			CamaroteFamiliarExterior aux = viaje.getCamaroteFamiliarExteriorLibre();
 			for(int i = 0; i < persons; i++) {
 				Pasajero p = new Pasajero();
 				aux.addPasajero(p);
@@ -205,13 +209,13 @@ public class Reserva {
 		double price = 0.0;
 		for(Camarote c : camarotes) {
 			if(c instanceof CamaroteDobleInterior) {
-				price += crucero.getBarco().getPrecioCamaroteDobleInterior();
+				price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleInterior();
 			} else if (c instanceof CamaroteDobleExterior) {
-				price += crucero.getBarco().getPrecioCamaroteDobleExterior();
+				price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleExterior();
 			} else if(c instanceof CamaroteFamiliarInterior) {
-				price += crucero.getBarco().getPrecioCamaroteFamiliarInterior();
+				price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarInterior();
 			} else if(c instanceof CamaroteFamiliarExterior) {
-				price += crucero.getBarco().getPrecioCamaroteFamiliarExterior();
+				price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarExterior();
 			}
 		} return price;
 	}
@@ -221,9 +225,9 @@ public class Reserva {
 		for(Camarote c : camarotes) {
 			for(Extra e : c.getExtras()) {
 				if(e.getExtra().equals("Cama supletoria")) {
-					price += e.getPriceExtra()*crucero.getDuracion();
+					price += e.getPriceExtra()*viaje.getCrucero().getDuracion();
 				} else {
-					price += e.getPriceExtra()*crucero.getDuracion()*c.getNPasajeros();
+					price += e.getPriceExtra()*viaje.getCrucero().getDuracion()*c.getNPasajeros();
 				}
 			}
 		} return price;
@@ -235,7 +239,7 @@ public class Reserva {
 	
 	public double getDiscount() {
 		double discount = 0.0;
-		if(crucero.isDiscounted())
+		if(viaje.getCrucero().isDiscounted())
 			discount += this.getTotalPrice()*DISCOUNT;
 		return discount;
 	}
