@@ -1,4 +1,4 @@
-package com.guille.fonts;
+package com.guille.fonts.sansserif;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

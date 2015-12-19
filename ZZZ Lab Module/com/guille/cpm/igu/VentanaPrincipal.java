@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import com.guille.cpm.logic.CargarDatos;
 import com.guille.cpm.logic.Crucero;
 import com.guille.cpm.logic.Cruceros;
-import com.guille.fonts.SansSerifFont;
+import com.guille.fonts.sansserif.SansSerifFont;
 
 import java.awt.Color;
 import java.awt.Toolkit;
