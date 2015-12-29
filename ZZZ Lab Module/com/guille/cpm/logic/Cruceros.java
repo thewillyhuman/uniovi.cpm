@@ -13,7 +13,10 @@ public class Cruceros {
 	 * @return a list containing all the trips.
 	 */
 	public static List<Crucero> getCruceros() {
-		return cruceros;
+		List<Crucero> aux = new ArrayList<Crucero>();
+		for(Crucero c : cruceros)
+			aux.add(c);
+		return aux;
 	}
 
 	/**
@@ -60,6 +63,22 @@ public class Cruceros {
 		List<Crucero> aux = new ArrayList<Crucero>();
 		for (Crucero c : cruceros) {
 			if (f.filter(c, s))
+				aux.add(c);
+		}
+		return aux;
+	}
+	
+	/**
+	 * Returns a list with the trips after applying the filter.
+	 * 
+	 * @param f, the filter.
+	 * @param s, string to match.
+	 * @return a list with the trips after applying the filter.
+	 */
+	public static List<Crucero> inverseFilterCrucero(Filter f, Object s) {
+		List<Crucero> aux = new ArrayList<Crucero>();
+		for (Crucero c : cruceros) {
+			if (!f.filter(c, s))
 				aux.add(c);
 		}
 		return aux;

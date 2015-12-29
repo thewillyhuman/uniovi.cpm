@@ -33,29 +33,29 @@ public class SansSerifFont {
 	public SansSerifFont() {
 		try {
 			// First block for Display Sub-Type.
-			SF_UI_Display_Black = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Black.otf"));
-			SF_UI_Display_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Bold.otf"));
-			SF_UI_Display_Heavy = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Heavy.otf"));
-			SF_UI_Display_Light = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Light.otf"));
-			SF_UI_Display_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Medium.otf"));
-			SF_UI_Display_Regular = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Regular.otf"));
-			SF_UI_Display_Semibold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Semibold.otf"));
-			SF_UI_Display_Thin = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Thin.otf"));
-			SF_UI_Display_Ultralight = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Display-Ultralight.otf"));
+			SF_UI_Display_Black = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Black.otf"));
+			SF_UI_Display_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Bold.otf"));
+			SF_UI_Display_Heavy = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Heavy.otf"));
+			SF_UI_Display_Light = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Light.otf"));
+			SF_UI_Display_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Medium.otf"));
+			SF_UI_Display_Regular = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Regular.otf"));
+			SF_UI_Display_Semibold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Semibold.otf"));
+			SF_UI_Display_Thin = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Thin.otf"));
+			SF_UI_Display_Ultralight = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Display-Ultralight.otf"));
 
 			// First block for Display Sub-Type.
-			SF_UI_Text_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Bold.otf"));
-			SF_UI_Text_BoldItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-BoldItalic.otf"));
-			SF_UI_Text_Heavy = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Heavy.otf"));
-			SF_UI_Text_HeavyItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-HeavyItalic.otf"));
-			SF_UI_Text_Light = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Light.otf"));
-			SF_UI_Text_LightItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-LightItalic.otf"));
-			SF_UI_Text_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Medium.otf"));
-			SF_UI_Text_MediumItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-MediumItalic.otf"));
-			SF_UI_Text_Regular = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Regular.otf"));
-			SF_UI_Text_RegularItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-RegularItalic.otf"));
-			SF_UI_Text_Semibold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-Semibold.otf"));
-			SF_UI_Text_SemiboldItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/SF-UI-Text-SemiboldItalic.otf"));
+			SF_UI_Text_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Bold.otf"));
+			SF_UI_Text_BoldItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-BoldItalic.otf"));
+			SF_UI_Text_Heavy = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Heavy.otf"));
+			SF_UI_Text_HeavyItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-HeavyItalic.otf"));
+			SF_UI_Text_Light = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Light.otf"));
+			SF_UI_Text_LightItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-LightItalic.otf"));
+			SF_UI_Text_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Medium.otf"));
+			SF_UI_Text_MediumItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-MediumItalic.otf"));
+			SF_UI_Text_Regular = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Regular.otf"));
+			SF_UI_Text_RegularItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-RegularItalic.otf"));
+			SF_UI_Text_Semibold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-Semibold.otf"));
+			SF_UI_Text_SemiboldItalic = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/sansserif/SF-UI-Text-SemiboldItalic.otf"));
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}

@@ -13,6 +13,8 @@ import java.util.Random;
 public class CargarDatos {
 
 	public final static String PATH_IN = "com/guille/cpm/files/in/";
+	public final static String DATE_FORMAT = "dd/MM/yyyy";
+	public final static String DATE_FORMAT_LONG = "MMM dd, yyyy";
 
 	public final static String BARCOS = "barcos.dat";
 	public final static String CRUCEROS = "cruceros.dat";
@@ -34,11 +36,11 @@ public class CargarDatos {
 				Extras.addExtra(new Extra(parts[0], parts[1], Double.parseDouble(parts[2])));
 			} else if (parts.length == 10) {
 				boolean aux = false;
-				if(parts[6] == "S")
+				if(parts[6].equals("S"))
 					aux = true;
 				List<Date> dates = new ArrayList<Date>();
 				String[] datesString = parts[8].split("%");
-				SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/mm/yyy");
+				SimpleDateFormat formatoDelTexto = new SimpleDateFormat(DATE_FORMAT);
 				Date fecha = null;
 				for(int i = 0; i < datesString.length; i++) {
 					try {
@@ -60,8 +62,7 @@ public class CargarDatos {
 
 	public static void main(String[] args) throws IOException {
 		// DO NOT MODIFY THE ORDER, THE SHIP MUST BE ALLWAYS CREATED BEFORE THE CRUCERO.
-		cargarDatos();
-		
+		cargarDatos();	
 	}
 	
 	/**
