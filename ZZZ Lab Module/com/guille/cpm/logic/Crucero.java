@@ -185,8 +185,8 @@ public class Crucero implements CanBeFull{
 	 */
 	public double getStartingPrice() {
 		if(isDiscounted())
-			return (CollectionsCPM.getMinDoubleArray(getBarco().getPrices())*(1-Reserva.DISCOUNT));
-		return CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+			return (duration*CollectionsCPM.getMinDoubleArray(getBarco().getPrices())*(1-Reserva.DISCOUNT));
+		return duration*CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public class Crucero implements CanBeFull{
 	 * @return
 	 */
 	public double getStartingPriceBD() {
-		return CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+		return duration*CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
 	}
 
 	@Override

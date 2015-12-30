@@ -12,6 +12,8 @@ public class MyriadSetPro {
 	private Font Myriad_Set_Pro_Text;
 	private Font Myriad_Set_Pro_Thin;
 	private Font Myriad_Set_Pro_Ultralight;
+	private Font Myriad_Set_Pro_Medium;
+	private Font Myriad_Set_Pro_Bold;
 	
 	public MyriadSetPro() {
 		try {
@@ -20,7 +22,8 @@ public class MyriadSetPro {
 			Myriad_Set_Pro_Text = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/myriadSetPro/myriad-set-pro_text.ttf"));
 			Myriad_Set_Pro_Thin = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/myriadSetPro/myriad-set-pro_thin.ttf"));
 			Myriad_Set_Pro_Ultralight = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/myriadSetPro/myriad-set-pro_ultralight.ttf"));
-			
+			Myriad_Set_Pro_Medium = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/myriadSetPro/myriad-set-pro_medium.ttf"));
+			Myriad_Set_Pro_Bold = Font.createFont(Font.TRUETYPE_FONT, new File("com/guille/fonts/myriadSetPro/myriad-set-pro_bold.ttf"));
 		} catch (FontFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,6 +63,20 @@ public class MyriadSetPro {
 	 */
 	public Font getMyriad_Set_Pro_Ultralight() {
 		return Myriad_Set_Pro_Ultralight;
+	}
+
+	/**
+	 * @return the myriad_Set_Pro_Medium
+	 */
+	public Font getMyriad_Set_Pro_Medium() {
+		return Myriad_Set_Pro_Medium;
+	}
+	
+	/**
+	 * @return the myriad_Set_Pro_Bold
+	 */
+	public Font getMyriad_Set_Pro_Bold() {
+		return Myriad_Set_Pro_Bold;
 	}
 
 }

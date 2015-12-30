@@ -44,11 +44,13 @@ import javax.swing.border.MatteBorder;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionEvent;
 import java.awt.ComponentOrientation;
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
+import java.awt.FlowLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.JTable;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -56,6 +58,7 @@ public class VentanaPrincipal extends JFrame {
 	protected static final Font text = new MyriadSetPro().getMyriad_Set_Pro_Text().deriveFont(14f);
 	protected static final Font textBold = new MyriadSetPro().getMyriad_Set_Pro_Semibold().deriveFont(14f);
 	protected static final Font subtitleBold = new MyriadSetPro().getMyriad_Set_Pro_Semibold().deriveFont(20f);
+	protected static final Font textMedium = new MyriadSetPro().getMyriad_Set_Pro_Medium().deriveFont(17f);
 	public static final String DEFAULT_COMBO_TEXT = "It doesn't matter";
 
 	private JPanel mainPane;
@@ -96,7 +99,12 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel panel2NPanelWPanel;
 	private JPanel panel2NPanelNpanel;
 	private JButton btnNewButton;
-	private JLabel lblCruisePicture;
+	private JLabel lblImgShipPanel2;
+	private JPanel pnRoom2Panel;
+	private JPanel pnRooms2Panel;
+	private JButton btnConfirm;
+	private JScrollPane scrollPane;
+	private JTable tbRooms;
 
 	/**
 	 * Launch the application.
@@ -186,21 +194,20 @@ public class VentanaPrincipal extends JFrame {
 
 		}
 		/**
-		 * comboSort.addItem("Ascending price");
-		 * comboSort.addItem("Duration");
+		 * comboSort.addItem("Ascending price"); comboSort.addItem("Duration");
 		 * comboSort.addItem("Starting date");
-		*/
-		if(getComboSort().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboSort().getSelectedItem() != null) {
-			System.out.println("Sorting");
-			if(getComboSort().getSelectedItem().toString().equals("Ascending price"))
+		 */
+		if (getComboSort().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboSort().getSelectedItem() != null) {
+			if (getComboSort().getSelectedItem().toString().equals("Ascending price"))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByPrice());
-			else if(getComboSort().getSelectedItem().toString().equals("Duration"))
+			else if (getComboSort().getSelectedItem().toString().equals("Duration"))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByDuration());
-			else if(getComboSort().getSelectedItem().toString().equals("Starting date"))
+			else if (getComboSort().getSelectedItem().toString().equals("Starting date"))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByStartingdate());
 		}
 		if (listaDeCruceros.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "There're no cruises avaliable for your search. Try another");
+
 			getComboDestino().setSelectedItem(DEFAULT_COMBO_TEXT);
 		}
 	}
@@ -253,30 +260,34 @@ public class VentanaPrincipal extends JFrame {
 			getComboStartingPort().setSelectedItem(oldPort);
 	}
 
+	/*
+	 * ImageIcon imageIcon = new ImageIcon(c.getPicturePath()); // load the
+	 * image to a imageIcon Image image = imageIcon.getImage(); // transform it
+	 * Image newimg = image.getScaledInstance(getLblCruisePicture().getWidth(),
+	 * getLblCruisePicture().getHeight(), java.awt.Image.SCALE_SMOOTH); // scale
+	 * it the smooth way imageIcon = new ImageIcon(newimg); // transform it back
+	 * getLblCruisePicture().setIcon(imageIcon);
+	 * ((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");
+	 */
+
 	private void loadCruisesInList() {
 		Container cont = new Container();
 		for (Crucero c : listaDeCruceros) {
 			CruceroListPanel aux = new CruceroListPanel(c);
 			aux.getBtnSelect().setActionCommand(c.getCodigoCrucero());
 			aux.getBtnSelect().addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(c.getCodigoCrucero());
-					/*ImageIcon imageIcon = new ImageIcon(c.getPicturePath()); // load the image to a imageIcon
-					Image image = imageIcon.getImage(); // transform it
-					Image newimg = image.getScaledInstance(getLblCruisePicture().getWidth(), getLblCruisePicture().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
-					imageIcon = new ImageIcon(newimg);  // transform it back
-					getLblCruisePicture().setIcon(imageIcon);
-					((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");	*/
 				}
 			});
 			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 233));
 			cont.add(aux);
 		}
 		cont.setLayout(new GridLayout(listaDeCruceros.size(), 1));
-		//cont.setVisible(true);
-		//getScSearch().getViewport().setAutoscrolls(false);
+		// cont.setVisible(true);
+		// getScSearch().getViewport().setAutoscrolls(false);
 		revalidate();
 		repaint();
 		getScSearch().getViewport().setView(cont);
@@ -453,14 +464,6 @@ public class VentanaPrincipal extends JFrame {
 			scSearch.setBorder(null);
 			scSearch.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scSearch.getVerticalScrollBar().setUnitIncrement(5);
-			scSearch.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-				
-				@Override
-				public void adjustmentValueChanged(AdjustmentEvent e) {
-					System.out.println(scSearch.getVerticalScrollBar().getValue());
-					
-				}
-			});
 		}
 		return scSearch;
 	}
@@ -599,6 +602,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblDuration;
 	}
+
 	private JPanel getPanel2NPanel() {
 		if (panel2NPanel == null) {
 			panel2NPanel = new JPanel();
@@ -610,22 +614,29 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return panel2NPanel;
 	}
+
 	private JPanel getPanel2SPanel() {
 		if (panel2SPanel == null) {
 			panel2SPanel = new JPanel();
 			panel2SPanel.setBackground(Color.WHITE);
+			panel2SPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			panel2SPanel.add(getBtnConfirm());
 		}
 		return panel2SPanel;
 	}
+
 	private JPanel getPanel2CPanel() {
 		if (panel2CPanel == null) {
 			panel2CPanel = new JPanel();
 			panel2CPanel.setBackground(Color.WHITE);
-			panel2CPanel.setLayout(new BorderLayout(0, 0));
-			panel2CPanel.add(getLblCruisePicture(), BorderLayout.WEST);
+			panel2CPanel.setLayout(null);
+			panel2CPanel.add(getLblImgShipPanel2());
+			panel2CPanel.add(getPnRoom2Panel());
+			panel2CPanel.add(getPnRooms2Panel());
 		}
 		return panel2CPanel;
 	}
+
 	private JPanel getPanel2NPanelEPanel() {
 		if (panel2NPanelEPanel == null) {
 			panel2NPanelEPanel = new JPanel();
@@ -634,6 +645,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return panel2NPanelEPanel;
 	}
+
 	private JPanel getPanel2NPanelWPanel() {
 		if (panel2NPanelWPanel == null) {
 			panel2NPanelWPanel = new JPanel();
@@ -643,6 +655,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return panel2NPanelWPanel;
 	}
+
 	private JPanel getPanel2NPanelNpanel() {
 		if (panel2NPanelNpanel == null) {
 			panel2NPanelNpanel = new JPanel();
@@ -651,22 +664,63 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return panel2NPanelNpanel;
 	}
+
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("go back");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout)getContentPane().getLayout()).show(mainPane,"busqueda_inicio");
+					((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
 				}
 			});
 		}
 		return btnNewButton;
 	}
-	private JLabel getLblCruisePicture() {
-		if (lblCruisePicture == null) {
-			lblCruisePicture = new JLabel("");
-			lblCruisePicture.setPreferredSize(new Dimension(300,20));
+	private JLabel getLblImgShipPanel2() {
+		if (lblImgShipPanel2 == null) {
+			lblImgShipPanel2 = new JLabel("New label");
+			lblImgShipPanel2.setBorder(new LineBorder(new Color(0, 0, 0)));
+			lblImgShipPanel2.setBounds(6, 6, 170, 179);
 		}
-		return lblCruisePicture;
+		return lblImgShipPanel2;
+	}
+	private JPanel getPnRoom2Panel() {
+		if (pnRoom2Panel == null) {
+			pnRoom2Panel = new JPanel();
+			pnRoom2Panel.setBackground(Color.WHITE);
+			pnRoom2Panel.setBorder(new TitledBorder(null, "Configure the room", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnRoom2Panel.setBounds(6, 197, 1024, 179);
+		}
+		return pnRoom2Panel;
+	}
+	private JPanel getPnRooms2Panel() {
+		if (pnRooms2Panel == null) {
+			pnRooms2Panel = new JPanel();
+			pnRooms2Panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+			pnRooms2Panel.setBackground(Color.WHITE);
+			pnRooms2Panel.setBounds(6, 388, 1024, 167);
+			pnRooms2Panel.setLayout(new BorderLayout(0, 0));
+			pnRooms2Panel.add(getScrollPane(), BorderLayout.CENTER);
+		}
+		return pnRooms2Panel;
+	}
+	private JButton getBtnConfirm() {
+		if (btnConfirm == null) {
+			btnConfirm = new JButton("Confirm");
+		}
+		return btnConfirm;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setViewportView(getTbRooms());
+		}
+		return scrollPane;
+	}
+	private JTable getTbRooms() {
+		if (tbRooms == null) {
+			tbRooms = new JTable();
+		}
+		return tbRooms;
 	}
 }
