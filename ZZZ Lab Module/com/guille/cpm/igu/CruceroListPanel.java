@@ -23,6 +23,8 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 public class CruceroListPanel extends JPanel {
 	/**
@@ -36,13 +38,13 @@ public class CruceroListPanel extends JPanel {
 	private JLabel lblStartingProt;
 	private JLabel lblShipName;
 	private JLabel lblItinerario;
-	private JTextArea txtrDescripcion;
 	private JLabel lblFromPrice;
 	private JButton btnSelect;
 	private JPanel panel_1;
-	private JLabel lblDate;
 	private JLabel lblDiscountedPrice;
 	private JPanel panel_big;
+	private JLabel lblStartingDate;
+	private JLabel lblImgShip;
 
 	/**
 	 * Create the panel.
@@ -52,7 +54,7 @@ public class CruceroListPanel extends JPanel {
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 		add(getPanel_big(), BorderLayout.CENTER);
-		getLblDenominacion().setText(crucero.getDenominacion());
+		getLblDenominacion().setText(crucero.getArea() + ": " + crucero.getDenominacion());
 		getLblDuracion().setText("Duration: " + crucero.getDuracion() + " days.");
 		
 		
@@ -62,11 +64,16 @@ public class CruceroListPanel extends JPanel {
 		imageIcon = new ImageIcon(newimg);  // transform it back
 		getLblImage().setIcon(imageIcon);
 		
+		imageIcon = new ImageIcon(crucero.getBarco().getPicturePath()); // load the image to a imageIcon
+		image = imageIcon.getImage(); // transform it
+		newimg = image.getScaledInstance(getLblImgShip().getWidth(), getLblImgShip().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
+		imageIcon = new ImageIcon(newimg);  // transform it back
+		getLblImgShip().setIcon(imageIcon);
+		
 		
 		getLblStartingProt().setText("Starting Port: " + crucero.getStartPort());
 		getLblShipName().setText("Ship Name: "+crucero.getBarco().getName());
 		getLblItinerario().setText("Itinerario: " + crucero.getItinerario());
-		getTxtrDescripcion().setText(crucero.getDescripcion());
 		getLblFromPrice().setText("From $" + Double.toString(CollectionsCPM.getMinDoubleArray(crucero.getBarco().getPrices())));
 		setMinimumSize(new Dimension(820, 225));
 		if(crucero.isDiscounted()) {
@@ -75,11 +82,8 @@ public class CruceroListPanel extends JPanel {
 			getLblDiscountedPrice().setText("Now from $" + crucero.getStartingPrice());
 			getLblDiscountedPrice().setVisible(true);
 		}
-		StringBuilder aux = new StringBuilder();
-		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
-		for(Date d : crucero.getSalidas())
-			aux.append(sdf.format(d)+" | ");
-		getLblDate().setText(aux.toString());
+		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);		
+		getLblStartingDate().setText(sdf.format(crucero.getSalidas().get(0)));
 
 	}
 
@@ -101,11 +105,11 @@ public class CruceroListPanel extends JPanel {
 			panel.add(getLblStartingProt());
 			panel.add(getLblShipName());
 			panel.add(getLblItinerario());
-			panel.add(getTxtrDescripcion());
 			panel.add(getLblFromPrice());
 			panel.add(getBtnSelect());
-			panel.add(getLblDate());
 			panel.add(getLblDiscountedPrice());
+			panel.add(getLblStartingDate());
+			panel.add(getLblImgShip());
 		}
 		return panel;
 	}
@@ -119,7 +123,8 @@ public class CruceroListPanel extends JPanel {
 	}
 	private JLabel getLblImage() {
 		if (lblImage == null) {
-			lblImage = new JLabel("New label");
+			lblImage = new JLabel("img_cruise");
+			lblImage.setBackground(Color.WHITE);
 			lblImage.setBounds(6, 60, 160, 134);
 			lblImage.setIcon(new ImageIcon(CruceroListPanel.class.getResource("/com/guille/cpm/img/CRU0001.jpg")));
 		}
@@ -142,21 +147,9 @@ public class CruceroListPanel extends JPanel {
 	private JLabel getLblItinerario() {
 		if (lblItinerario == null) {
 			lblItinerario = new JLabel("Itinerario:");
-			lblItinerario.setBounds(6, 32, 784, 16);
+			lblItinerario.setBounds(6, 32, 782, 16);
 		}
 		return lblItinerario;
-	}
-	private JTextArea getTxtrDescripcion() {
-		if (txtrDescripcion == null) {
-			txtrDescripcion = new JTextArea();
-			txtrDescripcion.setBounds(178, 60, 500, 112);
-			txtrDescripcion.setBorder(null);
-			txtrDescripcion.setLineWrap(true);
-			txtrDescripcion.setEditable(false);
-			txtrDescripcion.setWrapStyleWord(true);
-			txtrDescripcion.setText("Descripcion");
-		}
-		return txtrDescripcion;
 	}
 	private JLabel getLblFromPrice() {
 		if (lblFromPrice == null) {
@@ -173,7 +166,7 @@ public class CruceroListPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			btnSelect.setBounds(697, 146, 117, 29);
+			btnSelect.setBounds(697, 151, 117, 29);
 		}
 		return btnSelect;
 	}
@@ -187,17 +180,10 @@ public class CruceroListPanel extends JPanel {
 		}
 		return panel_1;
 	}
-	private JLabel getLblDate() {
-		if (lblDate == null) {
-			lblDate = new JLabel("New label");
-			lblDate.setBounds(178, 178, 636, 16);
-		}
-		return lblDate;
-	}
 	private JLabel getLblDiscountedPrice() {
 		if (lblDiscountedPrice == null) {
 			lblDiscountedPrice = new JLabel("From $0.0");
-			lblDiscountedPrice.setBounds(690, 82, 124, 16);
+			lblDiscountedPrice.setBounds(690, 99, 124, 16);
 			lblDiscountedPrice.setVisible(false);
 		}
 		return lblDiscountedPrice;
@@ -217,5 +203,21 @@ public class CruceroListPanel extends JPanel {
 			});
 		}
 		return panel_big;
+	}
+	private JLabel getLblStartingDate() {
+		if (lblStartingDate == null) {
+			lblStartingDate = new JLabel("New label");
+			lblStartingDate.setHorizontalAlignment(SwingConstants.CENTER);
+			lblStartingDate.setBounds(690, 117, 124, 22);
+		}
+		return lblStartingDate;
+	}
+	private JLabel getLblImgShip() {
+		if (lblImgShip == null) {
+			lblImgShip = new JLabel("img_cruise");
+			lblImgShip.setBackground(Color.WHITE);
+			lblImgShip.setBounds(176, 60, 160, 134);
+		}
+		return lblImgShip;
 	}
 }

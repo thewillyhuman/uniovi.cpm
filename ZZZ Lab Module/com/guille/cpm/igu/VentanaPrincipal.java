@@ -3,13 +3,8 @@ package com.guille.cpm.igu;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import com.guille.cpm.logic.CargarDatos;
 import com.guille.cpm.logic.CompareByDuration;
@@ -24,24 +19,18 @@ import com.guille.cpm.logic.FilterByStartingDate;
 import com.guille.cpm.logic.FilterByStartingPort;
 import com.guille.fonts.myriadSetPro.MyriadSetPro;
 import com.guille.util.CollectionsCPM;
-import com.guille.util.SortedComboBoxModel;
-
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
@@ -53,15 +42,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.awt.ComponentOrientation;
 import javax.swing.JButton;
 
@@ -278,22 +263,25 @@ public class VentanaPrincipal extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(c.getCodigoCrucero());
-					ImageIcon imageIcon = new ImageIcon(c.getPicturePath()); // load the image to a imageIcon
+					/*ImageIcon imageIcon = new ImageIcon(c.getPicturePath()); // load the image to a imageIcon
 					Image image = imageIcon.getImage(); // transform it
 					Image newimg = image.getScaledInstance(getLblCruisePicture().getWidth(), getLblCruisePicture().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
 					imageIcon = new ImageIcon(newimg);  // transform it back
 					getLblCruisePicture().setIcon(imageIcon);
-					((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");	
+					((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");	*/
 				}
 			});
-			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 225));
+			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 233));
 			cont.add(aux);
 		}
 		cont.setLayout(new GridLayout(listaDeCruceros.size(), 1));
-		cont.setVisible(true);
-		getScSearch().getViewport().setAutoscrolls(false);
+		//cont.setVisible(true);
+		//getScSearch().getViewport().setAutoscrolls(false);
+		revalidate();
+		repaint();
 		getScSearch().getViewport().setView(cont);
-		getScSearch().getVerticalScrollBar().setValue(0);
+		revalidate();
+		repaint();
 	}
 
 	private JPanel getPanel1() {
@@ -456,6 +444,11 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane getScSearch() {
 		if (scSearch == null) {
 			scSearch = new JScrollPane();
+			scSearch.setEnabled(false);
+			scSearch.setVerifyInputWhenFocusTarget(false);
+			scSearch.setFocusable(false);
+			scSearch.setFocusTraversalKeysEnabled(false);
+			scSearch.setDoubleBuffered(true);
 			scSearch.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 			scSearch.setBorder(null);
 			scSearch.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
