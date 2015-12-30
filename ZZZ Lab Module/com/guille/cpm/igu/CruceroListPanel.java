@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 
 import com.guille.cpm.logic.CargarDatos;
 import com.guille.cpm.logic.Crucero;
-import com.guille.cpm.logic.Reserva;
+import com.guille.util.CollectionsCPM;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -21,7 +21,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class CruceroListPanel extends JPanel {
 	/**
@@ -41,6 +42,7 @@ public class CruceroListPanel extends JPanel {
 	private JPanel panel_1;
 	private JLabel lblDate;
 	private JLabel lblDiscountedPrice;
+	private JPanel panel_big;
 
 	/**
 	 * Create the panel.
@@ -49,8 +51,7 @@ public class CruceroListPanel extends JPanel {
 		setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
-		add(getPanel_1(), BorderLayout.NORTH);
-		add(getPanel(), BorderLayout.CENTER);
+		add(getPanel_big(), BorderLayout.CENTER);
 		getLblDenominacion().setText(crucero.getDenominacion());
 		getLblDuracion().setText("Duration: " + crucero.getDuracion() + " days.");
 		
@@ -59,10 +60,6 @@ public class CruceroListPanel extends JPanel {
 		Image image = imageIcon.getImage(); // transform it
 		Image newimg = image.getScaledInstance(getLblImage().getWidth(), getLblImage().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
 		imageIcon = new ImageIcon(newimg);  // transform it back
-		
-		/*ImageIcon icon = new ImageIcon(CruceroListPanel.class.getResource("/"+crucero.getPicturePath()));
-		Image img = icon.getImage();
-		img.getScaledInstance(getLblImage().getWidth(), getLblImage().getHeight(), Image.SCALE_FAST);*/
 		getLblImage().setIcon(imageIcon);
 		
 		
@@ -70,12 +67,13 @@ public class CruceroListPanel extends JPanel {
 		getLblShipName().setText("Ship Name: "+crucero.getBarco().getName());
 		getLblItinerario().setText("Itinerario: " + crucero.getItinerario());
 		getTxtrDescripcion().setText(crucero.getDescripcion());
-		getLblFromPrice().setText("From $" + Double.toString(crucero.getBarco().getPrecioCamaroteDobleInterior()));
+		getLblFromPrice().setText("From $" + Double.toString(CollectionsCPM.getMinDoubleArray(crucero.getBarco().getPrices())));
 		setMinimumSize(new Dimension(820, 225));
 		if(crucero.isDiscounted()) {
-			getLblFromPrice().setText("Was $" + Double.toString(crucero.getBarco().getPrecioCamaroteDobleInterior()));
+			getLblFromPrice().setText("Was $" + Double.toString(crucero.getStartingPriceBD()));
 			getLblFromPrice().setForeground(Color.GRAY);
-			getLblDiscountedPrice().setText("Now from $" + Double.toString(crucero.getBarco().getPrecioCamaroteDobleInterior()*(1-Reserva.DISCOUNT)));
+			getLblDiscountedPrice().setText("Now from $" + crucero.getStartingPrice());
+			getLblDiscountedPrice().setVisible(true);
 		}
 		StringBuilder aux = new StringBuilder();
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
@@ -200,7 +198,24 @@ public class CruceroListPanel extends JPanel {
 		if (lblDiscountedPrice == null) {
 			lblDiscountedPrice = new JLabel("From $0.0");
 			lblDiscountedPrice.setBounds(690, 82, 124, 16);
+			lblDiscountedPrice.setVisible(false);
 		}
 		return lblDiscountedPrice;
+	}
+	private JPanel getPanel_big() {
+		if (panel_big == null) {
+			panel_big = new JPanel();
+			panel_big.setLayout(new BorderLayout(0, 0));
+			panel_big.add(getPanel_1(), BorderLayout.NORTH);
+			panel_big.add(getPanel(), BorderLayout.CENTER);
+			panel_big.addComponentListener(new ComponentAdapter() {
+				@Override
+				public void componentResized(ComponentEvent e) {
+					getPanel().setBounds((int)getPanel().getBounds().getMinX(), (int)getPanel().getBounds().getMinY(), (int)panel_big.getWidth(), (int)panel_big.getWidth());
+					getPanel_1().setBounds((int)getPanel_1().getBounds().getMinX(), (int)getPanel_1().getBounds().getMinY(), (int)panel_big.getWidth(), (int)panel_big.getWidth());
+				}
+			});
+		}
+		return panel_big;
 	}
 }

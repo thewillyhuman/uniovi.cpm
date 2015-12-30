@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.guille.util.CollectionsCPM;
+
 public class Crucero implements CanBeFull{
 	
 	private String crCode;
@@ -176,6 +178,24 @@ public class Crucero implements CanBeFull{
 	public String getPicturePath() {
 		return this.picturePath;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getStartingPrice() {
+		if(isDiscounted())
+			return (CollectionsCPM.getMinDoubleArray(getBarco().getPrices())*(1-Reserva.DISCOUNT));
+		return CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getStartingPriceBD() {
+		return CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+	}
 
 	@Override
 	public boolean isFull() {
@@ -184,5 +204,4 @@ public class Crucero implements CanBeFull{
 				return false;
 		return true;
 	}
-
 }

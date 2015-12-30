@@ -1,5 +1,6 @@
 package com.guille.cpm.logic;
 
+
 public class Barco {
 
 	private String shipID;
@@ -152,7 +153,7 @@ public class Barco {
 	public double getPrecioCamaroteFamiliarExterior() {
 		return this.prices[3];
 	}
-
+	
 	/**
 	 * Return the total number of double cabins in the specifications ship.
 	 * 

@@ -3,13 +3,17 @@ package com.guille.cpm.igu;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import com.guille.cpm.logic.CargarDatos;
+import com.guille.cpm.logic.CompareByDuration;
 import com.guille.cpm.logic.CompareByPrice;
+import com.guille.cpm.logic.CompareByStartingdate;
 import com.guille.cpm.logic.Crucero;
 import com.guille.cpm.logic.Cruceros;
 import com.guille.cpm.logic.FilterByArea;
@@ -51,7 +55,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -143,8 +151,6 @@ public class VentanaPrincipal extends JFrame {
 
 		listaDeCruceros = Cruceros.getCruceros();
 
-		for (Crucero c : listaDeCruceros)
-			System.out.println(c.getAcceptUnder16());
 		if (getComboDestino().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboDestino().getSelectedItem() != null) {
 
 			listaDeCruceros = CollectionsCPM.filter(new FilterByArea(), listaDeCruceros, getComboDestino().getSelectedItem().toString());
@@ -181,6 +187,20 @@ public class VentanaPrincipal extends JFrame {
 
 			listaDeCruceros = CollectionsCPM.filter(new FilterByDiscount(), listaDeCruceros, getCkbxDiscount().isSelected());
 
+		}
+		/**
+		 * comboSort.addItem("Ascending price");
+		 * comboSort.addItem("Duration");
+		 * comboSort.addItem("Starting date");
+		*/
+		if(getComboSort().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboSort().getSelectedItem() != null) {
+			System.out.println("Sorting");
+			if(getComboSort().getSelectedItem().toString().equals("Ascending price"))
+				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByPrice());
+			else if(getComboSort().getSelectedItem().toString().equals("Duration"))
+				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByDuration());
+			else if(getComboSort().getSelectedItem().toString().equals("Starting date"))
+				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByStartingdate());
 		}
 		if (listaDeCruceros.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "There're no cruises avaliable for your search. Try another");
@@ -250,11 +270,12 @@ public class VentanaPrincipal extends JFrame {
 					
 				}
 			});
-			aux.setPreferredSize(new Dimension(820, 225));
+			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 225));
 			cont.add(aux);
 		}
 		cont.setLayout(new GridLayout(listaDeCruceros.size(), 1));
 		cont.setVisible(true);
+		getScSearch().getViewport().setAutoscrolls(false);
 		getScSearch().getViewport().setView(cont);
 	}
 
@@ -418,11 +439,17 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane getScSearch() {
 		if (scSearch == null) {
 			scSearch = new JScrollPane();
-			scSearch.setAutoscrolls(true);
 			scSearch.setBorder(null);
-			scSearch.getVerticalScrollBar().setValue(0);
 			scSearch.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scSearch.getVerticalScrollBar().setUnitIncrement(5);
+			scSearch.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+				
+				@Override
+				public void adjustmentValueChanged(AdjustmentEvent e) {
+					System.out.println(scSearch.getVerticalScrollBar().getValue());
+					
+				}
+			});
 		}
 		return scSearch;
 	}
@@ -529,8 +556,14 @@ public class VentanaPrincipal extends JFrame {
 			comboSort.setBounds(6, 412, 186, 27);
 			comboSort.addItem(DEFAULT_COMBO_TEXT);
 			comboSort.addItem("Ascending price");
-			comboSort.addItem("Starting date");
 			comboSort.addItem("Duration");
+			comboSort.addItem("Starting date");
+			comboSort.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					updateListaCruceros();
+					loadCruisesInList();
+				}
+			});
 		}
 		return comboSort;
 	}

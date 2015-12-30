@@ -3,6 +3,7 @@ package com.guille.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import com.guille.cpm.logic.*;
 
@@ -37,7 +38,7 @@ public class CollectionsCPM {
 			throw new IllegalArgumentException("The aaray is empty.");
 		double aux = array[0];
 		for(int i = 0; i < array.length; i++) {
-			if(array[i] < aux)
+			if(array[i] < aux && array[i] != 0)
 				aux = array[i];
 		}
 		return aux;
@@ -50,5 +51,17 @@ public class CollectionsCPM {
 				aux.add(c);
 		}
 		return aux;
+	}
+	
+	public static Date getMinDate(List<Date> list) {
+		if(list.isEmpty())
+			throw new IllegalArgumentException("The list cannot be empty.");
+		
+		Date aux = list.get(0);
+		for(Date d : list) {
+			if(d.compareTo(aux) == -1) {
+				aux = d;
+			}
+		} return aux;
 	}
 }
