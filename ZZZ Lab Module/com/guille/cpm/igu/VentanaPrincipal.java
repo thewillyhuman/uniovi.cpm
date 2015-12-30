@@ -3,6 +3,7 @@ package com.guille.cpm.igu;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -53,6 +54,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -60,6 +62,8 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.ComponentOrientation;
+import javax.swing.JButton;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -100,6 +104,14 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultComboBoxModel<String> modelDestination;
 	private DefaultComboBoxModel<String> modelDate;
 	private DefaultComboBoxModel<String> modelStartingPort;
+	private JPanel panel2NPanel;
+	private JPanel panel2SPanel;
+	private JPanel panel2CPanel;
+	private JPanel panel2NPanelEPanel;
+	private JPanel panel2NPanelWPanel;
+	private JPanel panel2NPanelNpanel;
+	private JButton btnNewButton;
+	private JLabel lblCruisePicture;
 
 	/**
 	 * Launch the application.
@@ -265,9 +277,13 @@ public class VentanaPrincipal extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");
 					System.out.println(c.getCodigoCrucero());
-					
+					ImageIcon imageIcon = new ImageIcon(c.getPicturePath()); // load the image to a imageIcon
+					Image image = imageIcon.getImage(); // transform it
+					Image newimg = image.getScaledInstance(getLblCruisePicture().getWidth(), getLblCruisePicture().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
+					imageIcon = new ImageIcon(newimg);  // transform it back
+					getLblCruisePicture().setIcon(imageIcon);
+					((CardLayout)mainPane.getLayout()).show(mainPane,"info_crucero");	
 				}
 			});
 			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 225));
@@ -277,6 +293,7 @@ public class VentanaPrincipal extends JFrame {
 		cont.setVisible(true);
 		getScSearch().getViewport().setAutoscrolls(false);
 		getScSearch().getViewport().setView(cont);
+		getScSearch().getVerticalScrollBar().setValue(0);
 	}
 
 	private JPanel getPanel1() {
@@ -439,6 +456,7 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane getScSearch() {
 		if (scSearch == null) {
 			scSearch = new JScrollPane();
+			scSearch.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 			scSearch.setBorder(null);
 			scSearch.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scSearch.getVerticalScrollBar().setUnitIncrement(5);
@@ -527,6 +545,9 @@ public class VentanaPrincipal extends JFrame {
 			panel2 = new JPanel();
 			panel2.setBackground(Color.WHITE);
 			panel2.setLayout(new BorderLayout(0, 0));
+			panel2.add(getPanel2NPanel(), BorderLayout.NORTH);
+			panel2.add(getPanel2SPanel(), BorderLayout.SOUTH);
+			panel2.add(getPanel2CPanel(), BorderLayout.CENTER);
 		}
 		return panel2;
 	}
@@ -584,5 +605,75 @@ public class VentanaPrincipal extends JFrame {
 			lblDuration.setBounds(6, 329, 175, 16);
 		}
 		return lblDuration;
+	}
+	private JPanel getPanel2NPanel() {
+		if (panel2NPanel == null) {
+			panel2NPanel = new JPanel();
+			panel2NPanel.setBackground(Color.WHITE);
+			panel2NPanel.setLayout(new BorderLayout(0, 0));
+			panel2NPanel.add(getPanel2NPanelEPanel(), BorderLayout.EAST);
+			panel2NPanel.add(getPanel2NPanelWPanel(), BorderLayout.WEST);
+			panel2NPanel.add(getPanel2NPanelNpanel(), BorderLayout.CENTER);
+		}
+		return panel2NPanel;
+	}
+	private JPanel getPanel2SPanel() {
+		if (panel2SPanel == null) {
+			panel2SPanel = new JPanel();
+			panel2SPanel.setBackground(Color.WHITE);
+		}
+		return panel2SPanel;
+	}
+	private JPanel getPanel2CPanel() {
+		if (panel2CPanel == null) {
+			panel2CPanel = new JPanel();
+			panel2CPanel.setBackground(Color.WHITE);
+			panel2CPanel.setLayout(new BorderLayout(0, 0));
+			panel2CPanel.add(getLblCruisePicture(), BorderLayout.WEST);
+		}
+		return panel2CPanel;
+	}
+	private JPanel getPanel2NPanelEPanel() {
+		if (panel2NPanelEPanel == null) {
+			panel2NPanelEPanel = new JPanel();
+			panel2NPanelEPanel.setBackground(Color.WHITE);
+			panel2NPanelEPanel.setLayout(new BorderLayout(0, 0));
+		}
+		return panel2NPanelEPanel;
+	}
+	private JPanel getPanel2NPanelWPanel() {
+		if (panel2NPanelWPanel == null) {
+			panel2NPanelWPanel = new JPanel();
+			panel2NPanelWPanel.setBackground(Color.WHITE);
+			panel2NPanelWPanel.setLayout(new BorderLayout(0, 0));
+			panel2NPanelWPanel.add(getBtnNewButton());
+		}
+		return panel2NPanelWPanel;
+	}
+	private JPanel getPanel2NPanelNpanel() {
+		if (panel2NPanelNpanel == null) {
+			panel2NPanelNpanel = new JPanel();
+			panel2NPanelNpanel.setBackground(Color.WHITE);
+			panel2NPanelNpanel.setLayout(new BorderLayout(0, 0));
+		}
+		return panel2NPanelNpanel;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("go back");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					((CardLayout)getContentPane().getLayout()).show(mainPane,"busqueda_inicio");
+				}
+			});
+		}
+		return btnNewButton;
+	}
+	private JLabel getLblCruisePicture() {
+		if (lblCruisePicture == null) {
+			lblCruisePicture = new JLabel("");
+			lblCruisePicture.setPreferredSize(new Dimension(300,20));
+		}
+		return lblCruisePicture;
 	}
 }
