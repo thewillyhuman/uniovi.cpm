@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import com.guille.cpm.logic.CargarDatos;
 import com.guille.cpm.logic.Crucero;
+import com.guille.util.Images;
 import com.guille.util.Strings;
 
 import javax.swing.JButton;
@@ -52,18 +53,9 @@ public class CruceroListPanel extends JPanel {
 		getLblDenominacion().setText(Strings.deAccent(crucero.getArea() + ": " + crucero.getDenominacion()));
 		getLblDuracion().setText("Duration: " + crucero.getDuracion() + " days.");
 		
+		getLblImage().setIcon(Images.resize(getLblImage(), crucero.getPicturePath()));
 		
-		ImageIcon imageIcon = new ImageIcon(crucero.getPicturePath()); // load the image to a imageIcon
-		Image image = imageIcon.getImage(); // transform it
-		Image newimg = image.getScaledInstance(getLblImage().getWidth(), getLblImage().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
-		imageIcon = new ImageIcon(newimg);  // transform it back
-		getLblImage().setIcon(imageIcon);
-		
-		imageIcon = new ImageIcon(crucero.getBarco().getPicturePath()); // load the image to a imageIcon
-		image = imageIcon.getImage(); // transform it
-		newimg = image.getScaledInstance(getLblImgShip().getWidth(), getLblImgShip().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
-		imageIcon = new ImageIcon(newimg);  // transform it back
-		getLblImgShip().setIcon(imageIcon);
+		getLblImgShip().setIcon(Images.resize(getLblImgShip(), crucero.getBarco().getPicturePath()));
 	
 		getLblStartingProt().setText("Starting Port: " + crucero.getStartPort());
 		getLblShipName().setText("Ship Name: "+crucero.getBarco().getName());
@@ -81,24 +73,16 @@ public class CruceroListPanel extends JPanel {
 			getLblDiscountedPrice().setVisible(true);
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
-
-		imageIcon = new ImageIcon("com/guille/cpm/img/family_kids.png"); // load the image to a imageIcon
-		image = imageIcon.getImage();
-		imageIcon = new ImageIcon(newimg);
 		
 		if(!crucero.getAcceptUnder16()) {
-			imageIcon = new ImageIcon("com/guille/cpm/img/icon+16.png"); // load the image to a imageIcon
+			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon+16.png"));
 			getLblForbiden().setToolTipText("This ship does not accept anyone under 16 years.");
 			getLblForbidenDescription().setText("Only for adults.");
 		} else {
-			imageIcon = new ImageIcon("com/guille/cpm/img/icon_family.png"); // load the image to a imageIcon
+			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon_family.png"));
 			getLblForbiden().setToolTipText("This ship accepts all publics.");
 			getLblForbidenDescription().setText("Avaliable for all publics.");
 		}
-		image = imageIcon.getImage(); // transform it
-		newimg = image.getScaledInstance(getLblForbiden().getWidth(), getLblForbiden().getHeight(),  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
-		imageIcon = new ImageIcon(newimg);  // transform it back
-		getLblForbiden().setIcon(imageIcon);
 	}
 
 	private JLabel getLblDenominacion() {
