@@ -208,6 +208,14 @@ public class Crucero implements CanBeFull {
 	public double getStartingPriceBD() {
 		return duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
 	}
+	
+	public Viaje getViaje(Date d) throws IllegalStateException {
+		for(Viaje v : viajes) {
+			if (v.getDate().compareTo(d) == 0)
+				return v;
+		}
+		throw new IllegalStateException("No trip founded");
+	}
 
 	@Override
 	public boolean isFull() {

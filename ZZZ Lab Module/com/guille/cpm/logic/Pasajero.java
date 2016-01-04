@@ -44,4 +44,11 @@ public class Pasajero {
 	public boolean isChild() {
 		return (age < 16);
 	}
+	
+	public String toString() {
+		String aux = "No.";
+		if(isChild())
+			aux = "Yes.";
+		return ("Passager with age: " + this.getAge() + ". Child: " + aux);
+	}
 }

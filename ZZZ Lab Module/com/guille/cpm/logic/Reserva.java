@@ -157,6 +157,10 @@ public class Reserva {
 		} 
 	}
 	
+	public void reservarCamarote(Camarote c) {
+		addCamarote(c);
+	}
+	
 	public void removeReserva(Camarote c) {
 		if(!camarotes.contains(c))
 			throw new IllegalArgumentException("This room is not booked.");
@@ -203,6 +207,27 @@ public class Reserva {
 		for(Camarote c : camarotes) {
 			pasajeros += c.getNPasajeros();
 		} return pasajeros;
+	}
+	
+	public double getPriceCmarote(Camarote c) {
+		double price = 0.0;
+		if(c instanceof CamaroteDobleInterior) {
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleInterior();
+		} else if (c instanceof CamaroteDobleExterior) {
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleExterior();
+		} else if(c instanceof CamaroteFamiliarInterior) {
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarInterior();
+		} else if(c instanceof CamaroteFamiliarExterior) {
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarExterior();
+		}
+		for(Extra e : c.getExtras()) {
+			if(e.getExtra().equals("Cama supletoria")) {
+				price += e.getPriceExtra()*viaje.getCrucero().getDuracion();
+			} else {
+				price += e.getPriceExtra()*viaje.getCrucero().getDuracion()*c.getNPasajeros();
+			}
+		}
+		return price;
 	}
 
 	public double getCamarotesPrice() {
