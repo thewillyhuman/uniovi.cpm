@@ -62,6 +62,7 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
+import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -76,12 +77,18 @@ import javax.swing.JTable;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JTree;
+import java.awt.Insets;
+import javax.swing.BoxLayout;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -200,6 +207,11 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblFreeFamiliarInterior;
 	private JLabel lblFreeFamiliarExterior;
 	private JButton btnGoToInicio;
+	private JButton btnCheckDate;
+	private JLabel lblTotalRooms;
+	private JLabel lblTotalExtras;
+	private JLabel lblTotalPrice;
+	private JButton btnModifyRoom;
 
 	/**
 	 * Launch the application.
@@ -313,6 +325,9 @@ public class VentanaPrincipal extends JFrame {
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
 		listaDeCruceros = Cruceros.getCruceros();
 
+		modelDestination.removeAllElements();
+		modelDate.removeAllElements();
+		modelStartingPort.removeAllElements();
 		modelDestination.insertElementAt(VentanaPrincipal.DEFAULT_COMBO_TEXT, 0);
 		modelDate.insertElementAt(VentanaPrincipal.DEFAULT_COMBO_TEXT, 0);
 		modelStartingPort.insertElementAt(VentanaPrincipal.DEFAULT_COMBO_TEXT, 0);
@@ -397,10 +412,19 @@ public class VentanaPrincipal extends JFrame {
 	private void resetConfigureRoomPanel() {
 		resetListaPasajeros();
 		resetExtras();
+		getCmbDate2Panel().setEnabled(true);
+		getBtnCheckDate().setEnabled(false);
+		getBtnConfirm().setEnabled(false);
+		try {
+			resetSecondWindow();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void loadSecondPane(Crucero c) {
-		resetConfigureRoomPanel();
+		//resetConfigureRoomPanel();
 
 		getLblImgShipPanel2().setIcon(Images.resize(getLblImgShipPanel2(), c.getPicturePath()));
 		getLblDescripcion2Panel().setText(Strings.deAccent(c.getDenominacion()));
@@ -408,6 +432,8 @@ public class VentanaPrincipal extends JFrame {
 		getLblDuration2Panel().setText("Duration: " + Integer.toString(c.getDuracion()) + " days. From " + Strings.deAccent(c.getStartPort()));
 		getLblShipName2Panel().setText("Onboard the " + c.getBarco().getName());
 		getTxtrTxtdescriptionlong().setText(Strings.deAccent(c.getDescripcion()));
+		getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.lightGray), "Configure your Room"));
+		getBtnAddRoom().setText("Add Room");
 
 		DefaultComboBoxModel<String> dates = new DefaultComboBoxModel<String>();
 		dates.addElement("Select a date");
@@ -425,6 +451,7 @@ public class VentanaPrincipal extends JFrame {
 		getCmbTypeOfRoom2Panl().addItem("Familiar Interior Room");
 		getCmbTypeOfRoom2Panl().setSelectedIndex(0);
 
+		resetConfigureRoomPanel();
 		updateRoomCapacityLabel();
 		getModeloNoEditable().removeAll();
 
@@ -772,8 +799,8 @@ public class VentanaPrincipal extends JFrame {
 		if (panel2SPanel == null) {
 			panel2SPanel = new JPanel();
 			panel2SPanel.setBackground(Color.WHITE);
-			panel2SPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			panel2SPanel.add(getBtnConfirm());
+			panel2SPanel.setLayout(new BorderLayout(0, 0));
+			panel2SPanel.add(getBtnConfirm(), BorderLayout.EAST);
 		}
 		return panel2SPanel;
 	}
@@ -792,6 +819,7 @@ public class VentanaPrincipal extends JFrame {
 			panel2CPanel.add(getCmbDate2Panel());
 			panel2CPanel.add(getPanel_3());
 			panel2CPanel.add(getPnTripStatus());
+			panel2CPanel.add(getBtnCheckDate());
 		}
 		return panel2CPanel;
 	}
@@ -826,7 +854,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("go back");
+			btnNewButton = new JButton("Back to Search");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int opt = JOptionPane.showConfirmDialog(mainPane, "If you go back to search any room added will be deleted. Do you want to erase your reservation?", "Delete and go back.", JOptionPane.YES_NO_OPTION);
@@ -891,7 +919,8 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnConfirm() {
 		if (btnConfirm == null) {
-			btnConfirm = new JButton("Confirm");
+			btnConfirm = new JButton("Continue to Summary");
+			btnConfirm.setHorizontalAlignment(SwingConstants.TRAILING);
 			btnConfirm.setEnabled(false);
 			btnConfirm.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -905,6 +934,19 @@ public class VentanaPrincipal extends JFrame {
 	private void load3Panel() {
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
 		getLblDescriptionAndDate().setText(Strings.deAccent(currentReserva.getCrucero().getDenominacion()+", from " + currentReserva.getCrucero().getStartPort()+". Starting date: "+sdf.format(currentReserva.getFechaSalida())));
+		resetPersonalInfo();
+		double priceC = 0.0;
+		double priceE = 0.0;
+		for(Camarote c : getModeloNoEditable().getCamarotes()) {
+			priceC+=currentReserva.getPriceCamarote(c);
+		}
+		for(Camarote c : getModeloNoEditable().getCamarotes()) {
+			priceE+= currentReserva.getPriceCamaroteAndExtras(c);
+		}
+		
+		getLblTotalRooms().setText("Total Rooms\t......"+ priceC + " $ / Day");
+		getLblTotalExtras().setText("Total Extras\t......"+(priceE-priceC) + " $ / Day");
+		getLblTotalPrice().setText("Total Price\t......"+priceE + " $ / Day");
 		((CardLayout) getContentPane().getLayout()).show(mainPane, "resumen_de_compra");
 	}
 
@@ -928,8 +970,10 @@ public class VentanaPrincipal extends JFrame {
 				public void valueChanged(ListSelectionEvent event) {
 					if (tbRooms.getSelectedRow() > -1) {
 						getBtnDeleteRoom().setEnabled(true);
+						getBtnModifyRoom().setEnabled(true);
 					} else {
 						getBtnDeleteRoom().setEnabled(false);
+						getBtnModifyRoom().setEnabled(false);
 					}
 				}
 			});
@@ -961,7 +1005,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblDescripcion2Panel() {
 		if (lblDescripcion2Panel == null) {
 			lblDescripcion2Panel = new JLabel("New label");
-			lblDescripcion2Panel.setBounds(188, 6, 154, 19);
+			lblDescripcion2Panel.setBounds(188, 6, 245, 19);
 			lblDescripcion2Panel.setFont(textMedium);
 		}
 		return lblDescripcion2Panel;
@@ -990,22 +1034,14 @@ public class VentanaPrincipal extends JFrame {
 			cmbDate2Panel = new JComboBox<String>();
 			cmbDate2Panel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					boolean aux = getModeloNoEditable().getRowCount() == 0;
-					try {
-						int opt = -1;
-						if (!aux) {
-							opt = JOptionPane.showConfirmDialog(mainPane, "By changing the date all the rooms added will be eliminated.", "Do you want to change date and delete your rooms?", JOptionPane.CANCEL_OPTION);
-							if (opt == 0) {
-								deleteCurrentCamarotesFromViaje();
-								checkDate2Panel();
-							} else {
-								
-							}
-						} else {
+					if(cmbDate2Panel.getSelectedIndex()!=0) {
+						cmbDate2Panel.setEnabled(false);
+						try {
 							checkDate2Panel();
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-					} catch (ParseException e1) {
-						e1.printStackTrace();
 					}
 				}
 			});
@@ -1036,8 +1072,10 @@ public class VentanaPrincipal extends JFrame {
 			for (Component c : getPnCapacities().getComponents()) {
 				c.setEnabled(true);
 			}
+			getPnCapacities().setEnabled(true);
 			updateCapacityLabels();
 			updateComboTypeOfRooms();
+			getBtnCheckDate().setEnabled(true);
 		} else {
 			getPnRoom2Panel().setEnabled(false);
 			for (Component c : getPnRoom2Panel().getComponents()) {
@@ -1055,6 +1093,8 @@ public class VentanaPrincipal extends JFrame {
 			for (Component c : getPnCapacities().getComponents()) {
 				c.setEnabled(false);
 			}
+			getPnCapacities().setEnabled(false);
+			getBtnCheckDate().setEnabled(false);
 
 		}
 	}
@@ -1211,15 +1251,20 @@ public class VentanaPrincipal extends JFrame {
 								getChckbxAddExtraBed().setSelected(true);
 						}
 					}
-					if (pasajero != null)
-						getModelPasajeros().addElement(pasajero);
-
+					if (pasajero != null) {
+						if(pasajero.isChild() && !currentReserva.getCrucero().getAcceptUnder16())
+							JOptionPane.showMessageDialog(mainPane, "This cruise does not accept passengers under 16 years.", "No childs allowed", JOptionPane.ERROR_MESSAGE);
+						else
+							getModelPasajeros().addElement(pasajero);
+					}
+					
 					// Checking the AddRoom button.
 					if (getLstPassengers2Panel().getModel().getSize() > 0) {
 						getBtnAddRoom().setEnabled(true);
 					} else {
 						getBtnAddRoom().setEnabled(false);
 					}
+					checkAddPasajero();
 					checkExtraBed(size);
 					extrasCheck();
 					checkAddRoomBtn();
@@ -1228,6 +1273,16 @@ public class VentanaPrincipal extends JFrame {
 			btnAddPassanger.setFont(text);
 		}
 		return btnAddPassanger;
+	}
+	
+	private void checkAddPasajero() {
+		int people = getLstPassengers2Panel().getModel().getSize();
+		int size = getPeopleInCabin();
+		if(people > size) {
+			btnAddPassanger.setEnabled(false);
+		} else {
+			btnAddPassanger.setEnabled(true);
+		}
 	}
 
 	private void extrasCheck() {
@@ -1322,6 +1377,7 @@ public class VentanaPrincipal extends JFrame {
 					}
 					checkExtraBed(getPeopleInCabin());
 					checkAddRoomBtn();
+					checkAddPasajero();
 					extrasCheck();
 				}
 			});
@@ -1361,11 +1417,16 @@ public class VentanaPrincipal extends JFrame {
 							if (getChckbxAddExtraBed().isSelected() && !hasKids()) {
 								JOptionPane.showMessageDialog(mainPane, "This change cannot be done. Try to delete de passenger.");
 								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
+							} else if(age<16 && !currentReserva.getCrucero().getAcceptUnder16()) {
+								JOptionPane.showMessageDialog(mainPane, "This cruise does not accept passengers under 16 years.", "No childs allowed", JOptionPane.ERROR_MESSAGE);
+								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
 							}
 						}
 					}
 					checkAddRoomBtn();
 					extrasCheck();
+					checkExtraBed(getPeopleInCabin());
+					checkAddPasajero();
 				}
 			});
 			btnModifyPassenger.setEnabled(false);
@@ -1468,10 +1529,15 @@ public class VentanaPrincipal extends JFrame {
 					loadRoomOnToTable();
 					updateCapacityLabels();
 					resetConfigureRoomPanel();
+					getCmbDate2Panel().setEnabled(false);
 					checkIfIsThereRooms();
 					checkYourRoomsPane();
-					if (tbRooms.getRowCount() > 0)
+					if (tbRooms.getRowCount() > 0) {
 						getBtnConfirm().setEnabled(true);
+					}
+					checkAddRoomBtn();
+					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.LIGHT_GRAY), "Configure your Room"));
+					btnAddRoob.setText("Add Room");
 				}
 			});
 			btnAddRoob.setBounds(871, 186, 117, 29);
@@ -1556,6 +1622,7 @@ public class VentanaPrincipal extends JFrame {
 			pnButtonsRooms.setBackground(Color.WHITE);
 			pnButtonsRooms.setLayout(new GridLayout(6, 0, 0, 0));
 			pnButtonsRooms.add(getBtnDeleteRoom());
+			pnButtonsRooms.add(getBtnModifyRoom());
 		}
 		return pnButtonsRooms;
 	}
@@ -1631,6 +1698,9 @@ public class VentanaPrincipal extends JFrame {
 			pnCpn3.add(getPnTableSummary());
 			pnCpn3.add(getPanel());
 			pnCpn3.add(getLblDescriptionAndDate());
+			pnCpn3.add(getLblTotalRooms());
+			pnCpn3.add(getLblTotalExtras());
+			pnCpn3.add(getLblTotalPrice());
 		}
 		return pnCpn3;
 	}
@@ -1687,7 +1757,7 @@ public class VentanaPrincipal extends JFrame {
 		if (pnTableSummary == null) {
 			pnTableSummary = new JPanel();
 			pnTableSummary.setBackground(Color.WHITE);
-			pnTableSummary.setBounds(6, 44, 1024, 352);
+			pnTableSummary.setBounds(6, 44, 1024, 260);
 			pnTableSummary.setLayout(new BorderLayout(0, 0));
 			pnTableSummary.add(getScPaneTableSummary(), BorderLayout.CENTER);
 		}
@@ -1717,7 +1787,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Personal Information", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Personal and Payment Information", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel.setBackground(Color.WHITE);
 			panel.setBounds(6, 408, 1024, 198);
 			panel.setLayout(null);
@@ -1772,7 +1842,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblDescriptionAndDate() {
 		if (lblDescriptionAndDate == null) {
 			lblDescriptionAndDate = new JLabel("Summary");
-			lblDescriptionAndDate.setFont(null);
+			lblDescriptionAndDate.setFont(textMedium);
 			lblDescriptionAndDate.setBounds(176, 6, 854, 34);
 		}
 		return lblDescriptionAndDate;
@@ -1850,11 +1920,12 @@ public class VentanaPrincipal extends JFrame {
 	private JTextArea getTxtReceipt() {
 		if (txtReceipt == null) {
 			txtReceipt = new JTextArea();
+			txtReceipt.setMargin(new Insets(0, 15, 0, 0));
 			txtReceipt.setBorder(new TitledBorder(null, "Purchase Receipt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			txtReceipt.setBounds(172, 59, 715, 449);
+			txtReceipt.setBounds(107, 59, 715, 449);
 			txtReceipt.setLineWrap(true);
 			txtReceipt.setEditable(false);
-			txtReceipt.setFont(text);
+			txtReceipt.setFont(textMedium);
 		}
 		return txtReceipt;
 	}
@@ -1893,7 +1964,7 @@ public class VentanaPrincipal extends JFrame {
 			panel_3 = new JPanel();
 			panel_3.setBorder(new TitledBorder(null, "Description of the cruise", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panel_3.setBackground(Color.WHITE);
-			panel_3.setBounds(354, 6, 432, 179);
+			panel_3.setBounds(432, 6, 354, 179);
 			panel_3.setLayout(new BorderLayout(0, 0));
 			panel_3.add(getScrollPane_1(), BorderLayout.CENTER);
 		}
@@ -1983,14 +2054,147 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnGoToInicio() {
 		if (btnGoToInicio == null) {
-			btnGoToInicio = new JButton("Go to Inicio");
+			btnGoToInicio = new JButton("Start the aplication");
 			btnGoToInicio.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					resetMainWindow();
 					((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
 				}
 			});
 			btnGoToInicio.setBounds(465, 551, 117, 29);
 		}
 		return btnGoToInicio;
+	}
+	private JButton getBtnCheckDate() {
+		if (btnCheckDate == null) {
+			btnCheckDate = new JButton("Change Date");
+			btnCheckDate.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					boolean aux = getModeloNoEditable().getRowCount() == 0;
+					try {
+						int opt = -1;
+						if (!aux) {
+							opt = JOptionPane.showConfirmDialog(mainPane, "By changing the date all the rooms added will be eliminated.", "Do you want to change date and delete your rooms?", JOptionPane.CANCEL_OPTION);
+							if (opt == 0) {
+								getCmbDate2Panel().setEnabled(true);
+								deleteCurrentCamarotesFromViaje();
+								resetListaPasajeros();
+								checkDate2Panel();
+							} else {
+							}
+						} else {
+							getCmbDate2Panel().setEnabled(true);
+							checkDate2Panel();
+						}
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			btnCheckDate.setBounds(188, 111, 154, 29);
+		}
+		return btnCheckDate;
+	}
+	
+	private void resetMainWindow() {
+		initializeModels();
+		resetMainCheckBoxes();
+		loadCruisesInList();
+	}
+	
+	private void resetMainCheckBoxes() {
+		getCkbxDiscount().setSelected(false);
+		getCkbxAcceptsKids().setSelected(false);
+	}
+	
+	private void resetSecondWindow() throws ParseException {
+		resetCruiseStatus();
+		checkDate2Panel();
+	}
+	
+	private void resetCruiseStatus() {
+		getLblFreeDoubleExterior().setText("Free Double Exterior Rooms: 0");
+		getLblFreeDoubleInterior().setText("Free Double Interior Rooms: 0");
+		getLblFreeFamiliarExterior().setText("Free Familiar Exterior Rooms: 0");
+		getLblFreeFamiliarInterior().setText("Free Familiar Interior Rooms: 0");
+	}
+	
+	private void resetPersonalInfo() {
+		getTxtName().setText("");
+		getTxtSurname().setText("");
+		getTxtDNI().setText("");
+		getTxtPhone().setText("");
+	}
+	private JLabel getLblTotalRooms() {
+		if (lblTotalRooms == null) {
+			lblTotalRooms = new JLabel("New label");
+			lblTotalRooms.setHorizontalAlignment(SwingConstants.TRAILING);
+			lblTotalRooms.setBounds(761, 316, 269, 23);
+		}
+		return lblTotalRooms;
+	}
+	private JLabel getLblTotalExtras() {
+		if (lblTotalExtras == null) {
+			lblTotalExtras = new JLabel("New label");
+			lblTotalExtras.setHorizontalAlignment(SwingConstants.TRAILING);
+			lblTotalExtras.setBounds(761, 345, 269, 23);
+		}
+		return lblTotalExtras;
+	}
+	private JLabel getLblTotalPrice() {
+		if (lblTotalPrice == null) {
+			lblTotalPrice = new JLabel("New label");
+			lblTotalPrice.setHorizontalAlignment(SwingConstants.TRAILING);
+			lblTotalPrice.setBounds(761, 380, 269, 23);
+		}
+		return lblTotalPrice;
+	}
+	private JButton getBtnModifyRoom() {
+		if (btnModifyRoom == null) {
+			btnModifyRoom = new JButton("Modify Room");
+			btnModifyRoom.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.RED), "Modify your Room"));
+					getBtnAddRoom().setText("Modify the Room");
+					Camarote c;
+					int row = getTbRooms().getSelectedRow();
+					if(row!=-1) {
+						c = getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()).copy();
+						currentViaje.setCamaroteAsFree(getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()));
+						checkIfIsThereRooms();
+						updateCapacityLabels();
+						getModeloNoEditable().removeRow(getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()));
+						
+						if (c instanceof CamaroteFamiliarInterior) {
+							getCmbTypeOfRoom2Panl().setSelectedItem("Familiar Interior Room");
+						} else if (c instanceof CamaroteFamiliarExterior) {
+							getCmbTypeOfRoom2Panl().setSelectedItem("Familiar Exterior Room");
+						} else if (c instanceof CamaroteDobleInterior) {
+							getCmbTypeOfRoom2Panl().setSelectedItem("Double Interior Room");
+						} else if (c instanceof CamaroteDobleExterior) {
+							getCmbTypeOfRoom2Panl().setSelectedItem("Double Exterior Room");
+						}
+						modelPasajeros.removeAllElements();
+						for(Pasajero p : c.getPasajeros()) {
+							modelPasajeros.addElement(p);
+						}
+						for(Extra ext : c.getExtras()) {
+							if(ext.getExtra().equals("Cama supletoria"))
+								getChckbxAddExtraBed().setSelected(true);
+							if(ext.getExtra().equals("Desayuno especial"))
+								getChckbxSpecialBreakfast().setSelected(true);
+							if(ext.getExtra().equals("Cama extragrande"))
+								getChckbxExtrabigBed().setSelected(true);
+							if(ext.getExtra().equals("Jacuzzi"))
+								getChckbxJacuzzi().setSelected(true);
+						}
+						checkExtraBed(getPeopleInCabin());
+						extrasCheck();
+					}
+				}
+			});
+			btnModifyRoom.setEnabled(false);
+		}
+		return btnModifyRoom;
 	}
 }

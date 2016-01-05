@@ -185,9 +185,18 @@ public class Crucero implements CanBeFull {
 	 * @return
 	 */
 	public double getStartingPrice() {
-		if (isDiscounted())
-			return (duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices()) * (1 - Reserva.DISCOUNT));
-		return duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+		if (isDiscounted()) {
+			return this.getPrice() * (1 - Reserva.DISCOUNT);
+		}
+		return this.getPrice();
+	}
+	
+	private double getPrice() {
+		if(CollectionsCPM.getMinDoubleArrayPos(getBarco().getPrices()) < 2) {
+			return this.duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices()) * CamaroteDoble.N_PERSONS;
+		} else {
+			return this.duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices()) * CamaroteFamiliar.N_PERSONS;
+		}
 	}
 	
 	/**
@@ -196,7 +205,7 @@ public class Crucero implements CanBeFull {
 	 * @return true if the trip is full. False 
 	 */
 	public boolean isViajeFull(Viaje v) {
-		if(viajes.contains(v))
+		if(this.viajes.contains(v))
 			return v.isFull();
 		throw new IllegalStateException("This cruise will not perform this trip.");
 	}
@@ -206,11 +215,11 @@ public class Crucero implements CanBeFull {
 	 * @return
 	 */
 	public double getStartingPriceBD() {
-		return duration * CollectionsCPM.getMinDoubleArray(getBarco().getPrices());
+		return getPrice();
 	}
 	
 	public Viaje getViaje(Date d) throws IllegalStateException {
-		for(Viaje v : viajes) {
+		for(Viaje v : this.viajes) {
 			if (v.getDate().compareTo(d) == 0)
 				return v;
 		}

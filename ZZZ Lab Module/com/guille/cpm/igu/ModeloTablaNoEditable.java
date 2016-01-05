@@ -42,26 +42,26 @@ public class ModeloTablaNoEditable extends DefaultTableModel {
 
 		newRow[2] = c.getNPasajeros();
 		if (c.getExtras().contains(Extras.getExtra(Extras.JACUZZI))) {
-			newRow[3] = "Yes";
+			newRow[3] = "Yes + " + Extras.getExtra(Extras.JACUZZI).getPriceExtra()+"$";
 		} else {
 			newRow[3] = "No";
 		}
 		if (c.getExtras().contains(Extras.getExtra(Extras.EXTRA_BED_ID))) {
-			newRow[4] = "Yes";
+			newRow[4] = "Yes + " + Extras.getExtra(Extras.EXTRA_BED_ID).getPriceExtra()+"$";
 		} else {
 			newRow[4] = "No";
 		}
 		if (c.getExtras().contains(Extras.getExtra(Extras.SPECIAL_BRAKFAST))) {
-			newRow[5] = "Yes";
+			newRow[5] = "Yes + " + Extras.getExtra(Extras.SPECIAL_BRAKFAST).getPriceExtra()+"$";
 		} else {
 			newRow[5] = "No";
 		}
 		if (c.getExtras().contains(Extras.getExtra(Extras.EXTRA_BIG_BED_ID))) {
-			newRow[6] = "Yes";
+			newRow[6] = "Yes + " + Extras.getExtra(Extras.EXTRA_BIG_BED_ID).getPriceExtra()+"$";
 		} else {
 			newRow[6] = "No";
 		}
-		newRow[7] = Double.toString(reserva.getPriceCamaroteAndExtras(c));
+		newRow[7] = "$ "+Double.toString(reserva.getPriceCamaroteAndExtras(c));
 		super.addRow(newRow);
 		li.add(c);
 	}

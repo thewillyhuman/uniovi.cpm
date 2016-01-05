@@ -143,4 +143,8 @@ public abstract class Camarote implements CanBeFull{
 			return false;
 		} else { return true; }
 	}
+	
+	public abstract Camarote copy();
+	
+	public abstract String toString();
 }

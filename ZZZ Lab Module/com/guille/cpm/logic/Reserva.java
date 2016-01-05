@@ -302,15 +302,15 @@ public class Reserva {
 		}
 		aux.append("\n\n**PAGADO RESERVA**\n");
 		aux.append("Camarotes:\n");
-		aux.append("\t\t" + this.getCamarotesPrice()+"\n");
+		aux.append("\t" + this.getCamarotesPrice()+"\n");
 		aux.append("Extras:\n");
-		aux.append("\t\t" + this.getExtrasPrice()+"\n");
+		aux.append("\t" + this.getExtrasPrice()+" $\n");
 		if(this.getCrucero().isDiscounted()) {
 			aux.append("Descuento oferta:\n");
-			aux.append("\t\t" + this.getDiscount()+"\n");
-			aux.append("Importe Total:\t\t\t"+this.getCamarotesPrice()+"+"+this.getExtrasPrice()+"-"+this.getDiscount()+"Euros.");
+			aux.append("\t" + this.getDiscount()+" $\n");
+			aux.append("Importe Total:\t\t\t"+this.getCamarotesPrice()+"$ + "+this.getExtrasPrice()+"$ - "+this.getDiscount()+"$");
 		}
-		aux.append("\nTOTAL...................."+this.getTotalPrice()+"Euros.");
+		aux.append("\nTOTAL...................."+this.getTotalMinusDiscount()+"$");
 		return aux.toString();
 	}
 	

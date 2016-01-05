@@ -44,6 +44,18 @@ public class CollectionsCPM {
 		return aux;
 	}
 	
+	public static int getMinDoubleArrayPos(double[] array) {
+		if(array.length==0)
+			throw new IllegalArgumentException("The aaray is empty.");
+		int lowerIndex = -1;
+		double last = Double.MAX_VALUE;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] < last && array[i] != 0)
+				lowerIndex = i;
+		}
+		return lowerIndex;
+	}
+	
 	public static List<Crucero> getDiference(List<Crucero> completeList, List<Crucero> notComleteList) {
 		List<Crucero> aux = new ArrayList<Crucero>();
 		for(Crucero c : completeList) {

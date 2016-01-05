@@ -72,7 +72,6 @@ public class CruceroListPanel extends JPanel {
 			getLblDiscountedPrice().setText("From $" + Double.toString(crucero.getStartingPrice()));
 			getLblDiscountedPrice().setVisible(true);
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
 		
 		if(!crucero.getAcceptUnder16()) {
 			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon+16.png"));

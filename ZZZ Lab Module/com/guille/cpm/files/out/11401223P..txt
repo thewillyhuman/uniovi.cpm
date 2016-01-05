@@ -1,0 +1,21 @@
+JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 05/36/2016
+---------------------------------------------------------------------
+NOMBRE: esther  NIF: 11401223P  TEL: 6666
+
+
+**DATOS DEL CRUCERO**
+Crucero: Europa / CRU0002
+Barco: Pacific Princess II
+Fecha de salida: Sun Mar 15 00:00:00 CET 2015
+Días: 7
+Salida: Barcelona
+N. Pasajeros: 2
+Camarotes: 1 doble exterior / Cama extragrande,Desayuno especial,;
+
+**PAGADO RESERVA**
+Camarotes:
+		770.0
+Extras:
+		238.0
+
+TOTAL....................1008.0Euros.

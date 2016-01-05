@@ -1,6 +1,6 @@
 package com.guille.cpm.logic;
 
-public class CamaroteDoble extends Camarote {
+public abstract class CamaroteDoble extends Camarote {
 	
 	/**
 	 * The maximum number of persons that this kind of cabin can be stored.
