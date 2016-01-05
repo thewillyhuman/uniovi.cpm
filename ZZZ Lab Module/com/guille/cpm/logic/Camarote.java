@@ -85,7 +85,7 @@ public abstract class Camarote implements CanBeFull{
 	 * @return true if the cabin does not contain any passenger. False otherwise.
 	 */
 	public boolean isFree() {
-		return !this.pasajeros.isEmpty();
+		return this.pasajeros.isEmpty();
 	}
 	
 	/**

@@ -45,4 +45,8 @@ public class Extra {
 	public double getPriceExtra() {
 		return this.price;
 	}
+	
+	public String toString() {
+		return this.extra;
+	}
 }

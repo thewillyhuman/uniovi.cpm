@@ -1,7 +1,6 @@
 package com.guille.cpm.logic;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +15,7 @@ public class Reserva {
 	private String surname;
 	private String dni;
 	private int telf;
-	private Date fechaSalida;
+	//private Date fechaSalida;
 	private List<Camarote> camarotes;
 	
 	public final static double DISCOUNT = 0.15;
@@ -46,21 +45,7 @@ public class Reserva {
 	}
 	
 	public Date getFechaSalida() {
-		return this.fechaSalida;
-	}
-	
-	/**
-	 * format dd/mm/yyyy.
-	 * @param str
-	 * @throws ParseException
-	 */
-	public void setFechaSalida(String str) throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-		this.fechaSalida = dateFormat.parse(str);
-	}
-	
-	public void setFechaSalida(Date date) {
-		this.fechaSalida = date;
+		return viaje.getDate();
 	}
 	
 	public String getName() {
@@ -85,6 +70,10 @@ public class Reserva {
 	
 	public String getDNI() {
 		return this.dni;
+	}
+	
+	public void setDNI(String nif) {
+		setNIF(nif);
 	}
 	
 	private void setNIF(String nif) {
@@ -209,22 +198,28 @@ public class Reserva {
 		} return pasajeros;
 	}
 	
-	public double getPriceCmarote(Camarote c) {
+	public double getPriceCamarote(Camarote c) {
 		double price = 0.0;
 		if(c instanceof CamaroteDobleInterior) {
-			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleInterior();
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleInterior()*CamaroteDoble.N_PERSONS;
 		} else if (c instanceof CamaroteDobleExterior) {
-			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleExterior();
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleExterior()*CamaroteDoble.N_PERSONS;
 		} else if(c instanceof CamaroteFamiliarInterior) {
-			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarInterior();
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarInterior()*CamaroteFamiliar.N_PERSONS;
 		} else if(c instanceof CamaroteFamiliarExterior) {
-			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarExterior();
+			price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarExterior()*CamaroteFamiliar.N_PERSONS;
 		}
+		return price;
+	}
+	
+	public double getPriceCamaroteAndExtras(Camarote c) {
+		double price = 0.0;
+		price += getPriceCamarote(c);
 		for(Extra e : c.getExtras()) {
 			if(e.getExtra().equals("Cama supletoria")) {
-				price += e.getPriceExtra()*viaje.getCrucero().getDuracion();
+				price += e.getPriceExtra();
 			} else {
-				price += e.getPriceExtra()*viaje.getCrucero().getDuracion()*c.getNPasajeros();
+				price += e.getPriceExtra()*c.getNPasajeros();
 			}
 		}
 		return price;
@@ -233,16 +228,8 @@ public class Reserva {
 	public double getCamarotesPrice() {
 		double price = 0.0;
 		for(Camarote c : camarotes) {
-			if(c instanceof CamaroteDobleInterior) {
-				price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleInterior();
-			} else if (c instanceof CamaroteDobleExterior) {
-				price += viaje.getCrucero().getBarco().getPrecioCamaroteDobleExterior();
-			} else if(c instanceof CamaroteFamiliarInterior) {
-				price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarInterior();
-			} else if(c instanceof CamaroteFamiliarExterior) {
-				price += viaje.getCrucero().getBarco().getPrecioCamaroteFamiliarExterior();
-			}
-		} return price;
+			price += getPriceCamarote(c);
+		} return price*viaje.getCrucero().getDuracion();
 	}
 	
 	public double getExtrasPrice() {
@@ -285,7 +272,7 @@ public class Reserva {
 		aux.append("**DATOS DEL CRUCERO**\n");
 		aux.append("Crucero: " + this.getCrucero().getArea() + " / "+this.getCrucero().getCodigoCrucero() + "\n");
 		aux.append("Barco: " + this.getCrucero().getBarco().getName() + "\n");
-		aux.append("Fecha de salida: " + this.fechaSalida + "\n");
+		aux.append("Fecha de salida: " + this.getFechaSalida() + "\n");
 		aux.append("Días: " + this.getCrucero().getDuracion() + "\n");
 		aux.append("Salida: " + this.getCrucero().getStartPort() + "\n");
 		aux.append("N. Pasajeros: " + this.getTotalPasajeros() + "\n");
@@ -295,25 +282,25 @@ public class Reserva {
 				aux.append("1 doble interior / ");
 				for(Extra e : c.getExtras())
 					aux.append(e.getExtra() + ",");
-				aux.append(";\n");
+				aux.append(";");
 			} else if (c instanceof CamaroteDobleExterior) {
 				aux.append("1 doble exterior / ");
 				for(Extra e : c.getExtras())
 					aux.append(e.getExtra() + ",");
-				aux.append(";\n");
+				aux.append(";");
 			} else if(c instanceof CamaroteFamiliarInterior) {
 				aux.append("1 familiar interior / ");
 				for(Extra e : c.getExtras())
 					aux.append(e.getExtra() + ",");
-				aux.append(";\n");
+				aux.append(";");
 			} else if(c instanceof CamaroteFamiliarExterior) {
 				aux.append("1 familiar exterior / ");
 				for(Extra e : c.getExtras())
 					aux.append(e.getExtra() + ",");
-				aux.append(";\n");
+				aux.append(";");
 			}
 		}
-		aux.append("**PAGADO RESERVA**\n");
+		aux.append("\n\n**PAGADO RESERVA**\n");
 		aux.append("Camarotes:\n");
 		aux.append("\t\t" + this.getCamarotesPrice()+"\n");
 		aux.append("Extras:\n");
@@ -323,11 +310,18 @@ public class Reserva {
 			aux.append("\t\t" + this.getDiscount()+"\n");
 			aux.append("Importe Total:\t\t\t"+this.getCamarotesPrice()+"+"+this.getExtrasPrice()+"-"+this.getDiscount()+"Euros.");
 		}
-		aux.append("TOTAL...................."+this.getTotalPrice()+"Euros.");
+		aux.append("\nTOTAL...................."+this.getTotalPrice()+"Euros.");
 		return aux.toString();
 	}
 	
 	public void print() {
 		System.out.println(this.toString());
+	}
+
+	public void setCamarotes(List<Camarote> camarotes) {
+		this.camarotes.clear();
+		for(Camarote c : camarotes)
+			addCamarote(c);
+		
 	}
 }

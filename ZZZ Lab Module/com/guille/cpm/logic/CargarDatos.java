@@ -13,6 +13,7 @@ import java.util.Random;
 public class CargarDatos {
 
 	public final static String PATH_IN = "com/guille/cpm/files/in/";
+	public final static String PATH_OUT = "com/guille/cpm/files/out/";
 	public final static String DATE_FORMAT = "dd/MM/yyyy";
 	public final static String DATE_FORMAT_LONG = "MMM dd, yyyy";
 

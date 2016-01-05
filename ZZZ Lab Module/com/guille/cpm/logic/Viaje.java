@@ -76,6 +76,12 @@ public class Viaje implements CanBeFull {
 		}
 	}
 	
+	public void setCamaroteAsFree(Camarote c) {
+		if(!camarotes.contains(c))
+			throw new IllegalArgumentException("This camarote is not in the collection");
+		c.getPasajeros().clear();
+	}
+	
 	/**
 	 * Returns the number of free cabins in the trip.
 	 * 
