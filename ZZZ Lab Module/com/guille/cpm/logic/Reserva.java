@@ -260,6 +260,7 @@ public class Reserva {
 		return (this.getTotalPrice() - this.getDiscount());
 	}
 	
+	@Override
 	public String toString() {
 		StringBuilder aux = new StringBuilder();
 		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");

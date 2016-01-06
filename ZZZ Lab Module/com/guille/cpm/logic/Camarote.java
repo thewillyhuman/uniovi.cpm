@@ -146,5 +146,6 @@ public abstract class Camarote implements CanBeFull{
 	
 	public abstract Camarote copy();
 	
+	@Override
 	public abstract String toString();
 }

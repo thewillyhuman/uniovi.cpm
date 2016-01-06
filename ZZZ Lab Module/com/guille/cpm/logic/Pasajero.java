@@ -45,6 +45,7 @@ public class Pasajero {
 		return (age < 16);
 	}
 	
+	@Override
 	public String toString() {
 		String aux = "No.";
 		if(isChild())

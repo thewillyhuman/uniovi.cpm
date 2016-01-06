@@ -3,8 +3,6 @@ package com.guille.util;
 import java.util.*;
 import javax.swing.*;
 
-import com.guille.cpm.igu.VentanaPrincipal;
-
 /*
  *  Custom model to make sure the items are stored in a sorted order.
  *  The default is to sort in the natural order of the item, but a

@@ -46,6 +46,7 @@ public class Extra {
 		return this.price;
 	}
 	
+	@Override
 	public String toString() {
 		return this.extra;
 	}
