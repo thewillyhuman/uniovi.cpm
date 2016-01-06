@@ -8,7 +8,10 @@ public class Reservas {
 	private static List<Reserva> reservas = new ArrayList<Reserva>();
 	
 	public static List<Reserva> getReservas() {
-		return reservas;
+		List<Reserva> aux = new ArrayList<Reserva>();
+		for(Reserva r : reservas)
+			aux.add(r);
+		return aux;
 	}
 	
 	public static void addReserva(Reserva r) {

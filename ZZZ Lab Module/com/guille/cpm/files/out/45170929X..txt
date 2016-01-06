@@ -1,6 +1,6 @@
-JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 06/34/2016
+JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 06/33/2016
 ---------------------------------------------------------------------
-NOMBRE: Guillermo  NIF: 45170929X  TEL: 333
+NOMBRE: Guillermo  NIF: 45170929X  TEL: 679743782
 
 
 **DATOS DEL CRUCERO**
@@ -9,13 +9,15 @@ Barco: New Horizon
 Fecha de salida: Sun Nov 01 00:00:00 CET 2015
 Días: 9
 Salida: Kiel
-N. Pasajeros: 1
-Camarotes: 1 doble exterior / ;
+N. Pasajeros: 3
+Camarotes: 1 doble exterior / Cama supletoria,;
 
 **PAGADO RESERVA**
 Camarotes:
 	990.0
 Extras:
-	0.0 $
-
-TOTAL....................990.0$
+	180.0 $
+Descuento oferta:
+	175.5 $
+Importe Total:			990.0$ + 180.0$ - 175.5$
+TOTAL....................994.5$

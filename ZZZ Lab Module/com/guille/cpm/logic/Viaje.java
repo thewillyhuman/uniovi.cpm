@@ -14,7 +14,6 @@ public class Viaje implements CanBeFull {
 		setCrucero(crucero);
 		setDate(fecha);
 		camarotes = new ArrayList<Camarote>();
-		
 		createRooms(getCrucero().getBarco().getNCamarotesDoblesInteriores(), getCrucero().getBarco().getNCamarotesDoblesExteriores(), getCrucero().getBarco().getNCamarotesFamiliaresInteriores(), getCrucero().getBarco().getNCamarotesFamiliaresExteriores());
 	}
 	

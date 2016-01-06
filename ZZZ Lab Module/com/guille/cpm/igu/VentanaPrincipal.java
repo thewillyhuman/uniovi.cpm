@@ -41,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,6 +79,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import javax.swing.border.EtchedBorder;
 import java.awt.Insets;
@@ -90,6 +92,9 @@ public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = -8029479718163458536L;
 	
+	// Error log.
+	private static final PrintWriter log = Files.createLogger("com/guille/cpm/files/out/", "ErrorLog"); //$NON-NLS-1$ //$NON-NLS-2$
+	
 	// Custom Fonts.
 	protected static final Font text = new MyriadSetPro().getMyriad_Set_Pro_Text().deriveFont(14f);
 	protected static final Font textBold = new MyriadSetPro().getMyriad_Set_Pro_Semibold().deriveFont(14f);
@@ -97,17 +102,11 @@ public class VentanaPrincipal extends JFrame {
 	protected static final Font textMedium = new MyriadSetPro().getMyriad_Set_Pro_Medium().deriveFont(17f);
 	
 	// Properties.
-	public static final String DEFAULT_COMBO_TEXT = "It doesn't matter";
+	public static final String DEFAULT_COMBO_TEXT = Messages.getString("VentanaPrincipal.default_combo"); //$NON-NLS-1$
 	
 	// Variables.
 	// JPanels.
-	private JPanel mainPane;
-	private JPanel panel1;
-	private JPanel wPanel;
-	private JPanel cPanel;
-	private JPanel cPanelNPanel;
-	private JPanel panel2;
-	private JPanel panel2NPanel;
+	private JPanel mainPane, panel1, wPanel, cPanel, cPanelNPanel, panel2, panel2NPanel;
 	private JPanel panel2SPanel;
 	private JPanel panel2CPanel;
 	private JPanel panel2NPanelEPanel;
@@ -236,12 +235,19 @@ public class VentanaPrincipal extends JFrame {
 	private Viaje currentViaje;
 	private Reserva currentReserva;
 	private Crucero currentShip;
-	
+		
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Setting the antialiasing on. Just to make fonts look gorgeous.
+		try {
+			System.setProperty("awt.useSystemAAFontSettings", "lcd"); //$NON-NLS-1$ //$NON-NLS-2$
+			System.setProperty("swing.aatext", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (Exception e) {
+			Files.writeLog(log, e.getMessage());
+		}
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -249,7 +255,7 @@ public class VentanaPrincipal extends JFrame {
 					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Files.writeLog(log, e.getMessage());
 				}
 			}
 		});
@@ -267,9 +273,9 @@ public class VentanaPrincipal extends JFrame {
 		modelDate = new DefaultComboBoxModel<String>();
 		modelStartingPort = new DefaultComboBoxModel<String>();
 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/com/guille/cpm/img/appIcon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/com/guille/cpm/img/appIcon.png"))); //$NON-NLS-1$
 		setLocationByPlatform(true);
-		setTitle("EII CRUCEROS");
+		setTitle(Messages.getString("VentanaPrincipal.title_window")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1046, 702);
 		mainPane = new JPanel();
@@ -277,10 +283,10 @@ public class VentanaPrincipal extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPane);
 		mainPane.setLayout(new CardLayout(0, 0));
-		mainPane.add(getPanel1(), "busqueda_inicio");
-		mainPane.add(getPanel2(), "info_crucero");
-		mainPane.add(getPanel3(), "resumen_de_compra");
-		mainPane.add(getPanel4(), "receipt");
+		mainPane.add(getPanel1(), "busqueda_inicio"); //$NON-NLS-1$
+		mainPane.add(getPanel2(), "info_crucero"); //$NON-NLS-1$
+		mainPane.add(getPanel3(), "resumen_de_compra"); //$NON-NLS-1$
+		mainPane.add(getPanel4(), "receipt"); //$NON-NLS-1$
 		initializeModels();
 		loadCruisesInList();
 	}
@@ -328,7 +334,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblSerach() {
 		if (lblSerach == null) {
-			lblSerach = new JLabel("Search");
+			lblSerach = new JLabel(Messages.getString("VentanaPrincipal.search_label")); //$NON-NLS-1$
 			lblSerach.setHorizontalAlignment(SwingConstants.LEFT);
 			lblSerach.setFont(subtitleBold);
 			lblSerach.setBounds(6, 5, 131, 35);
@@ -346,9 +352,9 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDestino() {
 		if (lblDestino == null) {
-			lblDestino = new JLabel("Destino");
+			lblDestino = new JLabel(Messages.getString("VentanaPrincipal.destination_label")); //$NON-NLS-1$
 			lblDestino.setFont(text);
-			lblDestino.setBounds(6, 52, 61, 16);
+			lblDestino.setBounds(6, 52, 186, 16);
 		}
 		return lblDestino;
 	}
@@ -377,7 +383,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblStartingDate() {
 		if (lblStartingDate == null) {
-			lblStartingDate = new JLabel("Starting Date");
+			lblStartingDate = new JLabel(Messages.getString("VentanaPrincipal.starting-date_label")); //$NON-NLS-1$
 			lblStartingDate.setFont(text);
 			lblStartingDate.setBounds(6, 109, 175, 16);
 		}
@@ -408,7 +414,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblStartingPort() {
 		if (lblStartingPort == null) {
-			lblStartingPort = new JLabel("Starting Port");
+			lblStartingPort = new JLabel(Messages.getString("VentanaPrincipal.starting-port_label")); //$NON-NLS-1$
 			lblStartingPort.setFont(text);
 			lblStartingPort.setBounds(6, 164, 175, 16);
 		}
@@ -477,7 +483,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblListOfAvaliable() {
 		if (lblListOfAvaliable == null) {
-			lblListOfAvaliable = new JLabel("LIST OF AVALIABLE CRUISES");
+			lblListOfAvaliable = new JLabel(Messages.getString("VentanaPrincipal.title-search_label")); //$NON-NLS-1$
 			lblListOfAvaliable.setHorizontalAlignment(SwingConstants.CENTER);
 			lblListOfAvaliable.setFont(subtitleBold);
 		}
@@ -486,7 +492,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getCkbxAcceptsKids() {
 		if (ckbxAcceptsKids == null) {
-			ckbxAcceptsKids = new JCheckBox("Accepts kids");
+			ckbxAcceptsKids = new JCheckBox(Messages.getString("VentanaPrincipal.accepts-kids_label")); //$NON-NLS-1$
 			ckbxAcceptsKids.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -502,7 +508,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getCkbxDiscount() {
 		if (ckbxDiscount == null) {
-			ckbxDiscount = new JCheckBox("Discount");
+			ckbxDiscount = new JCheckBox(Messages.getString("VentanaPrincipal.discount_label")); //$NON-NLS-1$
 			ckbxDiscount.setBounds(6, 296, 128, 23);
 			ckbxDiscount.setFont(text);
 			ckbxDiscount.addActionListener(new ActionListener() {
@@ -518,7 +524,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblMoreCriteria() {
 		if (lblMoreCriteria == null) {
-			lblMoreCriteria = new JLabel("More Criteria");
+			lblMoreCriteria = new JLabel(Messages.getString("VentanaPrincipal.more-criteria_label")); //$NON-NLS-1$
 			lblMoreCriteria.setBounds(6, 224, 186, 16);
 			lblMoreCriteria.setFont(textBold);
 		}
@@ -547,7 +553,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblSortBy() {
 		if (lblSortBy == null) {
-			lblSortBy = new JLabel("Sort By...");
+			lblSortBy = new JLabel(Messages.getString("VentanaPrincipal.sort-by_label")); //$NON-NLS-1$
 			lblSortBy.setFont(textBold);
 			lblSortBy.setBounds(6, 384, 186, 16);
 		}
@@ -569,9 +575,9 @@ public class VentanaPrincipal extends JFrame {
 			comboSort.setFont(text);
 			comboSort.setBounds(6, 412, 186, 27);
 			comboSort.addItem(DEFAULT_COMBO_TEXT);
-			comboSort.addItem("Ascending price");
-			comboSort.addItem("Duration");
-			comboSort.addItem("Starting date");
+			comboSort.addItem(Messages.getString("VentanaPrincipal.ascending-price_label")); //$NON-NLS-1$
+			comboSort.addItem(Messages.getString("VentanaPrincipal.duration_label")); //$NON-NLS-1$
+			comboSort.addItem(Messages.getString("VentanaPrincipal.starting-date_label")); //$NON-NLS-1$
 			comboSort.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -594,7 +600,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDuration() {
 		if (lblDuration == null) {
-			lblDuration = new JLabel("Duration");
+			lblDuration = new JLabel(Messages.getString("VentanaPrincipal.duration_label")); //$NON-NLS-1$
 			lblDuration.setFont(text);
 			lblDuration.setBounds(6, 329, 175, 16);
 		}
@@ -672,14 +678,14 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("Back to Search");
+			btnNewButton = new JButton(Messages.getString("VentanaPrincipal.back-to-search_label")); //$NON-NLS-1$
 			btnNewButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int opt = JOptionPane.showConfirmDialog(mainPane, "If you go back to search any room added will be deleted. Do you want to erase your reservation?", "Delete and go back.", JOptionPane.YES_NO_OPTION);
+					int opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.go-back-search_message"), Messages.getString("VentanaPrincipal.go-back-search_message_title"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 					if (opt == 0) {
 						deleteCurrentCamarotesFromViaje();
-						((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
+						((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio"); //$NON-NLS-1$
 					}
 				}
 			});
@@ -689,7 +695,7 @@ public class VentanaPrincipal extends JFrame {
 	
 	private JLabel getLblImgShipPanel2() {
 		if (lblImgShipPanel2 == null) {
-			lblImgShipPanel2 = new JLabel("New label");
+			lblImgShipPanel2 = new JLabel("New label"); //$NON-NLS-1$
 			lblImgShipPanel2.setBorder(new LineBorder(new Color(0, 0, 0)));
 			lblImgShipPanel2.setBounds(6, 6, 170, 179);
 		}
@@ -701,7 +707,7 @@ public class VentanaPrincipal extends JFrame {
 			pnRoom2Panel = new JPanel();
 			pnRoom2Panel.setEnabled(false);
 			pnRoom2Panel.setBackground(Color.WHITE);
-			pnRoom2Panel.setBorder(new TitledBorder(null, "Configure the room", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnRoom2Panel.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.configure-the-room_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			pnRoom2Panel.setBounds(6, 197, 1024, 221);
 			pnRoom2Panel.setLayout(null);
 			pnRoom2Panel.add(getLblTypeOfRoom2Panel());
@@ -719,7 +725,7 @@ public class VentanaPrincipal extends JFrame {
 		if (pnRooms2Panel == null) {
 			pnRooms2Panel = new JPanel();
 			pnRooms2Panel.setEnabled(false);
-			pnRooms2Panel.setBorder(new TitledBorder(null, "Your Rooms", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnRooms2Panel.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.your-rooms_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			pnRooms2Panel.setBackground(Color.WHITE);
 			pnRooms2Panel.setBounds(6, 430, 1024, 167);
 			pnRooms2Panel.setLayout(new BorderLayout(0, 0));
@@ -731,7 +737,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnConfirm() {
 		if (btnConfirm == null) {
-			btnConfirm = new JButton("Continue to Summary");
+			btnConfirm = new JButton(Messages.getString("VentanaPrincipal.continue-to-summary_label")); //$NON-NLS-1$
 			btnConfirm.setHorizontalAlignment(SwingConstants.TRAILING);
 			btnConfirm.setEnabled(false);
 			btnConfirm.addActionListener(new ActionListener() {
@@ -786,7 +792,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDescripcion2Panel() {
 		if (lblDescripcion2Panel == null) {
-			lblDescripcion2Panel = new JLabel("New label");
+			lblDescripcion2Panel = new JLabel("New label"); //$NON-NLS-1$
 			lblDescripcion2Panel.setBounds(188, 6, 245, 19);
 			lblDescripcion2Panel.setFont(textMedium);
 		}
@@ -795,7 +801,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDuration2Panel() {
 		if (lblDuration2Panel == null) {
-			lblDuration2Panel = new JLabel("New label");
+			lblDuration2Panel = new JLabel("New label"); //$NON-NLS-1$
 			lblDuration2Panel.setBounds(188, 26, 310, 19);
 			lblDuration2Panel.setFont(text);
 		}
@@ -804,7 +810,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblShipName2Panel() {
 		if (lblShipName2Panel == null) {
-			lblShipName2Panel = new JLabel("New label");
+			lblShipName2Panel = new JLabel("New label"); //$NON-NLS-1$
 			lblShipName2Panel.setBounds(188, 47, 310, 19);
 			lblShipName2Panel.setFont(text);
 		}
@@ -822,8 +828,7 @@ public class VentanaPrincipal extends JFrame {
 						try {
 							checkDate2Panel();
 						} catch (ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							Files.writeLog(log, e1.getMessage());
 						}
 					}
 				}
@@ -836,7 +841,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblTypeOfRoom2Panel() {
 		if (lblTypeOfRoom2Panel == null) {
-			lblTypeOfRoom2Panel = new JLabel("Type of Room:");
+			lblTypeOfRoom2Panel = new JLabel(Messages.getString("VentanaPrincipal.type-of-room-two-points_label")); //$NON-NLS-1$
 			lblTypeOfRoom2Panel.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblTypeOfRoom2Panel.setBounds(6, 23, 99, 23);
 			lblTypeOfRoom2Panel.setFont(text);
@@ -862,7 +867,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblCapacity2Panel() {
 		if (lblCapacity2Panel == null) {
-			lblCapacity2Panel = new JLabel("This room has capacity for:");
+			lblCapacity2Panel = new JLabel(Messages.getString("VentanaPrincipal.capacity-for_label")); //$NON-NLS-1$
 			lblCapacity2Panel.setBounds(340, 23, 652, 23);
 			lblCapacity2Panel.setFont(text);
 		}
@@ -872,7 +877,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPnPassengers2Panel() {
 		if (pnPassengers2Panel == null) {
 			pnPassengers2Panel = new JPanel();
-			pnPassengers2Panel.setBorder(new TitledBorder(null, "Passengers", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			pnPassengers2Panel.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.passengers_label"), TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0))); //$NON-NLS-1$
 			pnPassengers2Panel.setBackground(Color.WHITE);
 			pnPassengers2Panel.setBounds(6, 53, 656, 120);
 			pnPassengers2Panel.setLayout(new BorderLayout(0, 0));
@@ -925,7 +930,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnAddPassanger() {
 		if (btnAddPassanger == null) {
-			btnAddPassanger = new JButton("Add Passanger");
+			btnAddPassanger = new JButton(Messages.getString("VentanaPrincipal.add-passenger_label")); //$NON-NLS-1$
 			btnAddPassanger.setEnabled(false);
 			btnAddPassanger.addActionListener(new ActionListener() {
 				@Override
@@ -937,14 +942,14 @@ public class VentanaPrincipal extends JFrame {
 					if (people < size) {
 						pasajero = addPasajero();
 					} else if (people == size && hasKids()) {
-						int opt = JOptionPane.showConfirmDialog(mainPane, "The room is full, otherwise you can add an extra bed. Do you want to add one extra-bed for a child?", "Add extra-bed", JOptionPane.YES_NO_OPTION);
+						int opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.extra-bed-kid_message"), Messages.getString("VentanaPrincipal.extra-bed-kid_message_title"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 						if (opt == 0) {
 							pasajero = addPasajero();
 							if (pasajero != null)
 								getChckbxAddExtraBed().setSelected(true);
 						}
 					} else if (people == size && !hasKids()) {
-						int opt = JOptionPane.showConfirmDialog(mainPane, "The room is full, otherwise you can add an extra bed. Extra-deds are only usable for kids. Do you want to add one extra-bed and a kid?", "Add extra-bed and a kid", JOptionPane.YES_NO_OPTION);
+						int opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.extra-bed_message"), Messages.getString("VentanaPrincipal.extra-bed_message_title"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 						if (opt == 0) {
 							pasajero = addKid();
 							if (pasajero != null)
@@ -953,7 +958,7 @@ public class VentanaPrincipal extends JFrame {
 					}
 					if (pasajero != null) {
 						if(pasajero.isChild() && !currentReserva.getCrucero().getAcceptUnder16())
-							JOptionPane.showMessageDialog(mainPane, "This cruise does not accept passengers under 16 years.", "No childs allowed", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.cruise-not-under16_message"), Messages.getString("VentanaPrincipal.cruise-not-under16_message_title"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$ //$NON-NLS-2$
 						else
 							getModelPasajeros().addElement(pasajero);
 					}
@@ -977,12 +982,12 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnDeletePassanger() {
 		if (btnDeletePassanger == null) {
-			btnDeletePassanger = new JButton("Delete Passanger");
+			btnDeletePassanger = new JButton(Messages.getString("VentanaPrincipal.delete-passenger_label")); //$NON-NLS-1$
 			btnDeletePassanger.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Yes = 0; No = 1
-					int opt = JOptionPane.showConfirmDialog(mainPane, "You're about delete a passenger. Are you sure?", "Delete this passenger.", JOptionPane.YES_NO_OPTION);
+					int opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.delete-passenger_message"), Messages.getString("VentanaPrincipal.delete-passenger_message_title"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 					if (opt == 0) {
 						getModelPasajeros().remove(getLstPassengers2Panel().getSelectedIndex());
 					}
@@ -1000,37 +1005,37 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnModifyPassenger() {
 		if (btnModifyPassenger == null) {
-			btnModifyPassenger = new JButton("Modify");
+			btnModifyPassenger = new JButton(Messages.getString("VentanaPrincipal.modify_label")); //$NON-NLS-1$
 			btnModifyPassenger.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int oldAge = getLstPassengers2Panel().getSelectedValue().getAge();
 					if (getLstPassengers2Panel().getSelectedIndex() > -1) {
-						String input = JOptionPane.showInputDialog(mainPane, "Change the age of the selected passenger.", getLstPassengers2Panel().getSelectedValue().getAge());
+						String input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.change-age_message"), getLstPassengers2Panel().getSelectedValue().getAge()); //$NON-NLS-1$
 						int age = -1;
 						if (input != null)
 							try {
 								age = Integer.parseInt(input);
 							} catch (NumberFormatException e1) {
-
+								Files.writeLog(log, e1.getMessage());
 							}
 						while ((age < 0 || age > 150) && input != null) {
-							input = JOptionPane.showInputDialog(mainPane, "Change the age of the selected passenger.", getLstPassengers2Panel().getSelectedValue().getAge());
+							input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.change-age_message"), getLstPassengers2Panel().getSelectedValue().getAge()); //$NON-NLS-1$
 							if (input != null) {
 								try {
 									age = Integer.parseInt(input);
 								} catch (NumberFormatException e1) {
-
+									Files.writeLog(log, e1.getMessage());
 								}
 							}
 						}
 						if (age > 0) {
 							getLstPassengers2Panel().getSelectedValue().setAge(age);
 							if (getChckbxAddExtraBed().isSelected() && !hasKids()) {
-								JOptionPane.showMessageDialog(mainPane, "This change cannot be done. Try to delete de passenger.");
+								JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.change-not-possible_message")); //$NON-NLS-1$
 								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
 							} else if(age<16 && !currentReserva.getCrucero().getAcceptUnder16()) {
-								JOptionPane.showMessageDialog(mainPane, "This cruise does not accept passengers under 16 years.", "No childs allowed", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.cruise-not-under16_message"), Messages.getString("VentanaPrincipal.cruise-not-under16_message_title"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$ //$NON-NLS-2$
 								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
 							}
 						}
@@ -1049,7 +1054,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getChckbxAddExtraBed() {
 		if (chckbxAddExtraBed == null) {
-			chckbxAddExtraBed = new JCheckBox("Add extra bed");
+			chckbxAddExtraBed = new JCheckBox(Messages.getString("VentanaPrincipal.add-extra-bed_label")); //$NON-NLS-1$
 			chckbxAddExtraBed.setEnabled(false);
 			chckbxAddExtraBed.setFont(text);
 		}
@@ -1058,7 +1063,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getChckbxJacuzzi() {
 		if (chckbxJacuzzi == null) {
-			chckbxJacuzzi = new JCheckBox("Jacuzzi");
+			chckbxJacuzzi = new JCheckBox(Messages.getString("VentanaPrincipal.jacuzzy_label")); //$NON-NLS-1$
 			chckbxJacuzzi.setEnabled(false);
 			chckbxJacuzzi.setFont(text);
 		}
@@ -1067,7 +1072,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getChckbxSpecialBreakfast() {
 		if (chckbxSpecialBreakfast == null) {
-			chckbxSpecialBreakfast = new JCheckBox("Special breakfast");
+			chckbxSpecialBreakfast = new JCheckBox(Messages.getString("VentanaPrincipal.special-breakfast_label")); //$NON-NLS-1$
 			chckbxSpecialBreakfast.setEnabled(false);
 			chckbxSpecialBreakfast.setFont(text);
 		}
@@ -1076,7 +1081,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JCheckBox getChckbxExtrabigBed() {
 		if (chckbxExtrabigBed == null) {
-			chckbxExtrabigBed = new JCheckBox("Extra-big bed");
+			chckbxExtrabigBed = new JCheckBox(Messages.getString("VentanaPrincipal.extra-big-bed_label")); //$NON-NLS-1$
 			chckbxExtrabigBed.setEnabled(false);
 			chckbxExtrabigBed.setFont(text);
 		}
@@ -1086,7 +1091,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPnExtras2Panel() {
 		if (pnExtras2Panel == null) {
 			pnExtras2Panel = new JPanel();
-			pnExtras2Panel.setBorder(new TitledBorder(null, "Extras", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnExtras2Panel.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.extras_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			pnExtras2Panel.setBackground(Color.WHITE);
 			pnExtras2Panel.setBounds(674, 53, 318, 120);
 			pnExtras2Panel.setLayout(new GridLayout(2, 2, 0, 0));
@@ -1100,7 +1105,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnAddRoom() {
 		if (btnAddRoob == null) {
-			btnAddRoob = new JButton("Add Room");
+			btnAddRoob = new JButton(Messages.getString("VentanaPrincipal.add-room_label")); //$NON-NLS-1$
 			btnAddRoob.setEnabled(false);
 			btnAddRoob.addActionListener(new ActionListener() {
 				@Override
@@ -1115,8 +1120,8 @@ public class VentanaPrincipal extends JFrame {
 						getBtnConfirm().setEnabled(true);
 					}
 					checkAddRoomBtn();
-					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.LIGHT_GRAY), "Configure your Room"));
-					btnAddRoob.setText("Add Room");
+					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.LIGHT_GRAY), Messages.getString("VentanaPrincipal.configure-your-room_label"))); //$NON-NLS-1$
+					btnAddRoob.setText(Messages.getString("VentanaPrincipal.add-room_label")); //$NON-NLS-1$
 				}
 			});
 			btnAddRoob.setBounds(871, 186, 117, 29);
@@ -1144,11 +1149,11 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnDeleteRoom() {
 		if (btnDeleteRoom == null) {
-			btnDeleteRoom = new JButton("Delete Room");
+			btnDeleteRoom = new JButton(Messages.getString("VentanaPrincipal.delete-room_label")); //$NON-NLS-1$
 			btnDeleteRoom.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int opt = JOptionPane.showConfirmDialog(mainPane, "You're about delete a room. Are you sure?", "Delete this room.", JOptionPane.YES_NO_OPTION);
+					int opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.delete-room_message"), Messages.getString("VentanaPrincipal.delete-room_message_title"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 					if (opt == 0 && getTbRooms().getSelectedRow() > -1) {
 						Camarote toDetele = getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow());
 						getModeloNoEditable().removeRow(toDetele);
@@ -1167,7 +1172,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblPartialPrice() {
 		if (lblPartialPrice == null) {
-			lblPartialPrice = new JLabel("New label");
+			lblPartialPrice = new JLabel("New label"); //$NON-NLS-1$
 			lblPartialPrice.setBounds(642, 185, 217, 24);
 		}
 		return lblPartialPrice;
@@ -1223,11 +1228,11 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Go back");
+			btnNewButton_1 = new JButton(Messages.getString("VentanaPrincipal.go-back_label")); //$NON-NLS-1$
 			btnNewButton_1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					((CardLayout) getContentPane().getLayout()).show(mainPane, "info_crucero");
+					((CardLayout) getContentPane().getLayout()).show(mainPane, "info_crucero"); //$NON-NLS-1$
 				}
 			});
 		}
@@ -1236,7 +1241,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnConfirmAndPay() {
 		if (btnConfirmAndPay == null) {
-			btnConfirmAndPay = new JButton("Confirm and Pay");
+			btnConfirmAndPay = new JButton(Messages.getString("VentanaPrincipal.confirm-and-pay_label")); //$NON-NLS-1$
 			btnConfirmAndPay.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -1250,11 +1255,11 @@ public class VentanaPrincipal extends JFrame {
 					}
 					try {
 						currentReserva.setDNI(getTxtDNI().getText());
-						Files.writeFileFromString(CargarDatos.PATH_OUT, currentReserva.getDNI(), currentReserva.toString(), ".txt", "UTF-8");
+						Files.writeFileFromString(CargarDatos.PATH_OUT, currentReserva.getDNI(), currentReserva.toString(), ".txt", "UTF-8"); //$NON-NLS-1$ //$NON-NLS-2$
 						loadFourthPanel();
-						((CardLayout) getContentPane().getLayout()).show(mainPane, "receipt");
+						((CardLayout) getContentPane().getLayout()).show(mainPane, "receipt"); //$NON-NLS-1$
 					} catch (IllegalArgumentException | FileNotFoundException | UnsupportedEncodingException e1) {
-						JOptionPane.showMessageDialog(mainPane, "Please, enter a valid nif with this format 00000000A");
+						JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.valid-nif_message")); //$NON-NLS-1$
 					}
 				}
 			});
@@ -1264,7 +1269,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblSummary() {
 		if (lblSummary == null) {
-			lblSummary = new JLabel("Summary");
+			lblSummary = new JLabel(Messages.getString("VentanaPrincipal.summary_label")); //$NON-NLS-1$
 			lblSummary.setBounds(6, 6, 158, 34);
 			lblSummary.setFont(subtitleBold);
 		}
@@ -1305,7 +1310,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Personal and Payment Information", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), Messages.getString("VentanaPrincipal.personal-payment-info_label"), TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0))); //$NON-NLS-1$
 			panel.setBackground(Color.WHITE);
 			panel.setBounds(6, 408, 1024, 198);
 			panel.setLayout(null);
@@ -1323,7 +1328,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblName() {
 		if (lblName == null) {
-			lblName = new JLabel("Name:");
+			lblName = new JLabel(Messages.getString("VentanaPrincipal.name_label")); //$NON-NLS-1$
 			lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblName.setBounds(6, 25, 67, 22);
 		}
@@ -1341,7 +1346,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblSurname() {
 		if (lblSurname == null) {
-			lblSurname = new JLabel("Surname:");
+			lblSurname = new JLabel(Messages.getString("VentanaPrincipal.surname_label")); //$NON-NLS-1$
 			lblSurname.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblSurname.setBounds(248, 25, 86, 22);
 		}
@@ -1359,7 +1364,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDescriptionAndDate() {
 		if (lblDescriptionAndDate == null) {
-			lblDescriptionAndDate = new JLabel("Summary");
+			lblDescriptionAndDate = new JLabel(Messages.getString("VentanaPrincipal.summary_label")); //$NON-NLS-1$
 			lblDescriptionAndDate.setFont(textMedium);
 			lblDescriptionAndDate.setBounds(176, 6, 854, 34);
 		}
@@ -1368,7 +1373,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblDni() {
 		if (lblDni == null) {
-			lblDni = new JLabel("DNI:");
+			lblDni = new JLabel(Messages.getString("VentanaPrincipal.dni_label")); //$NON-NLS-1$
 			lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblDni.setBounds(6, 59, 67, 22);
 		}
@@ -1386,7 +1391,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblPhone() {
 		if (lblPhone == null) {
-			lblPhone = new JLabel("Phone: ");
+			lblPhone = new JLabel(Messages.getString("VentanaPrincipal.phone_label")); //$NON-NLS-1$
 			lblPhone.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblPhone.setBounds(248, 62, 86, 22);
 		}
@@ -1434,7 +1439,7 @@ public class VentanaPrincipal extends JFrame {
 		if (txtReceipt == null) {
 			txtReceipt = new JTextArea();
 			txtReceipt.setMargin(new Insets(0, 15, 0, 0));
-			txtReceipt.setBorder(new TitledBorder(null, "Purchase Receipt", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			txtReceipt.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.purchase-receipt_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			txtReceipt.setBounds(107, 59, 715, 449);
 			txtReceipt.setLineWrap(true);
 			txtReceipt.setEditable(false);
@@ -1455,7 +1460,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblReceiptTitle() {
 		if (lblReceiptTitle == null) {
-			lblReceiptTitle = new JLabel("Purchase receipt");
+			lblReceiptTitle = new JLabel(Messages.getString("VentanaPrincipal.purchase-receipt_label")); //$NON-NLS-1$
 			lblReceiptTitle.setFont(subtitleBold);
 		}
 		return lblReceiptTitle;
@@ -1475,7 +1480,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPanel_3() {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
-			panel_3.setBorder(new TitledBorder(null, "Description of the cruise", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_3.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.description-cruise_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			panel_3.setBackground(Color.WHITE);
 			panel_3.setBounds(432, 6, 354, 179);
 			panel_3.setLayout(new BorderLayout(0, 0));
@@ -1499,7 +1504,7 @@ public class VentanaPrincipal extends JFrame {
 			txtrTxtdescriptionlong.setBorder(null);
 			txtrTxtdescriptionlong.setLineWrap(true);
 			txtrTxtdescriptionlong.setEditable(false);
-			txtrTxtdescriptionlong.setText("txtDescriptionLong");
+			txtrTxtdescriptionlong.setText("txtDescriptionLong"); //$NON-NLS-1$
 			txtrTxtdescriptionlong.setFont(text);
 		}
 		return txtrTxtdescriptionlong;
@@ -1508,7 +1513,7 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel getPnTripStatus() {
 		if (pnTripStatus == null) {
 			pnTripStatus = new JPanel();
-			pnTripStatus.setBorder(new TitledBorder(null, "Cruise Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnTripStatus.setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.cruise-status_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null)); //$NON-NLS-1$
 			pnTripStatus.setBackground(Color.WHITE);
 			pnTripStatus.setEnabled(false);
 			pnTripStatus.setBounds(797, 6, 233, 179);
@@ -1535,7 +1540,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblFreeDoubleInterior() {
 		if (lblFreeDoubleInterior == null) {
-			lblFreeDoubleInterior = new JLabel("Free Double Interior Rooms: 0");
+			lblFreeDoubleInterior = new JLabel(Messages.getString("VentanaPrincipal.free-double-interior_label")); //$NON-NLS-1$
 			lblFreeDoubleInterior.setFont(text);
 		}
 		return lblFreeDoubleInterior;
@@ -1543,7 +1548,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblFreeDoubleExterior() {
 		if (lblFreeDoubleExterior == null) {
-			lblFreeDoubleExterior = new JLabel("Free Double Exterior Rooms: 0");
+			lblFreeDoubleExterior = new JLabel(Messages.getString("VentanaPrincipal.free-double-exterior_label")); //$NON-NLS-1$
 			lblFreeDoubleExterior.setFont(text);
 		}
 		return lblFreeDoubleExterior;
@@ -1551,7 +1556,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblFreeFamiliarInterior() {
 		if (lblFreeFamiliarInterior == null) {
-			lblFreeFamiliarInterior = new JLabel("Free Familiar Interior Rooms: 0");
+			lblFreeFamiliarInterior = new JLabel(Messages.getString("VentanaPrincipal.free-familiar-interior_label")); //$NON-NLS-1$
 			lblFreeFamiliarInterior.setFont(text);
 		}
 		return lblFreeFamiliarInterior;
@@ -1559,7 +1564,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblFreeFamiliarExterior() {
 		if (lblFreeFamiliarExterior == null) {
-			lblFreeFamiliarExterior = new JLabel("Free Familiar Exterior Rooms: 0");
+			lblFreeFamiliarExterior = new JLabel(Messages.getString("VentanaPrincipal.free-familiar-exterior_label")); //$NON-NLS-1$
 			lblFreeFamiliarExterior.setFont(text);
 		}
 		return lblFreeFamiliarExterior;
@@ -1567,12 +1572,12 @@ public class VentanaPrincipal extends JFrame {
 
 	private JButton getBtnGoToInicio() {
 		if (btnGoToInicio == null) {
-			btnGoToInicio = new JButton("Start the aplication");
+			btnGoToInicio = new JButton(Messages.getString("VentanaPrincipal.start-app_label")); //$NON-NLS-1$
 			btnGoToInicio.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					resetMainWindow();
-					((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
+					((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio"); //$NON-NLS-1$
 				}
 			});
 			btnGoToInicio.setBounds(465, 551, 117, 29);
@@ -1581,7 +1586,7 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JButton getBtnCheckDate() {
 		if (btnCheckDate == null) {
-			btnCheckDate = new JButton("Change Date");
+			btnCheckDate = new JButton(Messages.getString("VentanaPrincipal.change-date_label")); //$NON-NLS-1$
 			btnCheckDate.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -1589,7 +1594,7 @@ public class VentanaPrincipal extends JFrame {
 					try {
 						int opt = -1;
 						if (!aux) {
-							opt = JOptionPane.showConfirmDialog(mainPane, "By changing the date all the rooms added will be eliminated.", "Do you want to change date and delete your rooms?", JOptionPane.CANCEL_OPTION);
+							opt = JOptionPane.showConfirmDialog(mainPane, Messages.getString("VentanaPrincipal.change-date_message"), Messages.getString("VentanaPrincipal.change-dage_message_title"), JOptionPane.CANCEL_OPTION); //$NON-NLS-1$ //$NON-NLS-2$
 							if (opt == 0) {
 								getCmbDate2Panel().setEnabled(true);
 								deleteCurrentCamarotesFromViaje();
@@ -1602,7 +1607,7 @@ public class VentanaPrincipal extends JFrame {
 							checkDate2Panel();
 						}
 					} catch (ParseException e1) {
-						e1.printStackTrace();
+						Files.writeLog(log, e1.getMessage());
 					}
 				}
 			});
@@ -1613,7 +1618,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JLabel getLblTotalRooms() {
 		if (lblTotalRooms == null) {
-			lblTotalRooms = new JLabel("New label");
+			lblTotalRooms = new JLabel("New label"); //$NON-NLS-1$
 			lblTotalRooms.setHorizontalAlignment(SwingConstants.TRAILING);
 			lblTotalRooms.setBounds(761, 316, 269, 23);
 		}
@@ -1621,7 +1626,7 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JLabel getLblTotalExtras() {
 		if (lblTotalExtras == null) {
-			lblTotalExtras = new JLabel("New label");
+			lblTotalExtras = new JLabel("New label"); //$NON-NLS-1$
 			lblTotalExtras.setHorizontalAlignment(SwingConstants.TRAILING);
 			lblTotalExtras.setBounds(761, 345, 269, 23);
 		}
@@ -1629,7 +1634,7 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JLabel getLblTotalPrice() {
 		if (lblTotalPrice == null) {
-			lblTotalPrice = new JLabel("New label");
+			lblTotalPrice = new JLabel("New label"); //$NON-NLS-1$
 			lblTotalPrice.setHorizontalAlignment(SwingConstants.TRAILING);
 			lblTotalPrice.setBounds(761, 380, 269, 23);
 		}
@@ -1637,12 +1642,12 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JButton getBtnModifyRoom() {
 		if (btnModifyRoom == null) {
-			btnModifyRoom = new JButton("Modify Room");
+			btnModifyRoom = new JButton(Messages.getString("VentanaPrincipal.modify-room_label")); //$NON-NLS-1$
 			btnModifyRoom.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.RED), "Modify your Room"));
-					getBtnAddRoom().setText("Modify the Room");
+					getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.RED), Messages.getString("VentanaPrincipal.modify-your-room_label"))); //$NON-NLS-1$
+					getBtnAddRoom().setText(Messages.getString("VentanaPrincipal.modify-the-room_label")); //$NON-NLS-1$
 					Camarote c;
 					int row = getTbRooms().getSelectedRow();
 					if(row!=-1) {
@@ -1653,26 +1658,26 @@ public class VentanaPrincipal extends JFrame {
 						getModeloNoEditable().removeRow(getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()));
 						
 						if (c instanceof CamaroteFamiliarInterior) {
-							getCmbTypeOfRoom2Panl().setSelectedItem("Familiar Interior Room");
+							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.familiar-interior_label")); //$NON-NLS-1$
 						} else if (c instanceof CamaroteFamiliarExterior) {
-							getCmbTypeOfRoom2Panl().setSelectedItem("Familiar Exterior Room");
+							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.familiar-exterior_label")); //$NON-NLS-1$
 						} else if (c instanceof CamaroteDobleInterior) {
-							getCmbTypeOfRoom2Panl().setSelectedItem("Double Interior Room");
+							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.double-interior_label")); //$NON-NLS-1$
 						} else if (c instanceof CamaroteDobleExterior) {
-							getCmbTypeOfRoom2Panl().setSelectedItem("Double Exterior Room");
+							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.double-exterior_label")); //$NON-NLS-1$
 						}
 						modelPasajeros.removeAllElements();
 						for(Pasajero p : c.getPasajeros()) {
 							modelPasajeros.addElement(p);
 						}
 						for(Extra ext : c.getExtras()) {
-							if(ext.getExtra().equals("Cama supletoria"))
+							if(ext.getExtra().equals("Cama supletoria")) //$NON-NLS-1$
 								getChckbxAddExtraBed().setSelected(true);
-							if(ext.getExtra().equals("Desayuno especial"))
+							if(ext.getExtra().equals("Desayuno especial")) //$NON-NLS-1$
 								getChckbxSpecialBreakfast().setSelected(true);
-							if(ext.getExtra().equals("Cama extragrande"))
+							if(ext.getExtra().equals("Cama extragrande")) //$NON-NLS-1$
 								getChckbxExtrabigBed().setSelected(true);
-							if(ext.getExtra().equals("Jacuzzi"))
+							if(ext.getExtra().equals("Jacuzzi")) //$NON-NLS-1$
 								getChckbxJacuzzi().setSelected(true);
 						}
 						checkExtraBed(getPeopleInCabin());
@@ -1698,8 +1703,7 @@ public class VentanaPrincipal extends JFrame {
 			try {
 				listaDeCruceros = CollectionsCPM.filter(new FilterByStartingDate(), listaDeCruceros, sdf.parse(getComboStartingDate().getSelectedItem().toString()));
 			} catch (ParseException e) {
-				System.err.println("Error while parsing date from the starting date combo.");
-				e.printStackTrace();
+				Files.writeLog(log, e.getMessage());
 			}
 		}
 		if (getComboStartingPort().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboStartingPort().getSelectedItem() != null) {
@@ -1712,15 +1716,15 @@ public class VentanaPrincipal extends JFrame {
 			listaDeCruceros = CollectionsCPM.filter(new FilterByDiscount(), listaDeCruceros, getCkbxDiscount().isSelected());
 		}
 		if (getComboSort().getSelectedItem() != DEFAULT_COMBO_TEXT && getComboSort().getSelectedItem() != null) {
-			if (getComboSort().getSelectedItem().toString().equals("Ascending price"))
+			if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.ascending-price_label"))) //$NON-NLS-1$
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByPrice());
-			else if (getComboSort().getSelectedItem().toString().equals("Duration"))
+			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.duration_label"))) //$NON-NLS-1$
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByDuration());
-			else if (getComboSort().getSelectedItem().toString().equals("Starting date"))
+			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.starting-date-comparator_label"))) //$NON-NLS-1$
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByStartingdate());
 		}
 		if (listaDeCruceros.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "There're no cruises avaliable for your search. Try another");
+			JOptionPane.showMessageDialog(this, Messages.getString("VentanaPrincipal.no-creuises-avaliable_message")); //$NON-NLS-1$
 			getComboDestino().setSelectedItem(DEFAULT_COMBO_TEXT);
 		}
 	}
@@ -1822,22 +1826,22 @@ public class VentanaPrincipal extends JFrame {
 		try {
 			resetSecondWindow();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Files.writeLog(log, e.getMessage());
 		}
 	}
 
 	private void loadSecondPane(Crucero c) {
 		getLblImgShipPanel2().setIcon(Images.resize(getLblImgShipPanel2(), c.getPicturePath()));
 		getLblDescripcion2Panel().setText(Strings.deAccent(c.getDenominacion()));
-		((CardLayout) mainPane.getLayout()).show(mainPane, "info_crucero");
-		getLblDuration2Panel().setText("Duration: " + Integer.toString(c.getDuracion()) + " days. From " + Strings.deAccent(c.getStartPort()));
-		getLblShipName2Panel().setText("Onboard the " + c.getBarco().getName());
+		((CardLayout) mainPane.getLayout()).show(mainPane, "info_crucero"); //$NON-NLS-1$
+		getLblDuration2Panel().setText(Messages.getString("VentanaPrincipal.Duration-two-points_label") + Integer.toString(c.getDuracion()) + Messages.getString("VentanaPrincipal.days.-from_label") + Strings.deAccent(c.getStartPort())); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblShipName2Panel().setText(Messages.getString("VentanaPrincipal.onboard-the_label") + c.getBarco().getName()); //$NON-NLS-1$
 		getTxtrTxtdescriptionlong().setText(Strings.deAccent(c.getDescripcion()));
-		getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.lightGray), "Configure your Room"));
-		getBtnAddRoom().setText("Add Room");
+		getPnRoom2Panel().setBorder(new TitledBorder(new LineBorder(Color.lightGray), Messages.getString("VentanaPrincipal.configure-your-room_label"))); //$NON-NLS-1$
+		getBtnAddRoom().setText(Messages.getString("VentanaPrincipal.add-room_label")); //$NON-NLS-1$
 
 		DefaultComboBoxModel<String> dates = new DefaultComboBoxModel<String>();
-		dates.addElement("Select a date");
+		dates.addElement(Messages.getString("VentanaPrincipal.select-date_label")); //$NON-NLS-1$
 		for (Date d : c.getSalidas()) {
 			SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
 			dates.addElement(sdf.format(d));
@@ -1846,10 +1850,10 @@ public class VentanaPrincipal extends JFrame {
 		getCmbDate2Panel().setSelectedIndex(0);
 
 		getCmbTypeOfRoom2Panl().removeAllItems();
-		getCmbTypeOfRoom2Panl().addItem("Double Exterior Room");
-		getCmbTypeOfRoom2Panl().addItem("Double Interior Room");
-		getCmbTypeOfRoom2Panl().addItem("Familiar Exterior Room");
-		getCmbTypeOfRoom2Panl().addItem("Familiar Interior Room");
+		getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.double-exterior_label")); //$NON-NLS-1$
+		getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.double-interior_label")); //$NON-NLS-1$
+		getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.familiar-exterior_label")); //$NON-NLS-1$
+		getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.familiar-interior_label")); //$NON-NLS-1$
 		getCmbTypeOfRoom2Panl().setSelectedIndex(0);
 
 		resetConfigureRoomPanel();
@@ -1860,14 +1864,14 @@ public class VentanaPrincipal extends JFrame {
 
 	private void updateRoomCapacityLabel() {
 		if (getCmbTypeOfRoom2Panl().getSelectedItem() != null) {
-			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Exterior Room")) {
-				getLblCapacity2Panel().setText("This room has capacity for " + Integer.toString(CamaroteDoble.N_PERSONS) + " passengers. + 1 Child (Extra-bed)");
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Interior Room")) {
-				getLblCapacity2Panel().setText("This room has capacity for " + Integer.toString(CamaroteDoble.N_PERSONS) + " passengers. + 1 Child (Extra-bed)");
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Exterior Room")) {
-				getLblCapacity2Panel().setText("This room has capacity for " + Integer.toString(CamaroteFamiliar.N_PERSONS) + " passengers. + 1 Child (Extra-bed)");
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Interior Room")) {
-				getLblCapacity2Panel().setText("This room has capacity for " + Integer.toString(CamaroteFamiliar.N_PERSONS) + " passengers. + 1 Child (Extra-bed)");
+			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-exterior_label"))) { //$NON-NLS-1$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-interior_label"))) { //$NON-NLS-1$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-exterior_label"))) { //$NON-NLS-1$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-interior_label"))) { //$NON-NLS-1$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 	}
@@ -1885,7 +1889,7 @@ public class VentanaPrincipal extends JFrame {
 	
 	private void load3Panel() {
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG);
-		getLblDescriptionAndDate().setText(Strings.deAccent(currentReserva.getCrucero().getDenominacion()+", from " + currentReserva.getCrucero().getStartPort()+". Starting date: "+sdf.format(currentReserva.getFechaSalida())));
+		getLblDescriptionAndDate().setText(Strings.deAccent(currentReserva.getCrucero().getDenominacion()+Messages.getString("VentanaPrincipal.separator-from_label") + currentReserva.getCrucero().getStartPort()+Messages.getString("VentanaPrincipal.point-starting-price_label")+sdf.format(currentReserva.getFechaSalida()))); //$NON-NLS-1$ //$NON-NLS-2$
 		resetPersonalInfo();
 		double priceC = 0.0;
 		double priceE = 0.0;
@@ -1896,21 +1900,21 @@ public class VentanaPrincipal extends JFrame {
 			priceE+= currentReserva.getPriceCamaroteAndExtras(c);
 		}
 		
-		getLblTotalRooms().setText("Total Rooms\t......"+ priceC + " $ / Day");
-		getLblTotalExtras().setText("Total Extras\t......"+(priceE-priceC) + " $ / Day");
-		getLblTotalPrice().setText("Total Price\t......"+priceE + " $ / Day");
-		((CardLayout) getContentPane().getLayout()).show(mainPane, "resumen_de_compra");
+		getLblTotalRooms().setText(Messages.getString("VentanaPrincipal.total-rooms_lable")+ priceC + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblTotalExtras().setText(Messages.getString("VentanaPrincipal.total-extras_label")+(priceE-priceC) + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblTotalPrice().setText(Messages.getString("VentanaPrincipal.total-price_label")+priceE + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+		((CardLayout) getContentPane().getLayout()).show(mainPane, "resumen_de_compra"); //$NON-NLS-1$
 	}
 	
 	private void initializeModeloTable() {
 		List<String> nombreColumnas = new ArrayList<String>();
-		nombreColumnas.add("Nº");
-		nombreColumnas.add("Type of Room");
-		nombreColumnas.add("Passengers");
+		nombreColumnas.add(Messages.getString("VentanaPrincipal.number_symbol")); //$NON-NLS-1$
+		nombreColumnas.add(Messages.getString("VentanaPrincipal.type-of-room_label")); //$NON-NLS-1$
+		nombreColumnas.add(Messages.getString("VentanaPrincipal.passengers_label")); //$NON-NLS-1$
 		for (Extra e : Extras.getExtras()) {
 			nombreColumnas.add(e.getExtra());
 		}
-		nombreColumnas.add("Room Price / N");
+		nombreColumnas.add(Messages.getString("VentanaPrincipal.room-price-per-nigth_label")); //$NON-NLS-1$
 		String[] stringArray = nombreColumnas.toArray(new String[nombreColumnas.size()]);
 		modeloTable = new ModeloTablaNoEditable(stringArray, 0, currentReserva);
 	}
@@ -1966,13 +1970,13 @@ public class VentanaPrincipal extends JFrame {
 	private void updateComboTypeOfRooms() {
 		getCmbTypeOfRoom2Panl().removeAllItems();
 		if (currentViaje.getCamarotesDoblesExterioresLibres() > 0)
-			getCmbTypeOfRoom2Panl().addItem("Double Exterior Room");
+			getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.double-exterior_label")); //$NON-NLS-1$
 		if (currentViaje.getCamarotesDoblesInterioresLibres() > 0)
-			getCmbTypeOfRoom2Panl().addItem("Double Interior Room");
+			getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.double-interior_label")); //$NON-NLS-1$
 		if (currentViaje.getCamarotesFamiliaresEterioresLibres() > 0)
-			getCmbTypeOfRoom2Panl().addItem("Familiar Exterior Room");
+			getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.familiar-exterior_label")); //$NON-NLS-1$
 		if (currentViaje.getCamarotesFamiliaresInterioresLibres() > 0)
-			getCmbTypeOfRoom2Panl().addItem("Familiar Interior Room");
+			getCmbTypeOfRoom2Panl().addItem(Messages.getString("VentanaPrincipal.familiar-interior_label")); //$NON-NLS-1$
 
 	}
 
@@ -1991,10 +1995,10 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private void updateCapacityLabels() {
-		getLblFreeDoubleExterior().setText("Free Double Exterior Rooms: " + Integer.toString(currentViaje.getCamarotesDoblesExterioresLibres()));
-		getLblFreeDoubleInterior().setText("Free Double Interior Rooms: " + Integer.toString(currentViaje.getCamarotesDoblesInterioresLibres()));
-		getLblFreeFamiliarExterior().setText("Free Familiar Exterior Rooms: " + Integer.toString(currentViaje.getCamarotesFamiliaresEterioresLibres()));
-		getLblFreeFamiliarInterior().setText("Free Familiar Interior Rooms: " + Integer.toString(currentViaje.getCamarotesFamiliaresInterioresLibres()));
+		getLblFreeDoubleExterior().setText(Messages.getString("VentanaPrincipal.free-double-exterior-two-points_label") + Integer.toString(currentViaje.getCamarotesDoblesExterioresLibres())); //$NON-NLS-1$
+		getLblFreeDoubleInterior().setText(Messages.getString("VentanaPrincipal.free-double-interior-two-points_label") + Integer.toString(currentViaje.getCamarotesDoblesInterioresLibres())); //$NON-NLS-1$
+		getLblFreeFamiliarExterior().setText(Messages.getString("VentanaPrincipal.free-familiar-exterior-two-points_label") + Integer.toString(currentViaje.getCamarotesFamiliaresEterioresLibres())); //$NON-NLS-1$
+		getLblFreeFamiliarInterior().setText(Messages.getString("VentanaPrincipal.free-familiar-interior-two-points_label") + Integer.toString(currentViaje.getCamarotesFamiliaresInterioresLibres())); //$NON-NLS-1$
 	}
 
 	private void locateViaje(Crucero c, Date d) {
@@ -2026,13 +2030,13 @@ public class VentanaPrincipal extends JFrame {
 	private int getPeopleInCabin() {
 		int size = 0;
 		if (getCmbTypeOfRoom2Panl().getSelectedItem() != null) {
-			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Exterior Room")) {
+			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-exterior_label"))) { //$NON-NLS-1$
 				size = CamaroteDoble.N_PERSONS;
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Interior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-interior_label"))) { //$NON-NLS-1$
 				size = CamaroteDoble.N_PERSONS;
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Exterior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-exterior_label"))) { //$NON-NLS-1$
 				size = CamaroteFamiliar.N_PERSONS;
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Interior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-interior_label"))) { //$NON-NLS-1$
 				size = CamaroteFamiliar.N_PERSONS;
 			}
 		}
@@ -2040,21 +2044,21 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private Pasajero addPasajero() {
-		String input = JOptionPane.showInputDialog(mainPane, "Insert the age of the passenger.");
+		String input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.insert-age_message")); //$NON-NLS-1$
 		int age = -1;
 		if (input != null)
 			try {
 				age = Integer.parseInt(input);
 			} catch (NumberFormatException e1) {
-
+				Files.writeLog(log, e1.getMessage());
 			}
 		while ((age < 0 || age > 150) && input != null) {
-			input = JOptionPane.showInputDialog(mainPane, "Please insert a correct age between 0 and 150");
+			input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.insert-age_message_warning")); //$NON-NLS-1$
 			if (input != null) {
 				try {
 					age = Integer.parseInt(input);
 				} catch (NumberFormatException e1) {
-
+					Files.writeLog(log, e1.getMessage());
 				}
 			}
 		}
@@ -2066,21 +2070,21 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private Pasajero addKid() {
-		String input = JOptionPane.showInputDialog(mainPane, "Insert the age of the kid.");
+		String input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.insert-age-kid_message")); //$NON-NLS-1$
 		int age = -1;
 		if (input != null)
 			try {
 				age = Integer.parseInt(input);
 			} catch (NumberFormatException e1) {
-
+				Files.writeLog(log, e1.getMessage());
 			}
 		while ((age < 0 || age > 16) && input != null) {
-			input = JOptionPane.showInputDialog(mainPane, "Please insert an age lower than 16.");
+			input = JOptionPane.showInputDialog(mainPane, Messages.getString("VentanaPrincipal.insert-age-kid_message_warning")); //$NON-NLS-1$
 			if (input != null) {
 				try {
 					age = Integer.parseInt(input);
 				} catch (NumberFormatException e1) {
-
+					Files.writeLog(log, e1.getMessage());
 				}
 			}
 		}
@@ -2138,13 +2142,13 @@ public class VentanaPrincipal extends JFrame {
 
 	private void checkIfIsThereRooms() {
 		if (getCmbTypeOfRoom2Panl().getSelectedItem() != null) {
-			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Exterior Room") && currentViaje.getCamarotesDoblesExterioresLibres() == 0) {
+			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-exterior_label")) && currentViaje.getCamarotesDoblesExterioresLibres() == 0) { //$NON-NLS-1$
 				getBtnAddRoom().setEnabled(false);
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Interior Room") && currentViaje.getCamarotesDoblesInterioresLibres() == 0) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-interior_label")) && currentViaje.getCamarotesDoblesInterioresLibres() == 0) { //$NON-NLS-1$
 				getBtnAddRoom().setEnabled(false);
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Exterior Room") && currentViaje.getCamarotesFamiliaresEterioresLibres() == 0) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-exterior_label")) && currentViaje.getCamarotesFamiliaresEterioresLibres() == 0) { //$NON-NLS-1$
 				getBtnAddRoom().setEnabled(false);
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Interior Room") && currentViaje.getCamarotesDoblesInterioresLibres() == 0) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-interior_label")) && currentViaje.getCamarotesDoblesInterioresLibres() == 0) { //$NON-NLS-1$
 				getBtnAddRoom().setEnabled(false);
 			} else {
 				getBtnAddRoom().setEnabled(true);
@@ -2155,13 +2159,13 @@ public class VentanaPrincipal extends JFrame {
 	private void loadRoomOnToTable() {
 		Camarote c = null;
 		if (getCmbTypeOfRoom2Panl().getSelectedItem() != null) {
-			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Exterior Room")) {
+			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-exterior_label"))) { //$NON-NLS-1$
 				c = currentViaje.getCamaroteDobleExteriorLibre();
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Double Interior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-interior_label"))) { //$NON-NLS-1$
 				c = currentViaje.getCamaroteDobleInteriorLibre();
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Exterior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-exterior_label"))) { //$NON-NLS-1$
 				c = currentViaje.getCamaroteFamiliarExteriorLibre();
-			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals("Familiar Interior Room")) {
+			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-interior_label"))) { //$NON-NLS-1$
 				c = currentViaje.getCamaroteFamiliarInteriorLibre();
 			}
 
@@ -2211,17 +2215,17 @@ public class VentanaPrincipal extends JFrame {
 	}
 	
 	private void resetCruiseStatus() {
-		getLblFreeDoubleExterior().setText("Free Double Exterior Rooms: 0");
-		getLblFreeDoubleInterior().setText("Free Double Interior Rooms: 0");
-		getLblFreeFamiliarExterior().setText("Free Familiar Exterior Rooms: 0");
-		getLblFreeFamiliarInterior().setText("Free Familiar Interior Rooms: 0");
+		getLblFreeDoubleExterior().setText(Messages.getString("VentanaPrincipal.free-double-exterior_label")); //$NON-NLS-1$
+		getLblFreeDoubleInterior().setText(Messages.getString("VentanaPrincipal.free-double-interior_label")); //$NON-NLS-1$
+		getLblFreeFamiliarExterior().setText(Messages.getString("VentanaPrincipal.free-familiar-exterior_label")); //$NON-NLS-1$
+		getLblFreeFamiliarInterior().setText(Messages.getString("VentanaPrincipal.free-familiar-interior_label")); //$NON-NLS-1$
 	}
 	
 	private void resetPersonalInfo() {
-		getTxtName().setText("");
-		getTxtSurname().setText("");
-		getTxtDNI().setText("");
-		getTxtPhone().setText("");
+		getTxtName().setText(""); //$NON-NLS-1$
+		getTxtSurname().setText(""); //$NON-NLS-1$
+		getTxtDNI().setText(""); //$NON-NLS-1$
+		getTxtPhone().setText(""); //$NON-NLS-1$
 	}
 
 }

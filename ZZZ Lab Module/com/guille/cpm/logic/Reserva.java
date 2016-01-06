@@ -260,7 +260,7 @@ public class Reserva {
 		return (this.getTotalPrice() - this.getDiscount());
 	}
 	
-	@Override
+	@Override // max 50 lines!!!
 	public String toString() {
 		StringBuilder aux = new StringBuilder();
 		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
