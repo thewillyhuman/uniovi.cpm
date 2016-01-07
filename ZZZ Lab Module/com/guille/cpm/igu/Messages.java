@@ -13,7 +13,7 @@ public class Messages {
 
 	private static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 	
-	private static final Locale localization = Locale.getDefault();
+	public static Locale localization = Locale.getDefault();
 
 	private Messages() {
 	}

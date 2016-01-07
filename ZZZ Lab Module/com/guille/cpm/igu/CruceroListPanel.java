@@ -55,42 +55,42 @@ public class CruceroListPanel extends JPanel {
 		add(getPanel_big(), BorderLayout.CENTER);
 
 		// Writing the properties of the cruise.
-		getLblDenominacion().setText(Strings.deAccent(crucero.getArea() + ": " + crucero.getDenominacion()));
-		getLblDuracion().setText("Duration: " + crucero.getDuracion() + " days.");
+		getLblDenominacion().setText(Strings.deAccent(crucero.getArea() + Messages.getString("CruceroListPanel.two-points_symbol") + crucero.getDenominacion())); //$NON-NLS-1$
+		getLblDuracion().setText(Messages.getString("CruceroListPanel.duration-two-points_label") + crucero.getDuracion() + Messages.getString("CruceroListPanel.days_label")); //$NON-NLS-1$ //$NON-NLS-2$
 		getLblImage().setIcon(Images.resize(getLblImage(), crucero.getPicturePath()));
 		getLblImgShip().setIcon(Images.resize(getLblImgShip(), crucero.getBarco().getPicturePath()));
-		getLblStartingProt().setText("Starting Port: " + crucero.getStartPort());
-		getLblShipName().setText("Ship Name: " + crucero.getBarco().getName());
-		getLblItinerario().setText(Strings.deAccent("Itinerario: " + crucero.getItinerario()));
+		getLblStartingProt().setText(Messages.getString("CruceroListPanel.satrting-port-two-points_label") + crucero.getStartPort()); //$NON-NLS-1$
+		getLblShipName().setText(Messages.getString("CruceroListPanel.ship-name-two-points_label") + crucero.getBarco().getName()); //$NON-NLS-1$
+		getLblItinerario().setText(Strings.deAccent(Messages.getString("CruceroListPanel.itinerario-two-points-space_label") + crucero.getItinerario())); //$NON-NLS-1$
 
 		// Getting the price of the discounted and the non discounted cruises.
 		if (crucero.isDiscounted()) {
-			getLblFromPrice().setText("Was $" + Double.toString(crucero.getStartingPriceBD()));
+			getLblFromPrice().setText(Messages.getString("CruceroListPanel.was-dollar_label") + Double.toString(crucero.getStartingPriceBD())); //$NON-NLS-1$
 			getLblFromPrice().setForeground(Color.GRAY);
-			getLblDiscountedPrice().setText("Now from $" + Double.toString(crucero.getStartingPrice()));
+			getLblDiscountedPrice().setText(Messages.getString("CruceroListPanel.now-from-dollar_label") + Double.toString(crucero.getStartingPrice())); //$NON-NLS-1$
 			getLblDiscountedPrice().setVisible(true);
 		} else {
 			getLblFromPrice().setVisible(false);
-			getLblDiscountedPrice().setText("From $" + Double.toString(crucero.getStartingPrice()));
+			getLblDiscountedPrice().setText(Messages.getString("CruceroListPanel.from-dollar_label") + Double.toString(crucero.getStartingPrice())); //$NON-NLS-1$
 			getLblDiscountedPrice().setVisible(true);
 		}
 
 		// Setting properties depending on the availability of the cruise for
 		// kids or not.
 		if (!crucero.getAcceptUnder16()) {
-			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon+16.png"));
-			getLblForbiden().setToolTipText("This ship does not accept anyone under 16 years.");
-			getLblForbidenDescription().setText("Only for adults.");
+			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon+16.png")); //$NON-NLS-1$
+			getLblForbiden().setToolTipText(Messages.getString("CruceroListPanel.not-under16_tooltip")); //$NON-NLS-1$
+			getLblForbidenDescription().setText(Messages.getString("CruceroListPanel.only-for-adults_label")); //$NON-NLS-1$
 		} else {
-			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon_family.png"));
-			getLblForbiden().setToolTipText("This ship accepts all publics.");
-			getLblForbidenDescription().setText("Avaliable for all publics.");
+			getLblForbiden().setIcon(Images.resize(getLblForbiden(), "com/guille/cpm/img/icon_family.png")); //$NON-NLS-1$
+			getLblForbiden().setToolTipText(Messages.getString("CruceroListPanel.all-publics_tooltip")); //$NON-NLS-1$
+			getLblForbidenDescription().setText(Messages.getString("CruceroListPanel.all-publics_label")); //$NON-NLS-1$
 		}
 	}
 
 	private JLabel getLblDenominacion() {
 		if (lblDenominacion == null) {
-			lblDenominacion = new JLabel("Denominacion");
+			lblDenominacion = new JLabel(Messages.getString("CruceroListPanel.denominacion_label")); //$NON-NLS-1$
 			lblDenominacion.setBounds(6, 6, 808, 20);
 			lblDenominacion.setFont(VentanaPrincipal.textMedium);
 		}
@@ -119,7 +119,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblDuracion() {
 		if (lblDuracion == null) {
-			lblDuracion = new JLabel("Duración");
+			lblDuracion = new JLabel(Messages.getString("CruceroListPanel.duracion_label")); //$NON-NLS-1$
 			lblDuracion.setFont(VentanaPrincipal.textBold);
 			lblDuracion.setBounds(6, 6, 135, 22);
 			lblDuracion.setFont(VentanaPrincipal.text);
@@ -129,17 +129,17 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblImage() {
 		if (lblImage == null) {
-			lblImage = new JLabel("img_cruise");
+			lblImage = new JLabel("img_cruise"); //$NON-NLS-1$
 			lblImage.setBackground(Color.WHITE);
 			lblImage.setBounds(6, 60, 160, 134);
-			lblImage.setIcon(new ImageIcon(CruceroListPanel.class.getResource("/com/guille/cpm/img/CRU0001.jpg")));
+			lblImage.setIcon(new ImageIcon(CruceroListPanel.class.getResource("/com/guille/cpm/img/CRU0001.jpg"))); //$NON-NLS-1$
 		}
 		return lblImage;
 	}
 
 	private JLabel getLblStartingProt() {
 		if (lblStartingProt == null) {
-			lblStartingProt = new JLabel("starting port");
+			lblStartingProt = new JLabel(Messages.getString("CruceroListPanel.starting-port_label")); //$NON-NLS-1$
 			lblStartingProt.setBounds(153, 9, 259, 16);
 			lblStartingProt.setFont(VentanaPrincipal.text);
 		}
@@ -148,7 +148,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblShipName() {
 		if (lblShipName == null) {
-			lblShipName = new JLabel("ship name");
+			lblShipName = new JLabel(Messages.getString("CruceroListPanel.ship-name_label")); //$NON-NLS-1$
 			lblShipName.setBounds(441, 9, 284, 16);
 			lblShipName.setFont(VentanaPrincipal.text);
 		}
@@ -157,7 +157,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblItinerario() {
 		if (lblItinerario == null) {
-			lblItinerario = new JLabel("Itinerario:");
+			lblItinerario = new JLabel(Messages.getString("CruceroListPanel.itinerario-two-points_label")); //$NON-NLS-1$
 			lblItinerario.setBounds(6, 32, 782, 16);
 			lblItinerario.setFont(VentanaPrincipal.text);
 		}
@@ -166,7 +166,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblFromPrice() {
 		if (lblFromPrice == null) {
-			lblFromPrice = new JLabel("from price");
+			lblFromPrice = new JLabel(Messages.getString("CruceroListPanel.from-price-label")); //$NON-NLS-1$
 			lblFromPrice.setForeground(Color.BLACK);
 			lblFromPrice.setBounds(699, 135, 112, 16);
 			lblFromPrice.setFont(VentanaPrincipal.text);
@@ -176,7 +176,7 @@ public class CruceroListPanel extends JPanel {
 
 	public JButton getBtnSelect() {
 		if (btnSelect == null) {
-			btnSelect = new JButton("Buy Now");
+			btnSelect = new JButton(Messages.getString("CruceroListPanel.boy-now_label")); //$NON-NLS-1$
 			btnSelect.setBounds(697, 172, 117, 29);
 			btnSelect.setFont(VentanaPrincipal.text);
 		}
@@ -196,7 +196,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblDiscountedPrice() {
 		if (lblDiscountedPrice == null) {
-			lblDiscountedPrice = new JLabel("From $0.0");
+			lblDiscountedPrice = new JLabel(Messages.getString("CruceroListPanel.from-dollar-cero_label")); //$NON-NLS-1$
 			lblDiscountedPrice.setBounds(699, 154, 112, 16);
 			lblDiscountedPrice.setVisible(false);
 			lblDiscountedPrice.setFont(VentanaPrincipal.text);
@@ -222,7 +222,7 @@ public class CruceroListPanel extends JPanel {
 
 	private JLabel getLblImgShip() {
 		if (lblImgShip == null) {
-			lblImgShip = new JLabel("img_cruise");
+			lblImgShip = new JLabel("img_cruise"); //$NON-NLS-1$
 			lblImgShip.setBackground(Color.WHITE);
 			lblImgShip.setBounds(176, 60, 160, 134);
 		}
