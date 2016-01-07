@@ -80,7 +80,6 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import javax.swing.border.EtchedBorder;
 import java.awt.Insets;
