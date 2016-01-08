@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.guille.cpm.logic.Barco;
+import com.guille.cpm.logic.barco.Barco;
 
 public class BarcoTest {
 	

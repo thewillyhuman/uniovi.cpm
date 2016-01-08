@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import com.guille.cpm.logic.*;
+import com.guille.cpm.logic.crucero.Crucero;
+import com.guille.cpm.logic.interfaces.Filter;
 
 public class CollectionsCPM {
 

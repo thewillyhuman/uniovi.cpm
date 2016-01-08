@@ -6,29 +6,29 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.guille.cpm.logic.Camarote;
-import com.guille.cpm.logic.CamaroteDoble;
-import com.guille.cpm.logic.CamaroteDobleExterior;
-import com.guille.cpm.logic.CamaroteDobleInterior;
-import com.guille.cpm.logic.CamaroteFamiliar;
-import com.guille.cpm.logic.CamaroteFamiliarExterior;
-import com.guille.cpm.logic.CamaroteFamiliarInterior;
 import com.guille.cpm.logic.CargarDatos;
-import com.guille.cpm.logic.CompareByDuration;
-import com.guille.cpm.logic.CompareByPrice;
-import com.guille.cpm.logic.CompareByStartingdate;
-import com.guille.cpm.logic.Crucero;
-import com.guille.cpm.logic.Cruceros;
-import com.guille.cpm.logic.Extra;
-import com.guille.cpm.logic.Extras;
-import com.guille.cpm.logic.FilterByArea;
-import com.guille.cpm.logic.FilterByChild;
-import com.guille.cpm.logic.FilterByDiscount;
-import com.guille.cpm.logic.FilterByStartingDate;
-import com.guille.cpm.logic.FilterByStartingPort;
-import com.guille.cpm.logic.Pasajero;
-import com.guille.cpm.logic.Reserva;
-import com.guille.cpm.logic.Viaje;
+import com.guille.cpm.logic.camarote.Camarote;
+import com.guille.cpm.logic.camarote.CamaroteDoble;
+import com.guille.cpm.logic.camarote.CamaroteDobleExterior;
+import com.guille.cpm.logic.camarote.CamaroteDobleInterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliar;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarExterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarInterior;
+import com.guille.cpm.logic.comparators.CompareByDuration;
+import com.guille.cpm.logic.comparators.CompareByPrice;
+import com.guille.cpm.logic.comparators.CompareByStartingdate;
+import com.guille.cpm.logic.crucero.Crucero;
+import com.guille.cpm.logic.crucero.Cruceros;
+import com.guille.cpm.logic.extra.Extra;
+import com.guille.cpm.logic.extra.Extras;
+import com.guille.cpm.logic.filters.FilterByArea;
+import com.guille.cpm.logic.filters.FilterByChild;
+import com.guille.cpm.logic.filters.FilterByDiscount;
+import com.guille.cpm.logic.filters.FilterByStartingDate;
+import com.guille.cpm.logic.filters.FilterByStartingPort;
+import com.guille.cpm.logic.pasajero.Pasajero;
+import com.guille.cpm.logic.reserva.Reserva;
+import com.guille.cpm.logic.viaje.Viaje;
 import com.guille.fonts.myriadSetPro.MyriadSetPro;
 import com.guille.util.CollectionsCPM;
 import com.guille.util.Files;
@@ -39,10 +39,12 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import java.awt.event.ItemListener;
@@ -61,6 +64,8 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.MatteBorder;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -84,6 +89,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import javax.swing.border.EtchedBorder;
 import java.awt.Insets;
 
+
 /**
  * 
  * @author Guillermo Facundo Colunga
@@ -91,25 +97,21 @@ import java.awt.Insets;
 public class VentanaPrincipal extends JFrame {
 
 	private static final long serialVersionUID = -8029479718163458536L;
-	
+
 	// Error log.
 	private static final PrintWriter log = Files.createLogger("com/guille/cpm/files/out/", "ErrorLog"); //$NON-NLS-1$ //$NON-NLS-2$
-	
+
 	// Custom Fonts.
 	protected static final Font text = new MyriadSetPro().getMyriad_Set_Pro_Text().deriveFont(14f);
 	protected static final Font textBold = new MyriadSetPro().getMyriad_Set_Pro_Semibold().deriveFont(14f);
 	protected static final Font subtitleBold = new MyriadSetPro().getMyriad_Set_Pro_Semibold().deriveFont(20f);
 	protected static final Font textMedium = new MyriadSetPro().getMyriad_Set_Pro_Medium().deriveFont(17f);
-	
+
 	// Variables.
 	// JPanels.
-	private JPanel 	mainPane, panel1, wPanel, cPanel, cPanelNPanel, panel2, panel2NPanel, 
-					panel2SPanel, panel2CPanel, panel2NPanelEPanel, panel2NPanelWPanel,
-					panel2NPanelNpanel, pnRoom2Panel, pnRooms2Panel, pnPassengers2Panel,
-					pnSouthPassengers2Panel, pnExtras2Panel, pnButtonsRooms, panel3, pnNpn3,
-					pnSpn3, pnCpn3, pnTableSummary, panel, panel4, pnCpn4, panel_2, panel_3,
-					pnTripStatus, pnCapacities, panel_1;
-	
+	private JPanel mainPane, panel1, wPanel, cPanel, cPanelNPanel, panel2, panel2NPanel, panel2SPanel, panel2CPanel, panel2NPanelEPanel, panel2NPanelWPanel, panel2NPanelNpanel, pnRoom2Panel, pnRooms2Panel, pnPassengers2Panel,
+			pnSouthPassengers2Panel, pnExtras2Panel, pnButtonsRooms, panel3, pnNpn3, pnSpn3, pnCpn3, pnTableSummary, panel, panel4, pnCpn4, panel_2, panel_3, pnTripStatus, pnCapacities, panel_1;
+
 	// JLabels.
 	private JLabel lblSerach;
 	private JLabel lblDestino;
@@ -118,7 +120,6 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblListOfAvaliable;
 	private JLabel lblMoreCriteria;
 	private JLabel lblSortBy;
-	private JLabel lblDuration;
 	private JLabel lblImgShipPanel2;
 	private JLabel lblDescripcion2Panel;
 	private JLabel lblDuration2Panel;
@@ -140,26 +141,25 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblDni;
 	private JLabel lblPhone;
 	private JLabel lblReceiptTitle;
-	
+
 	// JTextArea
 	private JTextArea txtReceipt;
 	private JTextArea txtrTxtdescriptionlong;
-	
+
 	// JTextField
 	private JTextField txtName;
 	private JTextField txtSurname;
 	private JTextField txtPhone;
 	private JTextField txtDNI;
-	
+
 	// JComboBoxes
 	private JComboBox<String> comboDestino;
 	private JComboBox<String> comboStartingDate;
 	private JComboBox<String> comboStartingPort;
 	private JComboBox<String> comboSort;
-	private JComboBox<String> comboDuration;
 	private JComboBox<String> cmbDate2Panel;
 	private JComboBox<String> cmbTypeOfRoom2Panl;
-	
+
 	// JCheckBoxes
 	private JCheckBox ckbxAcceptsKids;
 	private JCheckBox ckbxDiscount;
@@ -167,7 +167,7 @@ public class VentanaPrincipal extends JFrame {
 	private JCheckBox chckbxJacuzzi;
 	private JCheckBox chckbxSpecialBreakfast;
 	private JCheckBox chckbxExtrabigBed;
-	
+
 	// JButtons
 	private JButton btnNewButton;
 	private JButton btnConfirm;
@@ -181,23 +181,23 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnGoToInicio;
 	private JButton btnCheckDate;
 	private JButton btnModifyRoom;
-	
+
 	// JScrollPanes
 	private JScrollPane scSearch;
 	private JScrollPane scrollPane;
 	private JScrollPane scPassengers2Panel;
 	private JScrollPane scPaneTableSummary;
 	private JScrollPane scrollPane_1;
-	
+
 	// JSeparators
 	private JSeparator separator;
 	private JSeparator separator_1;
 	private JSeparator separator_2;
-	
+
 	// JTables
 	private JTable tbRooms;
 	private JTable tbSummary;
-	
+
 	// Models
 	private CustomComboBoxModel<String> modelDestination;
 	private CustomComboBoxModel<String> modelDate;
@@ -205,18 +205,25 @@ public class VentanaPrincipal extends JFrame {
 	private CustomComboBoxModel<String> modeloSortBy;
 	private DefaultListModel<Pasajero> modelPasajeros;
 	private ModeloTablaNoEditable modeloTable;
-	
+
 	// Lists
 	private List<Crucero> listaDeCruceros = new ArrayList<Crucero>();
 	private JList<Pasajero> lstPassengers2Panel;
-	
+
 	// Objects to work with.
 	private Viaje currentViaje;
 	private Reserva currentReserva;
 	private Crucero currentShip;
 	private JButton btnEn;
 	private JButton btnEs;
-		
+	private JPanel panel_4;
+	private JButton btnEn2;
+	private JButton btnES2;
+
+	// Help objects
+	private URL hsURL;
+	private HelpSet hs;
+	private HelpBroker hb;
 
 	/**
 	 * Launch the application.
@@ -271,9 +278,8 @@ public class VentanaPrincipal extends JFrame {
 		mainPane.add(getPanel4(), "receipt"); //$NON-NLS-1$
 		initializeModels();
 		loadCruisesInList();
+		setUpHelp();
 	}
-
-	
 
 	private JPanel getPanel1() {
 		if (panel1 == null) {
@@ -308,8 +314,6 @@ public class VentanaPrincipal extends JFrame {
 			wPanel.add(getLblSortBy());
 			wPanel.add(getSeparator_2());
 			wPanel.add(getComboSort());
-			wPanel.add(getComboDuration());
-			wPanel.add(getLblDuration());
 			wPanel.add(getBtnEn());
 			wPanel.add(getBtnEs());
 		}
@@ -539,7 +543,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblSortBy == null) {
 			lblSortBy = new JLabel(Messages.getString("VentanaPrincipal.sort-by_label")); //$NON-NLS-1$
 			lblSortBy.setFont(textBold);
-			lblSortBy.setBounds(6, 384, 186, 16);
+			lblSortBy.setBounds(6, 331, 186, 16);
 		}
 		return lblSortBy;
 	}
@@ -557,7 +561,7 @@ public class VentanaPrincipal extends JFrame {
 			comboSort = new JComboBox<String>();
 			comboSort.setEnabled(true);
 			comboSort.setFont(text);
-			comboSort.setBounds(6, 412, 186, 27);
+			comboSort.setBounds(6, 359, 186, 27);
 			updateModelSortBy();
 			comboSort.setModel(modeloSortBy);
 			comboSort.addActionListener(new ActionListener() {
@@ -569,24 +573,6 @@ public class VentanaPrincipal extends JFrame {
 			});
 		}
 		return comboSort;
-	}
-
-	private JComboBox<String> getComboDuration() {
-		if (comboDuration == null) {
-			comboDuration = new JComboBox<String>();
-			comboDuration.setFont(text);
-			comboDuration.setBounds(6, 346, 186, 27);
-		}
-		return comboDuration;
-	}
-
-	private JLabel getLblDuration() {
-		if (lblDuration == null) {
-			lblDuration = new JLabel(Messages.getString("VentanaPrincipal.duration_label")); //$NON-NLS-1$
-			lblDuration.setFont(text);
-			lblDuration.setBounds(6, 329, 175, 16);
-		}
-		return lblDuration;
 	}
 
 	private JPanel getPanel2NPanel() {
@@ -607,6 +593,7 @@ public class VentanaPrincipal extends JFrame {
 			panel2SPanel.setBackground(Color.WHITE);
 			panel2SPanel.setLayout(new BorderLayout(0, 0));
 			panel2SPanel.add(getBtnConfirm(), BorderLayout.EAST);
+			panel2SPanel.add(getPanel_4(), BorderLayout.WEST);
 		}
 		return panel2SPanel;
 	}
@@ -674,7 +661,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnNewButton;
 	}
-	
+
 	private JLabel getLblImgShipPanel2() {
 		if (lblImgShipPanel2 == null) {
 			lblImgShipPanel2 = new JLabel("New label"); //$NON-NLS-1$
@@ -805,7 +792,7 @@ public class VentanaPrincipal extends JFrame {
 			cmbDate2Panel.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(cmbDate2Panel.getSelectedIndex()!=0) {
+					if (cmbDate2Panel.getSelectedIndex() != 0) {
 						cmbDate2Panel.setEnabled(false);
 						try {
 							checkDate2Panel();
@@ -939,12 +926,12 @@ public class VentanaPrincipal extends JFrame {
 						}
 					}
 					if (pasajero != null) {
-						if(pasajero.isChild() && !currentReserva.getCrucero().getAcceptUnder16())
+						if (pasajero.isChild() && !currentReserva.getCrucero().getAcceptUnder16())
 							JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.cruise-not-under16_message"), Messages.getString("VentanaPrincipal.cruise-not-under16_message_title"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$ //$NON-NLS-2$
 						else
 							getModelPasajeros().addElement(pasajero);
 					}
-					
+
 					// Checking the AddRoom button.
 					if (getLstPassengers2Panel().getModel().getSize() > 0) {
 						getBtnAddRoom().setEnabled(true);
@@ -1016,7 +1003,7 @@ public class VentanaPrincipal extends JFrame {
 							if (getChckbxAddExtraBed().isSelected() && !hasKids()) {
 								JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.change-not-possible_message")); //$NON-NLS-1$
 								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
-							} else if(age<16 && !currentReserva.getCrucero().getAcceptUnder16()) {
+							} else if (age < 16 && !currentReserva.getCrucero().getAcceptUnder16()) {
 								JOptionPane.showMessageDialog(mainPane, Messages.getString("VentanaPrincipal.cruise-not-under16_message"), Messages.getString("VentanaPrincipal.cruise-not-under16_message_title"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$ //$NON-NLS-2$
 								getLstPassengers2Panel().getSelectedValue().setAge(oldAge);
 							}
@@ -1111,7 +1098,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnAddRoob;
 	}
-	
+
 	private DefaultListModel<Pasajero> getModelPasajeros() {
 		if (modelPasajeros == null)
 			modelPasajeros = new DefaultListModel<Pasajero>();
@@ -1396,6 +1383,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return txtPhone;
 	}
+
 	private JPanel getPanel4() {
 		if (panel4 == null) {
 			panel4 = new JPanel();
@@ -1566,6 +1554,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnGoToInicio;
 	}
+
 	private JButton getBtnCheckDate() {
 		if (btnCheckDate == null) {
 			btnCheckDate = new JButton(Messages.getString("VentanaPrincipal.change-date_label")); //$NON-NLS-1$
@@ -1606,6 +1595,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblTotalRooms;
 	}
+
 	private JLabel getLblTotalExtras() {
 		if (lblTotalExtras == null) {
 			lblTotalExtras = new JLabel("New label"); //$NON-NLS-1$
@@ -1614,6 +1604,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblTotalExtras;
 	}
+
 	private JLabel getLblTotalPrice() {
 		if (lblTotalPrice == null) {
 			lblTotalPrice = new JLabel("New label"); //$NON-NLS-1$
@@ -1622,6 +1613,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblTotalPrice;
 	}
+
 	private JButton getBtnModifyRoom() {
 		if (btnModifyRoom == null) {
 			btnModifyRoom = new JButton(Messages.getString("VentanaPrincipal.modify-room_label")); //$NON-NLS-1$
@@ -1632,13 +1624,13 @@ public class VentanaPrincipal extends JFrame {
 					getBtnAddRoom().setText(Messages.getString("VentanaPrincipal.modify-the-room_label")); //$NON-NLS-1$
 					Camarote c;
 					int row = getTbRooms().getSelectedRow();
-					if(row!=-1) {
+					if (row != -1) {
 						c = getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()).copy();
 						currentViaje.setCamaroteAsFree(getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()));
 						checkIfIsThereRooms();
 						updateCapacityLabels();
 						getModeloNoEditable().removeRow(getModeloNoEditable().getCamaroteAtRow(getTbRooms().getSelectedRow()));
-						
+
 						if (c instanceof CamaroteFamiliarInterior) {
 							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.familiar-interior_label")); //$NON-NLS-1$
 						} else if (c instanceof CamaroteFamiliarExterior) {
@@ -1649,17 +1641,17 @@ public class VentanaPrincipal extends JFrame {
 							getCmbTypeOfRoom2Panl().setSelectedItem(Messages.getString("VentanaPrincipal.double-exterior_label")); //$NON-NLS-1$
 						}
 						modelPasajeros.removeAllElements();
-						for(Pasajero p : c.getPasajeros()) {
+						for (Pasajero p : c.getPasajeros()) {
 							modelPasajeros.addElement(p);
 						}
-						for(Extra ext : c.getExtras()) {
-							if(ext.getExtra().equals("Cama supletoria")) //$NON-NLS-1$
+						for (Extra ext : c.getExtras()) {
+							if (ext.getExtra().equals("Cama supletoria")) //$NON-NLS-1$
 								getChckbxAddExtraBed().setSelected(true);
-							if(ext.getExtra().equals("Desayuno especial")) //$NON-NLS-1$
+							if (ext.getExtra().equals("Desayuno especial")) //$NON-NLS-1$
 								getChckbxSpecialBreakfast().setSelected(true);
-							if(ext.getExtra().equals("Cama extragrande")) //$NON-NLS-1$
+							if (ext.getExtra().equals("Cama extragrande")) //$NON-NLS-1$
 								getChckbxExtrabigBed().setSelected(true);
-							if(ext.getExtra().equals("Jacuzzi")) //$NON-NLS-1$
+							if (ext.getExtra().equals("Jacuzzi")) //$NON-NLS-1$
 								getChckbxJacuzzi().setSelected(true);
 						}
 						checkExtraBed(getPeopleInCabin());
@@ -1671,41 +1663,107 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnModifyRoom;
 	}
-	
+
 	private JButton getBtnEn() {
 		if (btnEn == null) {
-			btnEn = new JButton("EN"); //$NON-NLS-1$
+			btnEn = new JButton("EN");
+			btnEn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			btnEn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					local(new Locale("en_US"));
+					loacalThread(new Locale("en_US"));
 				}
 			});
-			btnEn.setBounds(6, 635, 87, 29);
+			btnEn.setBounds(6, 629, 35, 35);
 		}
 		return btnEn;
 	}
-	
+
 	private JButton getBtnEs() {
 		if (btnEs == null) {
 			btnEs = new JButton("ES"); //$NON-NLS-1$
+			btnEs.setEnabled(false);
+			btnEs.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			btnEs.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					local(new Locale("es_ES"));
+					loacalThread(new Locale("es_ES"));
 				}
 			});
-			btnEs.setBounds(105, 635, 87, 29);
+			btnEs.setBounds(40, 629, 35, 35);
 		}
 		return btnEs;
 	}
-	
+
+	private JPanel getPanel_4() {
+		if (panel_4 == null) {
+			panel_4 = new JPanel();
+			panel_4.setPreferredSize(new Dimension(70, 10));
+			panel_4.setBackground(Color.WHITE);
+			panel_4.setLayout(new GridLayout(0, 2, 0, 0));
+			panel_4.add(getBtnEn2());
+			panel_4.add(getBtnES2());
+		}
+		return panel_4;
+	}
+
+	private JButton getBtnEn2() {
+		if (btnEn2 == null) {
+			btnEn2 = new JButton("EN");
+			btnEn2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loacalThread(new Locale("en_US"));
+				}
+			});
+			btnEn2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		}
+		return btnEn2;
+	}
+
+	private JButton getBtnES2() {
+		if (btnES2 == null) {
+			btnES2 = new JButton("ES");
+			btnES2.setEnabled(false);
+			btnES2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loacalThread(new Locale("es_ES"));
+				}
+			});
+			btnES2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		}
+		return btnES2;
+	}
+
 	// BEGIN CORE METHODS
-	
+
+	/**
+	 * Updates the list of available cruises taking in to account all the
+	 * filters. <br>
+	 * **FILTEERING**<br>
+	 * 1. Filters by are.<br>
+	 * 2. Filters by starting date.<br>
+	 * 3. Filters by starting port.<br>
+	 * 4. Filters by child acceptance.<br>
+	 * 5. Filters by discount availability.<br>
+	 * <br>
+	 * **SORTING**<br>
+	 * 6. Sorts the list as the user defines.<br>
+	 * <br>
+	 * **CHECKING EMTYNESS**<br>
+	 * 7. If empty throw a JOption pane warning and restore one combo to get
+	 * some cruises.<br>
+	 */
 	private void updateListaCruceros() {
+
+		// Initializing the list of cruise, just a good practice to avoid null
+		// pointers...
 		listaDeCruceros = new ArrayList<Crucero>();
 		listaDeCruceros = Cruceros.getCruceros();
+
+		// First filter: Filtering by area.
 		if (getComboDestino().getSelectedItem() != Messages.getString("VentanaPrincipal.default_combo") && getComboDestino().getSelectedItem() != null) {
 			listaDeCruceros = CollectionsCPM.filter(new FilterByArea(), listaDeCruceros, getComboDestino().getSelectedItem().toString());
 		}
+
+		// Second filter: Filtering by starting date.
 		if (getComboStartingDate().getSelectedItem() != Messages.getString("VentanaPrincipal.default_combo") && getComboStartingDate().getSelectedItem() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG, Messages.localization);
 			try {
@@ -1714,40 +1772,64 @@ public class VentanaPrincipal extends JFrame {
 				Files.writeLog(log, e.getMessage());
 			}
 		}
+
+		// Third filter: Filtering by starting port.
 		if (getComboStartingPort().getSelectedItem() != Messages.getString("VentanaPrincipal.default_combo") && getComboStartingPort().getSelectedItem() != null) {
 			listaDeCruceros = CollectionsCPM.filter(new FilterByStartingPort(), listaDeCruceros, getComboStartingPort().getSelectedItem().toString());
 		}
+
+		// Fourth filter: Filtering by child acceptance.
 		if (getCkbxAcceptsKids().isSelected()) {
 			listaDeCruceros = CollectionsCPM.filter(new FilterByChild(), listaDeCruceros, getCkbxAcceptsKids().isSelected());
 		}
+
+		// Fifth filter: Filtering by discount availability.
 		if (getCkbxDiscount().isSelected()) {
 			listaDeCruceros = CollectionsCPM.filter(new FilterByDiscount(), listaDeCruceros, getCkbxDiscount().isSelected());
 		}
+
+		// Sorter and comparators implemented here.
 		if (getComboSort().getSelectedItem() != Messages.getString("VentanaPrincipal.default_combo") && getComboSort().getSelectedItem() != null) {
-			if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.ascending-price_label"))) //$NON-NLS-1$
+			if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.ascending-price_label")))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByPrice());
-			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.duration_label"))) //$NON-NLS-1$
+			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.duration_label")))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByDuration());
-			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.starting-date-comparator_label"))) //$NON-NLS-1$
+			else if (getComboSort().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.starting-date-comparator_label")))
 				listaDeCruceros = CollectionsCPM.sort(listaDeCruceros, new CompareByStartingdate());
 		}
+
+		// Controlling that the resulting list is not empty.
 		if (listaDeCruceros.isEmpty()) {
-			JOptionPane.showMessageDialog(this, Messages.getString("VentanaPrincipal.no-creuises-avaliable_message")); //$NON-NLS-1$
+			JOptionPane.showMessageDialog(this, Messages.getString("VentanaPrincipal.no-creuises-avaliable_message"));
 			getComboDestino().setSelectedItem(Messages.getString("VentanaPrincipal.default_combo"));
 		}
 	}
-	
+
+	/**
+	 * Initialize all the models corresponding with any combo box.<br>
+	 * Initialize the cruises list. Remove all the previous elements from the
+	 * models just in case. Insert the default element for each model and the
+	 * rest of the elements. Then will sort the models, call the
+	 * updateModelSortBy() and re-validate and repaint.
+	 */
 	private void initializeModels() {
+		// Creating a simple date format object to parse / format any date.
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG, Messages.localization);
+
+		// Updating the cruises list.
 		listaDeCruceros = Cruceros.getCruceros();
 
+		// Removing all the previous elements from the models. Good practice.
 		modelDestination.removeAllElements();
 		modelDate.removeAllElements();
 		modelStartingPort.removeAllElements();
+
+		// Inserting the default element at position 0 for all models
 		modelDestination.insertElementAt(Messages.getString("VentanaPrincipal.default_combo"), 0);
 		modelDate.insertElementAt(Messages.getString("VentanaPrincipal.default_combo"), 0);
 		modelStartingPort.insertElementAt(Messages.getString("VentanaPrincipal.default_combo"), 0);
 
+		// Inserting the rest of the elements for each combo box.
 		for (Crucero c : listaDeCruceros) {
 			if (modelDestination.getIndexOf(c.getArea()) == -1)
 				modelDestination.addElement(c.getArea());
@@ -1758,46 +1840,110 @@ public class VentanaPrincipal extends JFrame {
 			if (modelStartingPort.getIndexOf(c.getStartPort()) == -1)
 				modelStartingPort.addElement(c.getStartPort());
 		}
+
+		// Sorting the combo boxes from the position 1 in order not to sort the
+		// first and default element.
 		modelDestination.sortFrom(1);
 		modelDate.sortFrom(1);
 		modelStartingPort.sortFrom(1);
+
+		// The sort model has its own method to be initialize and updated.
 		updateModelSortBy();
+
+		// Finally we re-validate and repaint all the mainPane to ensure proper
+		// display of cruises.
+		revalidate();
+		repaint();
 	}
 
+	/**
+	 * Updates the model described for the date combo box. Creates a toRemove
+	 * list of cruises that will be the ones deleted from the model. Then saves
+	 * the old state of the combo and add any extra ship to it. Finally if
+	 * possible will re-instantiate the old date as the selected one and will
+	 * sort the model again.
+	 */
 	private void updateDateModel() {
+		// Creates a list of elements that will be removed from the list of
+		// cruises.
 		List<Crucero> toRemove = CollectionsCPM.getDiference(Cruceros.getCruceros(), listaDeCruceros);
+
+		// Creates the old-date object by checking the selected item. And create
+		// a date format object.
 		Object oldDate = getComboStartingDate().getSelectedItem();
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG, Messages.localization);
+
+		// For each date contained in the toRemove list we remove it from the
+		// model.
 		for (Crucero c : toRemove)
 			for (Date d : c.getSalidas())
 				modelDate.removeElement(sdf.format(d));
 
+		// Just checking if there is any cruise in the list cruise that is not
+		// contained in the model and should we added now.
 		for (Crucero c : listaDeCruceros)
 			for (Date d : c.getSalidas())
 				if (modelDate.getIndexOf(sdf.format(d)) == -1)
 					modelDate.addElement(sdf.format(d));
+
+		// Finally if the old date is in the new model we selected as the new
+		// selected one.
 		if (modelDate.getIndexOf(oldDate) != -1)
 			getComboStartingDate().setSelectedItem(oldDate);
-		
+
+		// Finally we sort the model.
 		modelDate.sortFrom(1);
 	}
 
+	/**
+	 * Updates the model described for the date combo box. Creates a toRemove
+	 * list of cruises that will be the ones deleted from the model. Then saves
+	 * the old state of the combo and add any extra ship to it. Finally if
+	 * possible will re-instantiate the old date as the selected one and will
+	 * sort the model again.
+	 */
 	private void updateStartingPortModel() {
+		// Creates a list of elements that will be removed from the list of
+		// cruises.
 		List<Crucero> toRemove = CollectionsCPM.getDiference(Cruceros.getCruceros(), listaDeCruceros);
+
+		// Creates the old-port object by checking the selected item.
 		Object oldPort = getComboStartingPort().getSelectedItem();
+
+		// For each cruise in toRemove we remove it from the model.
 		for (Crucero c : toRemove)
 			modelStartingPort.removeElement(c.getStartPort());
+
+		// Just checking if there is any cruise in the list of cruises that is
+		// not contained in the model and should we added now.
 		for (Crucero c : listaDeCruceros)
 			if (modelStartingPort.getIndexOf(c.getStartPort()) == -1)
 				modelStartingPort.addElement(c.getStartPort());
+
+		// Finally we try to restore the old state in the new combo box.
 		if (modelStartingPort.getIndexOf(oldPort) != -1)
 			getComboStartingPort().setSelectedItem(oldPort);
-		
+
+		// Sorting the model.
 		modelStartingPort.sortFrom(1);
 	}
 
+	/**
+	 * Load the cruises in the list of cruises in the list of results. For that
+	 * creates a container that will be displayed in the viewPort of an scroll
+	 * pane, then will create a CruceroListPanel for each cruise in the
+	 * listaCruceros and finally after setting some preferences will add this
+	 * component to the container and this container to the viewport of the
+	 * scroll pane. Finally will repaint and re-validate everything.
+	 */
 	private void loadCruisesInList() {
+		// Creating the container that will the displayed in the viewport of the
+		// scroll pane.
 		Container cont = new Container();
+
+		// For each cruise in the list of cruises will create a
+		// CruceroListPanel, set the action command and implement a new action
+		// listener to travel between panes.
 		for (Crucero c : listaDeCruceros) {
 			CruceroListPanel aux = new CruceroListPanel(c);
 			aux.getBtnSelect().setActionCommand(c.getCodigoCrucero());
@@ -1805,34 +1951,62 @@ public class VentanaPrincipal extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					// Loading the second pane.
 					loadSecondPane(c);
+
+					// Setting the current working ship.
 					setCurrentShip(c);
 				}
 			});
+
+			// Setting the preferred size.
 			aux.setPreferredSize(new Dimension(getScSearch().getWidth(), 233));
+
+			// Finally adding the CruceroListPanel to the container.
 			cont.add(aux);
 		}
+
+		// Setting the layout for the container.
 		cont.setLayout(new GridLayout(listaDeCruceros.size(), 1));
+
+		// We re-validate and repaint all the mainPane
 		revalidate();
 		repaint();
+
+		// Finally we set the viewport, we re-validate and we repaint to ensure
+		// everything is being displayed correctly.
 		getScSearch().getViewport().setView(cont);
 		revalidate();
 		repaint();
 	}
 
+	/**
+	 * Sets the current cruise.
+	 * 
+	 * @param c is the cruise advocated to be the new cruise.
+	 */
 	private void setCurrentShip(Crucero c) {
 		this.currentShip = c;
 	}
 
+	/**
+	 * For each extra will set its combo box to not visible (default state).
+	 */
 	private void resetExtras() {
 		for (Component c : getPnExtras2Panel().getComponents())
 			((JCheckBox) c).setSelected(false);
 	}
 
+	/**
+	 * Removes all elements from the passengers model.
+	 */
 	private void resetListaPasajeros() {
 		getModelPasajeros().removeAllElements();
 	}
 
+	/**
+	 * Resets the configure your room pane.
+	 */
 	private void resetConfigureRoomPanel() {
 		resetListaPasajeros();
 		resetExtras();
@@ -1881,13 +2055,17 @@ public class VentanaPrincipal extends JFrame {
 	private void updateRoomCapacityLabel() {
 		if (getCmbTypeOfRoom2Panl().getSelectedItem() != null) {
 			if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-exterior_label"))) { //$NON-NLS-1$
-				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) //$NON-NLS-1$
+						+ Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$
 			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.double-interior_label"))) { //$NON-NLS-1$
-				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteDoble.N_PERSONS) //$NON-NLS-1$
+						+ Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$
 			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-exterior_label"))) { //$NON-NLS-1$
-				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) //$NON-NLS-1$
+						+ Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$
 			} else if (getCmbTypeOfRoom2Panl().getSelectedItem().toString().equals(Messages.getString("VentanaPrincipal.familiar-interior_label"))) { //$NON-NLS-1$
-				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) + Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$ //$NON-NLS-2$
+				getLblCapacity2Panel().setText(Messages.getString("VentanaPrincipal.this-room-has-capacity-for_label") + Integer.toString(CamaroteFamiliar.N_PERSONS) //$NON-NLS-1$
+						+ Messages.getString("VentanaPrincipal.this-room-has-capacity-for_tail_label")); //$NON-NLS-1$
 			}
 		}
 	}
@@ -1895,33 +2073,34 @@ public class VentanaPrincipal extends JFrame {
 	protected ModeloTablaNoEditable getModeloNoEditable() {
 		return this.modeloTable;
 	}
-	
+
 	private void deleteCurrentCamarotesFromViaje() {
 		for (Camarote c : getModeloNoEditable().getCamarotes()) {
 			currentViaje.setCamaroteAsFree(c);
 		}
 		getModeloNoEditable().removeAll();
 	}
-	
+
 	private void load3Panel() {
 		SimpleDateFormat sdf = new SimpleDateFormat(CargarDatos.DATE_FORMAT_LONG, Messages.localization);
-		getLblDescriptionAndDate().setText(Strings.deAccent(currentReserva.getCrucero().getDenominacion()+Messages.getString("VentanaPrincipal.separator-from_label") + currentReserva.getCrucero().getStartPort()+Messages.getString("VentanaPrincipal.point-starting-price_label")+sdf.format(currentReserva.getFechaSalida()))); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblDescriptionAndDate().setText(Strings.deAccent(currentReserva.getCrucero().getDenominacion() + Messages.getString("VentanaPrincipal.separator-from_label") + currentReserva.getCrucero().getStartPort() //$NON-NLS-1$
+				+ Messages.getString("VentanaPrincipal.point-starting-price_label") + sdf.format(currentReserva.getFechaSalida()))); //$NON-NLS-1$
 		resetPersonalInfo();
 		double priceC = 0.0;
 		double priceE = 0.0;
-		for(Camarote c : getModeloNoEditable().getCamarotes()) {
-			priceC+=currentReserva.getPriceCamarote(c);
+		for (Camarote c : getModeloNoEditable().getCamarotes()) {
+			priceC += currentReserva.getPriceCamarote(c);
 		}
-		for(Camarote c : getModeloNoEditable().getCamarotes()) {
-			priceE+= currentReserva.getPriceCamaroteAndExtras(c);
+		for (Camarote c : getModeloNoEditable().getCamarotes()) {
+			priceE += currentReserva.getPriceCamaroteAndExtras(c);
 		}
-		
-		getLblTotalRooms().setText(Messages.getString("VentanaPrincipal.total-rooms_lable")+ priceC + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
-		getLblTotalExtras().setText(Messages.getString("VentanaPrincipal.total-extras_label")+(priceE-priceC) + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
-		getLblTotalPrice().setText(Messages.getString("VentanaPrincipal.total-price_label")+priceE + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		getLblTotalRooms().setText(Messages.getString("VentanaPrincipal.total-rooms_lable") + priceC + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblTotalExtras().setText(Messages.getString("VentanaPrincipal.total-extras_label") + (priceE - priceC) + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
+		getLblTotalPrice().setText(Messages.getString("VentanaPrincipal.total-price_label") + priceE + Messages.getString("VentanaPrincipal.dollar-per-day_label")); //$NON-NLS-1$ //$NON-NLS-2$
 		((CardLayout) getContentPane().getLayout()).show(mainPane, "resumen_de_compra"); //$NON-NLS-1$
 	}
-	
+
 	private void initializeModeloTable() {
 		List<String> nombreColumnas = new ArrayList<String>();
 		nombreColumnas.add(Messages.getString("VentanaPrincipal.number_symbol")); //$NON-NLS-1$
@@ -1934,7 +2113,7 @@ public class VentanaPrincipal extends JFrame {
 		String[] stringArray = nombreColumnas.toArray(new String[nombreColumnas.size()]);
 		modeloTable = new ModeloTablaNoEditable(stringArray, 0, currentReserva);
 	}
-	
+
 	private void checkDate2Panel() throws ParseException {
 		if (cmbDate2Panel.getSelectedItem() != null && cmbDate2Panel.getSelectedIndex() != 0) {
 
@@ -2020,11 +2199,11 @@ public class VentanaPrincipal extends JFrame {
 	private void locateViaje(Crucero c, Date d) {
 		this.currentViaje = c.getViaje(d);
 	}
-	
+
 	private void checkAddPasajero() {
 		int people = getLstPassengers2Panel().getModel().getSize();
 		int size = getPeopleInCabin();
-		if(people > size) {
+		if (people > size) {
 			btnAddPassanger.setEnabled(false);
 		} else {
 			btnAddPassanger.setEnabled(true);
@@ -2110,7 +2289,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return null;
 	}
-	
+
 	private void checkAddRoomBtn() {
 		if (hasParents() && getModelPasajeros().size() > 0)
 			getBtnAddRoom().setEnabled(true);
@@ -2144,10 +2323,9 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return false;
 	}
-	
 
 	private void checkYourRoomsPane() {
-		if(getModeloNoEditable().getRowCount()>0) {
+		if (getModeloNoEditable().getRowCount() > 0) {
 			getPnRooms2Panel().setEnabled(true);
 			getTbRooms().setEnabled(true);
 		} else {
@@ -2209,46 +2387,68 @@ public class VentanaPrincipal extends JFrame {
 
 		modeloTable.addRow(c);
 	}
-	
+
 	private void loadFourthPanel() {
 		getTxtReceipt().setText(Strings.deAccent(currentReserva.toString()));
 	}
-	
+
 	private void resetMainWindow() {
 		initializeModels();
 		resetMainCheckBoxes();
 		loadCruisesInList();
 	}
-	
+
 	private void resetMainCheckBoxes() {
 		getCkbxDiscount().setSelected(false);
 		getCkbxAcceptsKids().setSelected(false);
 	}
-	
+
 	private void resetSecondWindow() throws ParseException {
 		resetCruiseStatus();
 		checkDate2Panel();
 	}
-	
+
 	private void resetCruiseStatus() {
 		getLblFreeDoubleExterior().setText(Messages.getString("VentanaPrincipal.free-double-exterior_label")); //$NON-NLS-1$
 		getLblFreeDoubleInterior().setText(Messages.getString("VentanaPrincipal.free-double-interior_label")); //$NON-NLS-1$
 		getLblFreeFamiliarExterior().setText(Messages.getString("VentanaPrincipal.free-familiar-exterior_label")); //$NON-NLS-1$
 		getLblFreeFamiliarInterior().setText(Messages.getString("VentanaPrincipal.free-familiar-interior_label")); //$NON-NLS-1$
 	}
-	
+
 	private void resetPersonalInfo() {
 		getTxtName().setText(""); //$NON-NLS-1$
 		getTxtSurname().setText(""); //$NON-NLS-1$
 		getTxtDNI().setText(""); //$NON-NLS-1$
 		getTxtPhone().setText(""); //$NON-NLS-1$
 	}
-	
-	private void local(Locale local) {
+
+	private void loacalThread(Locale local) {
 		Messages.localization = local;
+		LoadingDialog loading = new LoadingDialog(mainPane, Messages.getString("LoadingDialog.changing-language_label"), Messages.getString("LoadingDialog.changing-language_title"));
+
+		SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
+			@Override
+			protected Void doInBackground() throws Exception {
+				local(local);
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				loading.dispose();// close the modal dialog
+			}
+		};
+
+		sw.execute(); // this will start the processing on a separate thread
+		loading.setVisible(true); // this will block user input as long as
+									// the processing task is working
+	}
+
+	private void local(Locale local) {
+		setButtonLanguage(local);
 		// Updating the title of the application
 		setTitle(Messages.getString("VentanaPrincipal.title_window"));
-		
+
 		initializeModels();
 		getLblSerach().setText(Messages.getString("VentanaPrincipal.search_label"));
 		getLblDestino().setText(Messages.getString("VentanaPrincipal.destination_label"));
@@ -2259,7 +2459,6 @@ public class VentanaPrincipal extends JFrame {
 		getCkbxDiscount().setText(Messages.getString("VentanaPrincipal.discount_label"));
 		getLblMoreCriteria().setText(Messages.getString("VentanaPrincipal.more-criteria_label"));
 		getLblSortBy().setText(Messages.getString("VentanaPrincipal.sort-by_label"));
-		//initializeModels();
 		getPnRoom2Panel().setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.configure-the-room_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getPnRooms2Panel().setBorder(new TitledBorder(null, Messages.getString("VentanaPrincipal.your-rooms_label"), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getBtnConfirm().setText(Messages.getString("VentanaPrincipal.continue-to-summary_label"));
@@ -2296,9 +2495,9 @@ public class VentanaPrincipal extends JFrame {
 		getBtnGoToInicio().setText(Messages.getString("VentanaPrincipal.start-app_label"));
 		getBtnCheckDate().setText(Messages.getString("VentanaPrincipal.change-date_label"));
 		getBtnModifyRoom().setText(Messages.getString("VentanaPrincipal.modify-room_label"));
-		
+		getBtnNewButton().setText(Messages.getString("VentanaPrincipal.back-to-search_label"));
 	}
-	
+
 	private void updateModelSortBy() {
 		modeloSortBy.removeAllElements();
 		modeloSortBy.insertElementAt(Messages.getString("VentanaPrincipal.default_combo"), 0);
@@ -2306,5 +2505,35 @@ public class VentanaPrincipal extends JFrame {
 		modeloSortBy.addElement(Messages.getString("VentanaPrincipal.starting-date_label"));
 		modeloSortBy.addElement(Messages.getString("VentanaPrincipal.duration_label"));
 		modeloSortBy.sortFrom(1);
+	}
+
+	private void setButtonLanguage(Locale locale) {
+		if (locale.equals(new Locale("en_US"))) {
+			getBtnEn().setEnabled(false);
+			getBtnEn2().setEnabled(false);
+			getBtnEs().setEnabled(true);
+			getBtnES2().setEnabled(true);
+		} else {
+			getBtnEn().setEnabled(true);
+			getBtnEn2().setEnabled(true);
+			getBtnEs().setEnabled(false);
+			getBtnES2().setEnabled(false);
+		}
+	}
+
+	private void setUpHelp() {
+		try {
+			File fichero = new File("com/guille/cpm/help/Ayuda.hs");
+			hsURL = fichero.toURI().toURL();
+			hs = new HelpSet(null, hsURL);
+		}
+
+		catch (Exception e) {
+			System.out.println("Help not found/Ayuda no encontrada");
+			return;
+		}
+
+		hb = hs.createHelpBroker();
+		hb.enableHelpKey(getRootPane(),"introduction", hs);
 	}
 }

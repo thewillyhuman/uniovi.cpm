@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.*;
-import com.guille.cpm.logic.*;
+import com.guille.cpm.logic.camarote.Camarote;
+import com.guille.cpm.logic.camarote.CamaroteDobleExterior;
+import com.guille.cpm.logic.camarote.CamaroteDobleInterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarExterior;
+import com.guille.cpm.logic.camarote.CamaroteFamiliarInterior;
+import com.guille.cpm.logic.extra.Extras;
+import com.guille.cpm.logic.reserva.Reserva;
 
 /**
  * This class extends the default model of the tables to create a totally

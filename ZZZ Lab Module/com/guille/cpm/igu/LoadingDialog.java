@@ -18,20 +18,29 @@ public class LoadingDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final JPanel contentPanel = new JPanel();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
-			LoadingDialog dialog = new LoadingDialog(null, "Cargando...", "Cargando...");
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Runnable runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					LoadingDialog dialog = new LoadingDialog(null, "Cargando...", "Cargando...");
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		};
+		new Thread(runnable).start();
+
 	}
 
 	/**
@@ -44,7 +53,7 @@ public class LoadingDialog extends JDialog {
 		setAlwaysOnTop(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		if(parent != null) {
+		if (parent != null) {
 			setBounds(100, 100, 435, 268);
 			setLocationRelativeTo(parent);
 		} else {

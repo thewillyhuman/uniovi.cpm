@@ -5,7 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import com.guille.cpm.logic.Crucero;
+
+import com.guille.cpm.logic.crucero.Crucero;
 import com.guille.util.Images;
 import com.guille.util.Strings;
 import javax.swing.JButton;

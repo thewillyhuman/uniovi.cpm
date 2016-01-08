@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE index
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/index_1_0.dtd">
+
+<index version="1.0">
+
+  <indexitem text="Introduction/Introduccion" target="introduction"/>
+  <indexitem text="Steeps in order/Pasos en orden">
+  	<indexitem text="Choose cruise/Escoja un crucero" target="findCruises" />
+  	<indexitem text="Select a date/Elija una fecha" target="configureReservation" />
+  	<indexitem text="Configure your rooms/Configura tu habitación asientos">
+  		<indexitem text="Select a date/Elija una fecha" target="configureReservation" />
+  		<indexitem text="Add passengers/Añada pasajeros" target="configureReservation" />
+  		<indexitem text="Modify a passenger/Modifique un pasajero" target="configureReservation" />
+  		<indexitem text="Delete a passenger/Elimine un pasajero" target="configureReservation" />
+  		<indexitem text="Add extras/Añada extras" target="configureReservation" />
+  	</indexitem>
+  	<indexitem text="Add the room to the reservation/Añada la habitación a su reserva" target="configureReservation" />
+  	<indexitem text="Modify a room added to the reservation/Modifique una habitación que ya ha añadido a su reserva" target="configureReservation" />
+  	<indexitem text="Delete a room added to the reservation/Elimine una habitación que ya ha añadido a su reserva" target="configureReservation" />
+  	<indexitem text="Confirm your reservation/Confirma tu reserva comida (optional)" target="configureReservation" />
+  	<indexitem text="Check and add personal information/Comprueba e introduce alguna información personal" target="confirmReservation" />
+  	<indexitem text="Save your reservation/Guarda tu reserva" target="configureReservation" />
+  </indexitem>
+    
+</index>
