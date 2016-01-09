@@ -1,0 +1,23 @@
+JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 09/55/2016
+---------------------------------------------------------------------
+NOMBRE: g  NIF: g  TEL: 5
+
+
+**DATOS DEL CRUCERO**
+Crucero: Europa / CRU0001
+Barco: New Horizon
+Fecha de salida: Tue Dec 01 00:00:00 CET 2015
+Días: 9
+Salida: Kiel
+N. Pasajeros: 1
+Camarotes: 1 doble interior / ;
+
+**PAGADO RESERVA**
+Camarotes:
+	720.0
+Extras:
+	0.0 $
+Descuento oferta:
+	108.0 $
+Importe Total:			720.0$ + 0.0$ - 108.0$
+TOTAL....................612.0$
