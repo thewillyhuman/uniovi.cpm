@@ -194,6 +194,9 @@ public class Barco {
 	 * @return the array of prices.
 	 */
 	public double[] getPrices() {
-		return this.prices;
+	    double[] toReturn = new double[prices.length];
+	    for(int i = 0; i < prices.length; i++)
+		toReturn[i] = prices[i];
+		return toReturn;
 	}
 }

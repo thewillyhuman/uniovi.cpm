@@ -50,7 +50,7 @@ public class ModeloTablaNoEditable extends DefaultTableModel {
 	 * 
 	 * @param c is the camarote that will be added to the model.
 	 */
-	public void addRow(Camarote c) {
+	public void addRow(Camarote c, int duration) {
 		Object[] newRow = new Object[getColumnCount()];
 		newRow[0] = getRowCount();
 
@@ -86,6 +86,7 @@ public class ModeloTablaNoEditable extends DefaultTableModel {
 			newRow[6] = "No";
 		}
 		newRow[7] = "$ " + Double.toString(reserva.getPriceCamaroteAndExtras(c));
+		newRow[8] = "$ " + Double.toString(reserva.getPriceCamaroteAndExtras(c)*duration);
 		super.addRow(newRow); // Adding the data to the table.
 		li.add(c); // Adding the camarote to the list.
 	}

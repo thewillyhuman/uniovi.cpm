@@ -1,6 +1,6 @@
-JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 07/30/2016
+JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 09/46/2016
 ---------------------------------------------------------------------
-NOMBRE: ggg  NIF: 45170929X  TEL: 444
+NOMBRE: Guillermo  NIF: 45170929X  TEL: 4444
 
 
 **DATOS DEL CRUCERO**
@@ -10,14 +10,14 @@ Fecha de salida: Sun Nov 01 00:00:00 CET 2015
 Días: 9
 Salida: Kiel
 N. Pasajeros: 1
-Camarotes: 1 doble exterior / ;
+Camarotes: 1 doble interior / ;
 
 **PAGADO RESERVA**
 Camarotes:
-	990.0
+	720.0
 Extras:
 	0.0 $
 Descuento oferta:
-	148.5 $
-Importe Total:			990.0$ + 0.0$ - 148.5$
-TOTAL....................841.5$
+	108.0 $
+Importe Total:			720.0$ + 0.0$ - 108.0$
+TOTAL....................612.0$
