@@ -264,5 +264,7 @@ public class CruceroListPanel extends JPanel {
 		getLblFromPrice().setBounds(getPanel_big().getWidth() - 118, getLblFromPrice().getY(), getLblFromPrice().getWidth(), getLblFromPrice().getHeight());
 		getLblDiscountedPrice().setBounds(getPanel_big().getWidth() - 118, getLblDiscountedPrice().getY(), getLblDiscountedPrice().getWidth(), getLblDiscountedPrice().getHeight());
 		getBtnSelect().setBounds(getPanel_big().getWidth() - 123, getBtnSelect().getY(), getBtnSelect().getWidth(), getBtnSelect().getHeight());
+		revalidate();
+		repaint();
 	}
 }

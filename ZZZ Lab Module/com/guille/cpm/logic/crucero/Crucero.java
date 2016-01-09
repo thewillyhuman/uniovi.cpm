@@ -214,13 +214,9 @@ public class Crucero implements CanBeFull {
 	
 	for(int i = 0; i < prices.length; i++) {
 	    if(i < 2) {
-		System.out.println("before: "+prices[i]);
 		prices[i] = prices[i]*this.duration*CamaroteDoble.N_PERSONS;
-		System.out.println("after: "+prices[i]);
 	    } else {
-		System.out.println("before: "+prices[i]);
 		prices[i] = prices[i]*this.duration*CamaroteFamiliar.N_PERSONS;
-		System.out.println("after: "+prices[i]);
 	    }
 	}
 	

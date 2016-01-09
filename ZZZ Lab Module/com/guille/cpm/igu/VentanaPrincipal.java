@@ -323,6 +323,15 @@ public class VentanaPrincipal extends JFrame {
     private JPanel getWPanel() {
 	if (wPanel == null) {
 	    wPanel = new JPanel();
+	    wPanel.addComponentListener(new ComponentAdapter() {
+		@Override
+		public void componentResized(ComponentEvent e) {
+		    getBtnEn().setBounds(getBtnEn().getX(), getWPanel().getHeight() - 42, getBtnEn().getWidth(),
+			    getBtnEn().getHeight());
+		    getBtnEs().setBounds(getBtnEs().getX(), getWPanel().getHeight() - 42, getBtnEs().getWidth(),
+			    getBtnEs().getHeight());
+		}
+	    });
 	    wPanel.setBorder(new MatteBorder(0, 0, 0, 1, Color.LIGHT_GRAY));
 	    wPanel.setBackground(Color.WHITE);
 	    wPanel.setLayout(null);
@@ -1248,10 +1257,10 @@ public class VentanaPrincipal extends JFrame {
 	if (pnCpn3 == null) {
 	    pnCpn3 = new JPanel();
 	    pnCpn3.addComponentListener(new ComponentAdapter() {
-	    	@Override
-	    	public void componentResized(ComponentEvent e) {
-	    	    resize3Panel();
-	    	}
+		@Override
+		public void componentResized(ComponentEvent e) {
+		    resize3Panel();
+		}
 	    });
 	    pnCpn3.setBackground(Color.WHITE);
 	    pnCpn3.setLayout(null);
@@ -1270,22 +1279,33 @@ public class VentanaPrincipal extends JFrame {
 	}
 	return pnCpn3;
     }
-    
-    private void resize3Panel() {
-	getPanel_9().setBounds(getPanel_9().getX(), getPanel_9().getY(), getPnCpn3().getWidth()-12, getPanel_9().getHeight());
-	
-	getPnTableSummary().setBounds(getPnTableSummary().getX(), getPnTableSummary().getY(), getPnCpn3().getWidth()-12, getPnCpn3().getHeight()-480);
-	
-	getLblTotalRooms().setBounds(getPnCpn3().getWidth()-265, getPnCpn3().getHeight()-296, getLblTotalRooms().getWidth(), getLblTotalRooms().getHeight());
-	getLblTotalExtras().setBounds(getPnCpn3().getWidth()-265, getPnCpn3().getHeight()-268, getLblTotalExtras().getWidth(), getLblTotalExtras().getHeight());
-	getLblTotalDiscount().setBounds(getPnCpn3().getWidth()-265, getPnCpn3().getHeight()-241, getLblTotalDiscount().getWidth(), getLblTotalDiscount().getHeight());
-	getLblTotalPriceTotal().setBounds(getPnCpn3().getWidth()-265, getPnCpn3().getHeight()-214, getLblTotalPriceTotal().getWidth(), getLblTotalPriceTotal().getHeight());
-	getLblTotalrooms().setBounds(getPnCpn3().getWidth()-116, getPnCpn3().getHeight()-296, getLblTotalrooms().getWidth(), getLblTotalrooms().getHeight());
-	getLblTotalextras().setBounds(getPnCpn3().getWidth()-116, getPnCpn3().getHeight()-268, getLblTotalextras().getWidth(), getLblTotalextras().getHeight());
-	getLblTotaldiscount().setBounds(getPnCpn3().getWidth()-116, getPnCpn3().getHeight()-241, getLblTotaldiscount().getWidth(), getLblTotaldiscount().getHeight());
-	getLblTotalTotal().setBounds(getPnCpn3().getWidth()-116, getPnCpn3().getHeight()-214, getLblTotalTotal().getWidth(), getLblTotalTotal().getHeight());
 
-	getPanel().setBounds(getPanel().getX(), getPnCpn3().getHeight()-179, getPnCpn3().getWidth()-12, getPanel().getHeight());
+    private void resize3Panel() {
+	getPanel_9().setBounds(getPanel_9().getX(), getPanel_9().getY(), getPnCpn3().getWidth() - 12,
+		getPanel_9().getHeight());
+
+	getPnTableSummary().setBounds(getPnTableSummary().getX(), getPnTableSummary().getY(),
+		getPnCpn3().getWidth() - 12, getPnCpn3().getHeight() - 480);
+
+	getLblTotalRooms().setBounds(getPnCpn3().getWidth() - 265, getPnCpn3().getHeight() - 296,
+		getLblTotalRooms().getWidth(), getLblTotalRooms().getHeight());
+	getLblTotalExtras().setBounds(getPnCpn3().getWidth() - 265, getPnCpn3().getHeight() - 268,
+		getLblTotalExtras().getWidth(), getLblTotalExtras().getHeight());
+	getLblTotalDiscount().setBounds(getPnCpn3().getWidth() - 265, getPnCpn3().getHeight() - 241,
+		getLblTotalDiscount().getWidth(), getLblTotalDiscount().getHeight());
+	getLblTotalPriceTotal().setBounds(getPnCpn3().getWidth() - 265, getPnCpn3().getHeight() - 214,
+		getLblTotalPriceTotal().getWidth(), getLblTotalPriceTotal().getHeight());
+	getLblTotalrooms().setBounds(getPnCpn3().getWidth() - 116, getPnCpn3().getHeight() - 296,
+		getLblTotalrooms().getWidth(), getLblTotalrooms().getHeight());
+	getLblTotalextras().setBounds(getPnCpn3().getWidth() - 116, getPnCpn3().getHeight() - 268,
+		getLblTotalextras().getWidth(), getLblTotalextras().getHeight());
+	getLblTotaldiscount().setBounds(getPnCpn3().getWidth() - 116, getPnCpn3().getHeight() - 241,
+		getLblTotaldiscount().getWidth(), getLblTotaldiscount().getHeight());
+	getLblTotalTotal().setBounds(getPnCpn3().getWidth() - 116, getPnCpn3().getHeight() - 214,
+		getLblTotalTotal().getWidth(), getLblTotalTotal().getHeight());
+
+	getPanel().setBounds(getPanel().getX(), getPnCpn3().getHeight() - 179, getPnCpn3().getWidth() - 12,
+		getPanel().getHeight());
 	repaint();
 	revalidate();
     }
@@ -1565,14 +1585,16 @@ public class VentanaPrincipal extends JFrame {
 	if (panel_2 == null) {
 	    panel_2 = new JPanel();
 	    panel_2.addComponentListener(new ComponentAdapter() {
-	    	@Override
-	    	public void componentResized(ComponentEvent e) {
-	    	    getPanel_5().setBounds(getPanel_5().getX(), getPanel_5().getY(), panel_2.getWidth()-395, panel_2.getHeight()-315);
-	    	    int x = (getPanel_5().getX()+(getPanel_5().getWidth()/2)-(getBtnGoToInicio().getWidth()/2));
-	    	    getBtnGoToInicio().setBounds(x, getPanel4().getHeight()-150, getBtnGoToInicio().getWidth(), getBtnGoToInicio().getHeight());
-	    	    revalidate();
-	    	    repaint();
-	    	}
+		@Override
+		public void componentResized(ComponentEvent e) {
+		    getPanel_5().setBounds(getPanel_5().getX(), getPanel_5().getY(), panel_2.getWidth() - 395,
+			    panel_2.getHeight() - 315);
+		    int x = (getPanel_5().getX() + (getPanel_5().getWidth() / 2) - (getBtnGoToInicio().getWidth() / 2));
+		    getBtnGoToInicio().setBounds(x, getPanel4().getHeight() - 150, getBtnGoToInicio().getWidth(),
+			    getBtnGoToInicio().getHeight());
+		    revalidate();
+		    repaint();
+		}
 	    });
 	    panel_2.setBackground(Color.WHITE);
 	    panel_2.setLayout(null);
@@ -1684,8 +1706,27 @@ public class VentanaPrincipal extends JFrame {
 	    btnGoToInicio.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-		    resetMainWindow();
-		    ((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
+		    LoadingDialog loading = new LoadingDialog(mainPane,
+			    Messages.getString("LoadingDialog.inicializating-application_label"),
+			    Messages.getString("LoadingDialog.inicializating-application_title"));
+
+		    SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
+			@Override
+			protected Void doInBackground() throws Exception {
+			    resetMainWindow();
+			    return null;
+			}
+
+			@Override
+			protected void done() {
+			    loading.dispose();// close the modal dialog
+			    
+			    // go to beginning
+			    ((CardLayout) getContentPane().getLayout()).show(mainPane, "busqueda_inicio");
+			}
+		    };
+		    sw.execute(); // this will start the processing on a separate thread
+		    loading.setVisible(true);
 		}
 	    });
 	    btnGoToInicio.setBounds(409, 551, 217, 54);
@@ -1994,10 +2035,10 @@ public class VentanaPrincipal extends JFrame {
 	if (panel_9 == null) {
 	    panel_9 = new JPanel();
 	    panel_9.addComponentListener(new ComponentAdapter() {
-	    	@Override
-	    	public void componentResized(ComponentEvent e) {
-	    	    resizePanel9();
-	    	}
+		@Override
+		public void componentResized(ComponentEvent e) {
+		    resizePanel9();
+		}
 	    });
 	    panel_9.setBorder(
 		    new TitledBorder(null, "Cruise data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -2014,9 +2055,10 @@ public class VentanaPrincipal extends JFrame {
 	}
 	return panel_9;
     }
-    
+
     private void resizePanel9() {
-	getLblLblpicture().setBounds(getPnCpn3().getWidth()-173, getLblLblpicture().getY(), getLblLblpicture().getWidth(), getLblLblpicture().getHeight());
+	getLblLblpicture().setBounds(getPnCpn3().getWidth() - 173, getLblLblpicture().getY(),
+		getLblLblpicture().getWidth(), getLblLblpicture().getHeight());
 	revalidate();
 	repaint();
     }
@@ -2536,20 +2578,20 @@ public class VentanaPrincipal extends JFrame {
 		Messages.getString("VentanaPrincipal.lblNpasajeros.text") + ": " + currentReserva.getTotalPasajeros());
 	getLblLblpicture().setIcon(Images.resize(getLblLblpicture(), currentReserva.getCrucero().getPicturePath()));
 
-	getLblTotalRooms().setText(Messages.getString("VentanaPrincipal.total-rooms_lable"));
+	getLblTotalRooms().setText(Messages.getString("VentanaPrincipal.total-rooms_lable") + ": ");
 	getLblTotalrooms().setText(precioHabitaciones + " " + Messages.getString("VentanaPrincipal.money_symbol"));
 
-	getLblTotalExtras().setText(Messages.getString("VentanaPrincipal.total-extras_label"));
+	getLblTotalExtras().setText(Messages.getString("VentanaPrincipal.total-extras_label") + ": ");
 	getLblTotalextras().setText(precioExtras + " " + Messages.getString("VentanaPrincipal.money_symbol"));
 
-	getLblTotalDiscount().setText(Messages.getString("VentanaPrincipal.total-descuento_label"));
+	getLblTotalDiscount().setText(Messages.getString("VentanaPrincipal.total-descuento_label") + ": ");
 
 	getLblTotaldiscount()
 		.setText(Double.toString(descuento) + " " + Messages.getString("VentanaPrincipal.money_symbol"));
 	getLblTotalTotal().setText(Double.toString(precioHabitaciones + precioExtras - descuento) + " "
 		+ Messages.getString("VentanaPrincipal.money_symbol"));
 
-	getLblTotalPriceTotal().setText(Messages.getString("VentanaPrincipal.total-price_label"));
+	getLblTotalPriceTotal().setText(Messages.getString("VentanaPrincipal.total-price_label") + ": ");
     }
 
     private void initializeModeloTable() {
