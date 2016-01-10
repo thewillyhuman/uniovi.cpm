@@ -1,15 +1,15 @@
-JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 09/15/2016
+JUSTIFICANTE DE RESERVA - NOMBRE EMPRESA - 10/40/2016
 ---------------------------------------------------------------------
-NOMBRE: guillermo  NIF: 45170929X  TEL: 44456
+NOMBRE: Guillermo  NIF: 45170929X  TEL: 3333
 
 
 **DATOS DEL CRUCERO**
 Crucero: Europa / CRU0001
 Barco: New Horizon
-Fecha de salida: Tue Dec 01 00:00:00 CET 2015
+Fecha de salida: Sun Nov 01 00:00:00 CET 2015
 Días: 9
 Salida: Kiel
-N. Pasajeros: 1
+N. Pasajeros: 2
 Camarotes: 1 doble exterior / ;
 
 **PAGADO RESERVA**

@@ -18,6 +18,12 @@ public class Viaje implements CanBeFull {
 	private Date fecha;
 	private List<Camarote> camarotes;
 	
+	/**
+	 * Default constructor for a trip from a cruise and a date.
+	 * 
+	 * @param crucero  
+	 * @param fecha
+	 */
 	public Viaje(Crucero crucero, Date fecha) {
 		setCrucero(crucero);
 		setDate(fecha);
@@ -25,26 +31,51 @@ public class Viaje implements CanBeFull {
 		createRooms(getCrucero().getBarco().getNCamarotesDoblesInteriores(), getCrucero().getBarco().getNCamarotesDoblesExteriores(), getCrucero().getBarco().getNCamarotesFamiliaresInteriores(), getCrucero().getBarco().getNCamarotesFamiliaresExteriores());
 	}
 	
+	/**
+	 * Gives the cruise associated with the current trip.
+	 * 
+	 * @return the cruise associated with the current trip.
+	 */
 	public Crucero getCrucero() {
 		return this.crucero;
 	}
 	
+	/**
+	 * Sets the current cruise.
+	 * 
+	 * @param crucero the be set as current.
+	 */
 	public void setCrucero(Crucero crucero) {
 		if(crucero == null)
 			throw new IllegalArgumentException("The curcero cannot be null");
 		this.crucero = crucero;
 	}
 	
+	/**
+	 * Gets the current date for the trip.
+	 * 
+	 * @return the current date for the trip.
+	 */
 	public Date getDate() {
 		return this.fecha;
 	}
 	
+	/**
+	 * Sets the date for the current trip.
+	 * 
+	 * @param fecha is the date for the current trip.
+	 */
 	public void setDate(Date fecha) {
 		if(fecha == null)
 			throw new IllegalArgumentException("The fecha cannot be null");
 		this.fecha = fecha;
 	}
 	
+	/**
+	 * Returns a list of rooms with the rooms for this trip.
+	 * 
+	 * @return a list of rooms with the rooms for this trip.
+	 */
 	public List<Camarote> getCamarotes() {
 		return this.camarotes;
 	}

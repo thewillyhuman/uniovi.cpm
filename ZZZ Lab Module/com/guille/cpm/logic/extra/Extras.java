@@ -31,6 +31,12 @@ public class Extras {
 		extras.add(extra);
 	}
 	
+	/**
+	 * Given the id of an extra will return the extra if it exists in the list of extras.
+	 * 
+	 * @param ID if the id of the extra as an string.
+	 * @return the extra only if it exits, otherwise will throw an exception.
+	 */
 	public static Extra getExtra(String ID) {
 		for(Extra e : extras) {
 			if(e.getExtraID().equals(ID))

@@ -1,9 +1,9 @@
 package com.guille.cpm.logic.pasajero;
 
 public class Pasajero {
-	
+
 	private int age;
-	
+
 	/**
 	 * Main constructor.
 	 * 
@@ -12,12 +12,13 @@ public class Pasajero {
 	public Pasajero(int age) {
 		this.age = age;
 	}
-	
+
 	/**
 	 * Main auxiliary constructor no age needed.
 	 */
-	public Pasajero(){};
-	
+	public Pasajero() {
+	};
+
 	/**
 	 * Returns the age of the passenger.
 	 * 
@@ -26,7 +27,7 @@ public class Pasajero {
 	public int getAge() {
 		return this.age;
 	}
-	
+
 	/**
 	 * Sets the age of a passenger.
 	 * 
@@ -44,11 +45,11 @@ public class Pasajero {
 	public boolean isChild() {
 		return (age < 16);
 	}
-	
+
 	@Override
 	public String toString() {
 		String aux = "No.";
-		if(isChild())
+		if (isChild())
 			aux = "Yes.";
 		return ("Passager with age: " + this.getAge() + ". Child: " + aux);
 	}

@@ -1,4 +1,4 @@
-package com.guille.util;
+package com.guille.cpm.igu;
 
 import java.util.*;
 import javax.swing.*;

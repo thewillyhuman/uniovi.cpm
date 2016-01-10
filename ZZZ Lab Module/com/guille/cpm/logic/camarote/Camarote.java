@@ -148,6 +148,11 @@ public abstract class Camarote implements CanBeFull{
 		} else { return true; }
 	}
 	
+	/**
+	 * Creates a copy of the current room.
+	 * 
+	 * @return a copy of the current room.
+	 */
 	public abstract Camarote copy();
 	
 	@Override
